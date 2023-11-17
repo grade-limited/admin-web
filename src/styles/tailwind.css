@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Customized: Scrollbar */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: #00000011;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #fac5c4;
+	outline: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #f79998;
+}
+
+/* Ant Design Message Over Everything  */
+.ant-message {
+	z-index: 1220;
+}
+.ant-picker-dropdown,
+.ant-select-dropdown {
+	z-index: 1400 !important;
+}
+
+/* input.ant-input {
+	color: #4a6979 !important;
+} */
+
+/* NProgess Color */
+#nprogress {
+	z-index: 1000000000 !important;
+}
+
+#nprogress .bar {
+	background: #7a3736 !important;
+	height: 4px !important;
+}
+
+#nprogress .spinner-icon {
+	border-top-color: #7a3736 !important;
+	border-left-color: #f58a89 !important;
+	/* z-index: 1000000000 !important; */
+}
+
+#nprogress .peg {
+	box-shadow: 0 0 10px #7a3736, 0 0 5px #f58a89 !important;
+}
