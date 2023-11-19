@@ -104,7 +104,7 @@ const Login: React.FC = () => {
           />
 
           <Button
-            className="mt-2 uppercase bg-primary text-sm font-semibold"
+            className="mt-2 uppercase bg-secondary-500 text-sm font-semibold"
             variant="contained"
             fullWidth
             size="large"
