@@ -22,6 +22,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         icon: <Icon icon="la:users" />,
         to: "/app/users",
       },
+      {
+        name: "Brands",
+        icon: <Icon icon="tabler:brand-shopee" />,
+        to: "/app/brands",
+      },
     ],
   },
   {
@@ -31,7 +36,7 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         name: "Roles",
         icon: <Icon icon="fluent:phone-key-20-regular" />,
         to: "/app/roles",
-        disabled: true,
+        disabled: false,
       },
       {
         name: "Employees",
