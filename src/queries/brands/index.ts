@@ -18,6 +18,20 @@ export const useGetBrands = (params: any) => {
   });
 };
 
+//Get Using ID
+const getBrandsById = (id?: string) => {
+  return instance.get(`/brands/${id}`);
+};
+
+export const useGetBrandsById = (id?: string) => {
+  return useQuery(["/brands/:id", id], () => getBrandsById(id), {
+    enabled: !!id,
+    select(data) {
+      return data.data.data;
+    },
+  });
+};
+
 //Create Function
 const createBrand = (data: ICreateBrand) => {
   return instance.post("/brands", data);
