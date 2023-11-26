@@ -1,7 +1,9 @@
 import instance from "@/services";
 import { IBrandId } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ICreateBrand } from "./types";
 
+//Get All List
 const getBrands = (params: any) => {
   return instance.get(`/brands`, {
     params,
@@ -16,6 +18,19 @@ export const useGetBrands = (params: any) => {
   });
 };
 
+//Create Function
+const createBrand = (data: ICreateBrand) => {
+  return instance.post("/brands", data);
+};
+
+export const useCreateBrand = () => {
+  const queryClient = useQueryClient();
+  return useMutation(createBrand, {
+    onSuccess: () => queryClient.invalidateQueries(["/brands"]),
+  });
+};
+
+//Delete Function
 const deleteBrand = ({ id, params }: { id: IBrandId; params?: any }) => {
   return instance.delete(`/brands/${id}`, { params });
 };
