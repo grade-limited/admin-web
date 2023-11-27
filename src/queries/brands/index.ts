@@ -1,7 +1,7 @@
 import instance from "@/services";
 import { IBrandId } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ICreateBrand } from "./types";
+import { ICreateBrand, IUpdateBrand } from "./types";
 
 //Get All List
 const getBrands = (params: any) => {
@@ -28,6 +28,29 @@ export const useGetBrandsById = (id?: string) => {
     enabled: !!id,
     select(data) {
       return data.data.data;
+    },
+  });
+};
+
+//Update brands details
+const updateBrandsById = ({
+  id,
+  data,
+}: {
+  id?: string;
+  data: IUpdateBrand | any;
+}) => {
+  return instance.patch(`/brands/${id}`, {
+    ...data,
+  });
+};
+
+export const useUpdateBrandsById = () => {
+  const query = useQueryClient();
+  return useMutation(updateBrandsById, {
+    onSuccess: () => {
+      query.invalidateQueries(["/brands"]);
+      query.invalidateQueries(["/brands/:id"]);
     },
   });
 };

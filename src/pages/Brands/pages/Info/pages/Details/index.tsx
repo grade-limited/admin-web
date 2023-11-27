@@ -28,7 +28,6 @@ const Details: React.FC = () => {
     ...getQueryParams,
     brand_id: id,
   });
-  console.log(id);
 
   return (
     <Spin spinning={isLoading}>
@@ -67,12 +66,12 @@ const Details: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="py-3 sm:p-3 w-full h-full max-h-[500px]">
+      <div className="p-3 w-full h-full max-h-[500px]">
         <DataGrid
           columns={Column()}
           rows={prodData?.data || []}
           loading={isProdLoading}
-          rowCount={data?.total || 0}
+          rowCount={prodData?.total || 0}
           paginationModel={{
             page,
             pageSize: limit,
