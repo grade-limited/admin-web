@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ICreateEmployee, IUpdateEmployee } from "./types";
 import { IEmployeeId } from "@/types";
 
+//Get All Employees
 const getEmployees = (params: any) => {
   return instance.get(`/employees`, {
     params,
@@ -17,17 +18,7 @@ export const useGetEmployees = (params: any) => {
   });
 };
 
-const createEmployee = (data: ICreateEmployee) => {
-  return instance.post("/employees", data);
-};
-
-export const useCreateEmployee = () => {
-  const queryClient = useQueryClient();
-  return useMutation(createEmployee, {
-    onSuccess: () => queryClient.invalidateQueries(["/employees"]),
-  });
-};
-
+//Get Employees by ID
 const getEmployeesById = (id?: string) => {
   return instance.get(`/employees/${id}`);
 };
@@ -41,6 +32,19 @@ export const useGetEmployeesById = (id?: string) => {
   });
 };
 
+//Create Employee
+const createEmployee = (data: ICreateEmployee) => {
+  return instance.post("/employees", data);
+};
+
+export const useCreateEmployee = () => {
+  const queryClient = useQueryClient();
+  return useMutation(createEmployee, {
+    onSuccess: () => queryClient.invalidateQueries(["/employees"]),
+  });
+};
+
+//Update Employee
 const updateEmployeesById = ({
   id,
   data,
@@ -64,6 +68,7 @@ export const useUpdateEmployeesById = () => {
   });
 };
 
+//Delete Employee
 const deleteEmployee = ({ id, params }: { id: IEmployeeId; params?: any }) => {
   return instance.delete(`/employees/${id}`, { params });
 };
@@ -78,6 +83,7 @@ export const useDeleteEmployee = () => {
   });
 };
 
+//Suspend Employee
 const suspendEmployee = ({ id, params }: { id: IEmployeeId; params?: any }) => {
   return instance.put(`/employees/${id}`, { params });
 };
