@@ -66,6 +66,7 @@ const Details: React.FC = () => {
           </div>
         </div>
       </div>
+      <p className="font-semibold text-lg pt-3 px-3">Product List</p>
       <div className="p-3 w-full h-full max-h-[500px]">
         <DataGrid
           columns={Column()}

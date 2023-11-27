@@ -6,8 +6,9 @@
 // import handleResponse from "@/utilities/handleResponse";
 // import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
+import { Chip } from "@mui/material";
 import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import { Button, Tag } from "antd";
+import { Button } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
@@ -120,7 +121,9 @@ const Column = (): GridColDef[] => {
       sortable: false,
       renderCell: (data: any) =>
         data?.row?.category ? (
-          <Tag color="default">{data?.row?.category?.name}</Tag>
+          <Link to={`/app/category/i/${data?.row?.category_id}`}>
+            <Chip label={data?.row?.category?.name} color="default" />
+          </Link>
         ) : (
           "-"
         ),
