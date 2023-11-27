@@ -1,58 +1,61 @@
-import { useDeleteBrand } from "@/queries/brands";
-import { IBrandId } from "@/types";
-import handleResponse from "@/utilities/handleResponse";
-import { message } from "@components/antd/message";
+// import {
+//   useDeleteBrand,
+//   // useSuspendBrand
+// } from "@/queries/brands";
+// import { IBrandId } from "@/types";
+// import handleResponse from "@/utilities/handleResponse";
+// import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
 import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
 const Column = (): GridColDef[] => {
-  const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteBrand();
-
-  const onDelete = async (
-    id: IBrandId,
-    permanent: any = null,
-    restore: any = null
-  ) => {
-    message.open({
-      type: "loading",
-      content: permanent
-        ? "Deleting Brand Permanently.."
-        : restore
-        ? "Restoring Brand.."
-        : "Deleting Brand..",
-      duration: 0,
-    });
-    const res = await handleResponse(() =>
-      Delete({
-        id,
-        params: {
-          permanent,
-          restore,
-        },
-      })
-    );
-
-    message.destroy();
-
-    if (res.status) {
-      message.success(res.message);
-      return true;
-    } else {
-      message.error(res.message);
-      return false;
-    }
-  };
-
-  // const { mutateAsync: Suspend, isLoading: isSuspendLoading } =
-  //   useSuspendEmployee();
-
-  // const onSuspend = async (id: IBRandId) => {
+  // const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteBrand();
+  // const navigate = useNavigate();
+  // const onDelete = async (
+  //   id: IBrandId,
+  //   permanent: any = null,
+  //   restore: any = null
+  // ) => {
   //   message.open({
   //     type: "loading",
-  //     content: "Suspending Employee..",
+  //     content: permanent
+  //       ? "Deleting Brand Permanently.."
+  //       : restore
+  //       ? "Restoring Brand.."
+  //       : "Deleting Brand..",
+  //     duration: 0,
+  //   });
+  //   const res = await handleResponse(() =>
+  //     Delete({
+  //       id,
+  //       params: {
+  //         permanent,
+  //         restore,
+  //       },
+  //     })
+  //   );
+
+  //   message.destroy();
+
+  //   if (res.status) {
+  //     message.success(res.message);
+  //     return true;
+  //   } else {
+  //     message.error(res.message);
+  //     return false;
+  //   }
+  // };
+
+  // const { mutateAsync: Suspend, isLoading: isSuspendLoading } =
+  //   useSuspendBrand();
+
+  // const onSuspend = async (id: IBrandId) => {
+  //   message.open({
+  //     type: "loading",
+  //     content: "Suspending Brand..",
   //     duration: 0,
   //   });
   //   const res = await handleResponse(() =>
@@ -71,7 +74,6 @@ const Column = (): GridColDef[] => {
   //     return false;
   //   }
   // };
-
   return [
     {
       headerName: "ID",
@@ -106,8 +108,22 @@ const Column = (): GridColDef[] => {
       minWidth: 250,
       filterable: false,
       sortable: false,
+    },
+    {
+      headerName: "Category",
+      headerAlign: "center",
+      field: "category",
+      align: "center",
+      flex: 1,
+      minWidth: 180,
+      filterable: false,
+      sortable: false,
       renderCell: (data: any) =>
-        data?.row?.description ? <p>{data?.row?.description}</p> : "-",
+        data?.row?.category ? (
+          <Tag color="default">{data?.row?.category?.name}</Tag>
+        ) : (
+          "-"
+        ),
     },
 
     {
@@ -138,6 +154,20 @@ const Column = (): GridColDef[] => {
         return moment(params.value).format("lll");
       },
     },
+    // {
+    //   headerName: "Deleted At",
+    //   headerAlign: "center",
+    //   field: "deleted_at",
+    //   align: "center",
+    //   flex: 1,
+    //   width: 280,
+    //   minWidth: 250,
+    //   filterable: false,
+    //   sortable: false,
+    //   valueFormatter(params) {
+    //     return moment(params.value).format("lll");
+    //   },
+    // },
     {
       field: "actions",
       type: "actions",
@@ -175,34 +205,33 @@ const Column = (): GridColDef[] => {
         //   disabled={isSuspendLoading}
         //   showInMenu
         //   label={
-        //     params.row.is_active ? "Suspend Employee" : "Activate Employee"
+        //     params.row.is_active ? "Suspend Brand" : "Activate Brand"
         //   }
         //   onClick={() => onSuspend(params.id)}
         // />,
-        <GridActionsCellItem
-          icon={
-            <Iconify icon={"icon-park-twotone:delete"} className="text-lg" />
-          }
-          disabled={isDeleteLoading}
-          showInMenu
-          label="Delete"
-          onClick={() => onDelete(params.id)}
-        />,
-        <GridActionsCellItem
-          icon={
-            <Iconify
-              icon={"icon-park-twotone:delete-five"}
-              className="text-lg"
-            />
-          }
-          disabled={isDeleteLoading}
-          showInMenu
-          label="Permanently Delete"
-          onClick={() => onDelete(params.id, true)}
-        />,
+        // <GridActionsCellItem
+        //   icon={
+        //     <Iconify icon={"ic:twotone-restore-page"} className="text-lg" />
+        //   }
+        //   disabled={isDeleteLoading}
+        //   showInMenu
+        //   label="Restore"
+        //   onClick={() => onDelete(params.id, null, true)}
+        // />,
+        // <GridActionsCellItem
+        //   icon={
+        //     <Iconify
+        //       icon={"icon-park-twotone:delete-five"}
+        //       className="text-lg"
+        //     />
+        //   }
+        //   disabled={isDeleteLoading}
+        //   showInMenu
+        //   label="Permanently Delete"
+        //   onClick={() => onDelete(params.id, true)}
+        // />,
       ],
     },
   ];
 };
-
 export default Column;

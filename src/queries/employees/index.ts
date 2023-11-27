@@ -63,6 +63,7 @@ export const useUpdateEmployeesById = () => {
     },
   });
 };
+
 const deleteEmployee = ({ id, params }: { id: IEmployeeId; params?: any }) => {
   return instance.delete(`/employees/${id}`, { params });
 };
