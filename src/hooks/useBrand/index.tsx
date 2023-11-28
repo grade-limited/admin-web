@@ -6,15 +6,14 @@ import { IOption } from "./types";
 const useBrand = () => {
   const { setSearch, getQueryParams } = usePaginate({
     defaultParams: {
-      limit: 40,
+      limit: 5,
     },
   });
-
+  const [defaultValue, setDefaultValue] = React.useState<any>(null);
   const [brand, setBrand] = React.useState<IOption[]>([]);
   const { data: brandData, isLoading: brandLoading } = useGetBrands(
     getQueryParams()
   );
-
   React.useEffect(() => {
     if (!brandData) return;
     var d: IOption[] = [];
@@ -25,12 +24,24 @@ const useBrand = () => {
         data: s,
       });
     });
+    if (
+      defaultValue &&
+      !d?.filter?.((x) => x.value === defaultValue.id)?.length
+    ) {
+      d.push({
+        value: defaultValue.id,
+        label: defaultValue.name,
+        data: defaultValue,
+      });
+    }
+
     setBrand(d);
-  }, [brandData]);
+  }, [brandData, defaultValue]);
 
   return {
     isBrandLoading: brandLoading,
     brand,
+    setDefaultBrand: setDefaultValue,
     searchBrand: (value: string) => {
       setSearch(value);
     },

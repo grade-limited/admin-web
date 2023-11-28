@@ -6,10 +6,10 @@ import { IOption } from "./types";
 const useCategory = () => {
   const { setSearch, getQueryParams } = usePaginate({
     defaultParams: {
-      limit: 40,
+      limit: 5,
     },
   });
-
+  const [defaultValue, setDefaultValue] = React.useState<any>(null);
   const [category, setCategory] = React.useState<IOption[]>([]);
   const { data: categoryData, isLoading: categoryLoading } = useGetCategories(
     getQueryParams()
@@ -25,12 +25,24 @@ const useCategory = () => {
         data: s,
       });
     });
+
+    if (
+      defaultValue &&
+      !d?.filter?.((x) => x.value === defaultValue.id)?.length
+    ) {
+      d.push({
+        value: defaultValue.id,
+        label: defaultValue.name,
+        data: defaultValue,
+      });
+    }
     setCategory(d);
-  }, [categoryData]);
+  }, [categoryData, defaultValue]);
 
   return {
     isCategoryLoading: categoryLoading,
     category,
+    setdefaultcategory: setDefaultValue,
     searchCategory: (value: string) => {
       setSearch(value);
     },

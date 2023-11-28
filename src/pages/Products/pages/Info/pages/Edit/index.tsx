@@ -1,7 +1,7 @@
-import { useGetBrandsById, useUpdateBrandsById } from "@/queries/brands";
+import { useGetProductsById, useUpdateProductsById } from "@/queries/products";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
-import { Input, Spin, message } from "antd";
+import { Cascader, Input, Spin, message } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -9,10 +9,16 @@ import { Avatar, Button } from "@mui/material";
 import previewAttachment from "@/utilities/s3Attachment";
 import { stringAvatar } from "@/utilities/stringAvatar";
 import moment from "moment";
+import useBrand from "@/hooks/useBrand";
+import useCategory from "@/hooks/useCategory";
+import Iconify from "@components/iconify";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading } = useGetBrandsById(id);
+  const { data, isLoading } = useGetProductsById(id);
+  const { category, isCategoryLoading, searchCategory, setdefaultcategory } =
+    useCategory();
+  const { brand, isBrandLoading, searchBrand, setDefaultBrand } = useBrand();
   const {
     handleSubmit,
     control,
@@ -21,28 +27,33 @@ const Edit: React.FC = () => {
   } = useForm({
     // resolver: joiResolver(loginResolver),
   });
-  const [brandInfo, setBrandInfo] = React.useState<any>([]);
-  const { mutateAsync: update, isLoading: isBrandUpdating } =
-    useUpdateBrandsById();
+  const [productInfo, setProductInfo] = React.useState<any>([]);
+  const { mutateAsync: update, isLoading: isProductUpdating } =
+    useUpdateProductsById();
 
   React.useEffect(() => {
     if (!data) return;
-    setBrandInfo(data);
+    setProductInfo(data);
+    setdefaultcategory(data?.category);
+    setDefaultBrand(data?.brand);
   }, [data]);
+  // console.log(productInfo, brand);
 
   React.useEffect(() => {
-    if (!brandInfo || isDirty) return;
+    if (!productInfo || isDirty) return;
     reset({
-      name: brandInfo?.name,
-      description: brandInfo?.description,
+      name: productInfo?.name,
+      description: productInfo?.description,
+      brand_id: productInfo?.brand_id,
+      category_id: productInfo?.category_id,
     });
-  }, [brandInfo]);
+  }, [productInfo]);
 
   // On Submit Function
   const onSubmit = async (data: any) => {
     message.open({
       type: "loading",
-      content: "Updating Brand..",
+      content: "Updating Product..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -75,10 +86,6 @@ const Edit: React.FC = () => {
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {data?.name}
             </p>
-            <p className="text-text-light font-semibold">
-              {data?.description || "-"}
-            </p>
-
             <p className="text-text-light text-xs mt-2">
               Created {moment(data?.created_at).calendar()}
             </p>
@@ -104,7 +111,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <Input
-                    placeholder={"Enter Brand Name"}
+                    placeholder={"Enter Product Name"}
                     size={"large"}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -126,13 +133,64 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <Input.TextArea
-                    placeholder={"Enter Description of the Brand"}
+                    placeholder={"Enter Description of the Product"}
                     size={"large"}
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
                     status={error ? "error" : ""}
                     //   suffix={<ErrorSuffix error={error} />}
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <Label className="my-1">Brand</Label>
+              <Controller
+                control={control}
+                name={"brand_id"}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <Cascader
+                    value={value}
+                    size="large"
+                    showSearch
+                    className="w-full"
+                    placeholder={"Select a Brand..."}
+                    suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
+                    onChange={onChange}
+                    options={brand}
+                    onSearch={searchBrand}
+                    loading={isBrandLoading}
+                    status={error ? "error" : ""}
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <Label className="my-1">Category</Label>
+              <Controller
+                control={control}
+                name={"category_id"}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <Cascader
+                    value={value}
+                    size="large"
+                    showSearch
+                    dropdownMatchSelectWidth
+                    className="w-full"
+                    placeholder={"Select a Category..."}
+                    suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
+                    onChange={onChange}
+                    options={category}
+                    onSearch={searchCategory}
+                    loading={isCategoryLoading}
+                    status={error ? "error" : ""}
                   />
                 )}
               />
@@ -145,7 +203,7 @@ const Edit: React.FC = () => {
               size="large"
               type={"submit"}
               className="w-full mt-4"
-              disabled={isBrandUpdating}
+              disabled={isProductUpdating}
             >
               Save Changes
             </Button>

@@ -3,23 +3,24 @@ import { Button as AntButton, Spin, Popconfirm } from "antd";
 import { useParams } from "react-router-dom";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
-import { useDeleteBrand, useGetBrandsById } from "@/queries/brands";
+import { useDeleteProduct, useGetProductsById } from "@/queries/products";
 
 const Security: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading } = useGetBrandsById(id);
+  const { data, isLoading } = useGetProductsById(id);
 
-  const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteBrand();
+  const { mutateAsync: Delete, isLoading: isDeleteLoading } =
+    useDeleteProduct();
 
   const onDelete = async (permanent: any = null, restore: any = null) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Brand Permanently.."
+        ? "Deleting Product Permanently.."
         : restore
-        ? "Restoring Brand.."
-        : "Deleting Brand..",
+        ? "Restoring Product.."
+        : "Deleting Product..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -50,17 +51,17 @@ const Security: React.FC = () => {
           {data?.deleted_at ? (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Restore Brand</p>
+                <p className=" text-md font-semibold">Restore Product</p>
                 <p className="text-xs text-text-light">
-                  Restoring a brand involves reinstating their previously
+                  Restoring a product involves reinstating their previously
                   deleted or suspended account, and allowing them to regain
                   access and functionality."
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Restore Brand?"
-                  description="Are you sure to restore the brand?"
+                  title="Restore Product?"
+                  description="Are you sure to restore the product?"
                   onConfirm={() => onDelete(null, true)}
                   okButtonProps={{
                     type: "primary",
@@ -87,16 +88,16 @@ const Security: React.FC = () => {
           ) : (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Delete Brand</p>
+                <p className=" text-md font-semibold">Delete Product</p>
                 <p className="text-xs text-text-light">
-                  Deleting a brand involves temporarily removing their account
+                  Deleting a product involves temporarily removing their account
                   and associated data.
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Delete Brand?"
-                  description="Are you sure to delete this brand?"
+                  title="Delete Product?"
+                  description="Are you sure to delete this product?"
                   onConfirm={() => onDelete()}
                   okButtonProps={{
                     type: "primary",
@@ -125,13 +126,13 @@ const Security: React.FC = () => {
           <div className="col-span-2">
             <p className=" text-md font-semibold">Permanently Delete</p>
             <p className="text-xs text-text-light">
-              Deleting a brand involves permanently removing their account and
-              associated data. You will not be able to recover this brand.
+              Deleting a product involves permanently removing their account and
+              associated data. You will not be able to recover this product.
             </p>
           </div>
           <div>
             <Popconfirm
-              title="Delete Brand Permanently?"
+              title="Delete Product Permanently?"
               description="Are you sure to delete permanently?"
               onConfirm={() => onDelete(true)}
               okButtonProps={{

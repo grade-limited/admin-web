@@ -36,7 +36,7 @@ const Navigator: React.FC = () => {
       selectedKeys={[location.pathname?.split?.("/")[5] || ""]}
       mode="horizontal"
       items={items}
-      className={"mb-5 justify-center"}
+      className={"mb-2 justify-center"}
     />
   );
 };

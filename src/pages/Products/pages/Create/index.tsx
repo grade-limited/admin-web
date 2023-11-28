@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
-import { Divider, Input, Select } from "antd";
+import { Cascader, Divider, Input } from "antd";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCreateProduct } from "@/queries/products";
@@ -115,7 +115,7 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Select
+                <Cascader
                   value={value}
                   size="large"
                   showSearch
@@ -140,7 +140,7 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Select
+                <Cascader
                   value={value}
                   size="large"
                   showSearch

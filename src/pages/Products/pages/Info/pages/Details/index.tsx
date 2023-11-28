@@ -28,19 +28,16 @@ const Details: React.FC = () => {
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {data?.name}
-              <Link to={`/app/brands/i/${data?.id}/edit`}>
-                <IconButton size="small">
-                  <Iconify icon="fluent:edit-12-regular" />
-                </IconButton>
-              </Link>
+              <IconButton
+                size="small"
+                disabled={data?.deleted_at}
+                component={Link}
+                to={`/app/products/i/${data?.id}/edit`}
+              >
+                <Iconify icon="fluent:edit-12-regular" />
+              </IconButton>
             </p>
-            {!!data?.description ? (
-              <p className="text-text-light text-xs mt-2 font-bold">
-                {data?.description}
-              </p>
-            ) : (
-              ""
-            )}
+
             <p className="text-text-light text-xs mt-2">
               Created {moment(data?.created_at).calendar()}
             </p>
@@ -53,7 +50,7 @@ const Details: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
           <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
             <div className="col-span-3">
-              <p className="flex flex-row justify-e items-center font-semibold text-base pb-3">
+              <p className="flex flex-row items-center font-semibold text-base pb-3">
                 Brand Info
                 <Link to={`/app/brands/i/${data?.category?.id}`}>
                   <IconButton size="small">
@@ -74,8 +71,6 @@ const Details: React.FC = () => {
             <p className="col-span-2">
               : {moment(data?.brand?.updated_at).format("ll")}
             </p>
-            <p>Description</p>
-            <p className="col-span-2">: {data?.brand?.description || "-"} </p>
           </div>
 
           <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
@@ -102,8 +97,6 @@ const Details: React.FC = () => {
             <p className="col-span-2">
               : {moment(data?.category?.updated_at).format("ll")}
             </p>
-            <p>Description</p>
-            <p className="col-span-2">: {data?.category?.description || "-"}</p>
           </div>
         </div>
         <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
