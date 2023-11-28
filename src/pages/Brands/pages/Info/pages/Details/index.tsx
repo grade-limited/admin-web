@@ -3,31 +3,31 @@ import previewAttachment from "@/utilities/s3Attachment";
 import { stringAvatar } from "@/utilities/stringAvatar";
 import Iconify from "@components/iconify";
 import { Avatar, IconButton } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+// import { DataGrid } from "@mui/x-data-grid";
 import { Spin } from "antd";
 import moment from "moment";
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useQueryContext from "@/hooks/useQueryContext";
-import { useGetProducts } from "@/queries/products";
-import Column from "./components/Column";
+import { Link, useParams } from "react-router-dom";
+// import useQueryContext from "@/hooks/useQueryContext";
+// import { useGetProducts } from "@/queries/products";
+// import Column from "./components/Column";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data, isLoading } = useGetBrandsById(id);
-  const {
-    getQueryParams,
-    page,
-    limit = 10,
-    setPage,
-    setLimit,
-  } = useQueryContext();
+  // const {
+  //   getQueryParams,
+  //   page,
+  //   limit = 10,
+  //   setPage,
+  //   setLimit,
+  // } = useQueryContext();
 
-  const { data: prodData, isLoading: isProdLoading } = useGetProducts({
-    ...getQueryParams,
-    brand_id: id,
-  });
+  // const { data: prodData, isLoading: isProdLoading } = useGetProducts({
+  //   ...getQueryParams,
+  //   brand_id: id,
+  // });
 
   return (
     <Spin spinning={isLoading}>
@@ -49,13 +49,7 @@ const Details: React.FC = () => {
                 </IconButton>
               </Link>
             </p>
-            {!!data?.description ? (
-              <p className="text-text-light text-xs mt-2 font-bold">
-                {data?.description}
-              </p>
-            ) : (
-              ""
-            )}
+
             <p className="text-text-light text-xs mt-2">
               Created {moment(data?.created_at).calendar()}
             </p>
@@ -65,28 +59,38 @@ const Details: React.FC = () => {
             </p>
           </div>
         </div>
-      </div>
-      <p className="font-semibold text-lg pt-3 px-3">Product List</p>
-      <div className="p-3 w-full h-full max-h-[500px]">
-        <DataGrid
-          columns={Column()}
-          rows={prodData?.data || []}
-          loading={isProdLoading}
-          rowCount={prodData?.total || 0}
-          paginationModel={{
-            page,
-            pageSize: limit,
-          }}
-          onPaginationModelChange={(params) => {
-            setPage(params.page);
-            setLimit(params.pageSize);
-          }}
-          pageSizeOptions={[10, 25, 50, 100, 200]}
-          paginationMode={"server"}
-          onRowDoubleClick={(row) => navigate(`/app/products/i/${row.id}`)}
-          disableRowSelectionOnClick
-          disableColumnFilter
-        />
+
+        <div className="mx-auto max-w-2xl py-3 ">
+          <div className="flex flex-col gap-3 border border-slate-200 p-3 rounded-3xl">
+            <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px]">
+              Description
+            </p>
+            {!!data?.description ? (
+              <p className="text-text-light text-xs font-bold break-words">
+                {data?.description}
+              </p>
+            ) : (
+              "No Description Added"
+            )}
+          </div>
+        </div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
+          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
+            <p>Gender</p>
+            <p className="col-span-2">: {data?.gender}</p>
+            <p>Phone</p>
+            <p className="col-span-2">: {data?.phone}</p>
+            <p>Email</p>
+            <p className="col-span-2">: {data?.email}</p>
+            <p>Date of Birth</p>
+            <p className="col-span-2">: {moment(data?.dob).format("ll")}</p>
+            <p>Address</p>
+            <p className="col-span-2">: {data?.address}</p>
+          </div>
+          <div className="flex items-center col-span-2 justify-center border border-slate-200 p-3 rounded-3xl">
+            No Badge
+          </div>
+        </div> */}
       </div>
     </Spin>
   );

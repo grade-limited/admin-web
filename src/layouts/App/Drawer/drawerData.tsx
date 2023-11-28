@@ -21,6 +21,7 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         name: "Users",
         icon: <Icon icon="la:users" />,
         to: "/app/users",
+        disabled: true,
       },
       {
         name: "Products",
