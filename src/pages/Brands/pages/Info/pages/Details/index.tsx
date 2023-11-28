@@ -31,7 +31,7 @@ const Details: React.FC = () => {
 
   return (
     <Spin spinning={isLoading}>
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-3xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
           <Avatar
             className="rounded-2xl w-32 h-32 aspect-square"
@@ -60,37 +60,18 @@ const Details: React.FC = () => {
           </div>
         </div>
 
-        <div className="mx-auto max-w-2xl py-3 ">
-          <div className="flex flex-col gap-3 border border-slate-200 p-3 rounded-3xl">
-            <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px]">
-              Description
+        <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
+          <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px] pb-3">
+            Description
+          </p>
+          {!!data?.description ? (
+            <p className="text-text-light text-xs font-bold break-words">
+              {data?.description}
             </p>
-            {!!data?.description ? (
-              <p className="text-text-light text-xs font-bold break-words">
-                {data?.description}
-              </p>
-            ) : (
-              "No Description Added"
-            )}
-          </div>
+          ) : (
+            "No Description Added"
+          )}
         </div>
-        {/* <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
-          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-            <p>Gender</p>
-            <p className="col-span-2">: {data?.gender}</p>
-            <p>Phone</p>
-            <p className="col-span-2">: {data?.phone}</p>
-            <p>Email</p>
-            <p className="col-span-2">: {data?.email}</p>
-            <p>Date of Birth</p>
-            <p className="col-span-2">: {moment(data?.dob).format("ll")}</p>
-            <p>Address</p>
-            <p className="col-span-2">: {data?.address}</p>
-          </div>
-          <div className="flex items-center col-span-2 justify-center border border-slate-200 p-3 rounded-3xl">
-            No Badge
-          </div>
-        </div> */}
       </div>
     </Spin>
   );
