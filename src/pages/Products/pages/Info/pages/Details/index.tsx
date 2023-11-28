@@ -52,11 +52,15 @@ const Details: React.FC = () => {
             <div className="col-span-3">
               <p className="flex flex-row items-center font-semibold text-base pb-3">
                 Brand Info
-                <Link to={`/app/brands/i/${data?.category?.id}`}>
-                  <IconButton size="small">
-                    <Iconify icon="ph:arrow-square-out-bold" />
-                  </IconButton>
-                </Link>
+                {data?.brand ? (
+                  <Link to={`/app/brands/i/${data?.brand?.id}`}>
+                    <IconButton size="small">
+                      <Iconify icon="ph:arrow-square-out-bold" />
+                    </IconButton>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </p>
             </div>
             <p>Id</p>
@@ -65,11 +69,15 @@ const Details: React.FC = () => {
             <p className="col-span-2">: {data?.brand?.name}</p>
             <p>Created At</p>
             <p className="col-span-2">
-              : {moment(data?.brand?.created_at).format("ll")}
+              {data?.brand
+                ? `: ${moment(data?.brand?.created_at).format("ll")}`
+                : ": "}
             </p>
             <p>Updated At</p>
             <p className="col-span-2">
-              : {moment(data?.brand?.updated_at).format("ll")}
+              {data?.brand
+                ? `: ${moment(data?.brand?.updated_at).format("ll")}`
+                : ":"}
             </p>
           </div>
 
@@ -77,11 +85,15 @@ const Details: React.FC = () => {
             <div className="col-span-3">
               <p className="flex flex-row justify-e items-center font-semibold text-base pb-3">
                 Category Info
-                <Link to={`/app/category/i/${data?.category?.id}`}>
-                  <IconButton size="small">
-                    <Iconify icon="ph:arrow-square-out-bold" />
-                  </IconButton>
-                </Link>
+                {data?.category ? (
+                  <Link to={`/app/category/i/${data?.category?.id}`}>
+                    <IconButton size="small">
+                      <Iconify icon="ph:arrow-square-out-bold" />
+                    </IconButton>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </p>
             </div>
             <p>Id</p>
@@ -91,11 +103,16 @@ const Details: React.FC = () => {
 
             <p>Created At</p>
             <p className="col-span-2">
-              : {moment(data?.category?.created_at).format("ll")}
+              {data?.category
+                ? `: ${moment(data?.category?.created_at).format("ll")}`
+                : ": "}
             </p>
+
             <p>Updated At</p>
             <p className="col-span-2">
-              : {moment(data?.category?.updated_at).format("ll")}
+              {data?.category
+                ? `: ${moment(data?.category?.updated_at).format("ll")}`
+                : ":"}
             </p>
           </div>
         </div>
@@ -104,7 +121,7 @@ const Details: React.FC = () => {
             Description
           </p>
           {!!data?.description ? (
-            <p className="text-text-light text-xs font-bold break-words">
+            <p className="text-xs font-medium break-words">
               {data?.description}
             </p>
           ) : (
