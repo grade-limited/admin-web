@@ -33,6 +33,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         icon: <Icon icon="tabler:brand-shopee" />,
         to: "/app/brands",
       },
+      {
+        name: "Categories",
+        icon: <Icon icon="iconamoon:category-light" />,
+        to: "/app/categories",
+      },
     ],
   },
   {

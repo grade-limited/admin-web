@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import type { MenuProps } from "antd";
 import {
   Button,
+  Checkbox,
   // DatePicker,
   Menu,
 } from "antd";
@@ -12,7 +13,7 @@ import { Link, generatePath, useLocation, useNavigate } from "react-router-dom";
 
 import { Input, Select } from "antd";
 import { InlineIcon } from "@iconify/react";
-import { ROUTES } from "@pages/Products/routes/path";
+import { ROUTES } from "@pages/Categories/routes/path";
 import DatePicker from "@components/antd/DatePicker";
 import useQueryContext from "@/hooks/useQueryContext";
 import BASE_APP_ROUTES from "@/routes/base-routes";
@@ -41,7 +42,7 @@ const items: MenuProps["items"] = [
 const Navigator: React.FC<{ hideSearch?: boolean }> = ({
   hideSearch = false,
 }) => {
-  const baseURL = BASE_APP_ROUTES.PRIVATE_ROUTES.PRODUCTS;
+  const baseURL = BASE_APP_ROUTES.PRIVATE_ROUTES.CATEGORIES;
   // To get the current location pathname
   let location = useLocation();
 
@@ -61,10 +62,10 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
     <>
       <div className="flex flex-row items-center justify-between gap-2 p-3 text-text">
         <h1 className="text-xl md:text-2xl flex flex-row items-center gap-4 font-bold">
-          <Icon icon="solar:box-broken" />
-          Products
+          <Icon icon="iconamoon:category-light" />
+          Categories
         </h1>
-        <Link to={"/app/products/create"}>
+        <Link to={"/app/categories/create"}>
           <Button
             type="dashed"
             className="flex flex-row items-center"
@@ -141,6 +142,13 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
             }
           />
           <div className="flex flex-row items-center">
+            <Checkbox
+              checked={watch("only_parent") as boolean}
+              onChange={(p) => setFilterField("only_parent", p.target.checked)}
+              className="text-text-dark font-semibold"
+            >
+              Only Parent
+            </Checkbox>
             <p className="font-semibold text-sm underline flex items-center gap-1">
               <InlineIcon
                 icon={"pepicons-pencil:down-up"}

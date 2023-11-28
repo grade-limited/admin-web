@@ -10,6 +10,7 @@ export const PRIVATE_ROUTES = {
   EMPLOYEES: "employees/*",
   BRANDS: "brands/*",
   PRODUCTS: "products/*",
+  CATEGORIES: "categories/*",
   SETTINGS: "settings/*",
   NOTFOUND: "*",
 };
