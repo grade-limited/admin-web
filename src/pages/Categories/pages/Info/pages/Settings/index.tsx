@@ -3,24 +3,27 @@ import { Button as AntButton, Spin, Popconfirm } from "antd";
 import { useParams } from "react-router-dom";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
-import { useDeleteProduct, useGetProductsById } from "@/queries/products";
+import {
+  useDeleteCategories,
+  useGetCategoriesById,
+} from "@/queries/categories";
 
 const Security: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading } = useGetProductsById(id);
+  const { data, isLoading } = useGetCategoriesById(id);
 
   const { mutateAsync: Delete, isLoading: isDeleteLoading } =
-    useDeleteProduct();
+    useDeleteCategories();
 
   const onDelete = async (permanent: any = null, restore: any = null) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Product Permanently.."
+        ? "Deleting Category Permanently.."
         : restore
-        ? "Restoring Product.."
-        : "Deleting Product..",
+        ? "Restoring Category.."
+        : "Deleting Category..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -51,17 +54,17 @@ const Security: React.FC = () => {
           {data?.deleted_at ? (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Restore Product</p>
+                <p className=" text-md font-semibold">Restore Category</p>
                 <p className="text-xs text-text-light">
-                  Restoring a product involves reinstating their previously
+                  Restoring a category involves reinstating their previously
                   deleted or suspended account, and allowing them to regain
                   access and functionality."
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Restore Product?"
-                  description="Are you sure to restore the product?"
+                  title="Restore Category?"
+                  description="Are you sure to restore the category?"
                   onConfirm={() => onDelete(null, true)}
                   okButtonProps={{
                     type: "primary",
@@ -88,16 +91,16 @@ const Security: React.FC = () => {
           ) : (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Delete Product</p>
+                <p className=" text-md font-semibold">Delete Category</p>
                 <p className="text-xs text-text-light">
-                  Deleting a product involves temporarily removing their account
-                  and associated data.
+                  Deleting a category involves temporarily removing their
+                  account and associated data.
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Delete Product?"
-                  description="Are you sure to delete this product?"
+                  title="Delete Category?"
+                  description="Are you sure to delete this category?"
                   onConfirm={() => onDelete()}
                   okButtonProps={{
                     type: "primary",
@@ -126,13 +129,14 @@ const Security: React.FC = () => {
           <div className="col-span-2">
             <p className=" text-md font-semibold">Permanently Delete</p>
             <p className="text-xs text-text-light">
-              Deleting a product involves permanently removing their account and
-              associated data. You will not be able to recover this product.
+              Deleting a category involves permanently removing their account
+              and associated data. You will not be able to recover this
+              category.
             </p>
           </div>
           <div>
             <Popconfirm
-              title="Delete Product Permanently?"
+              title="Delete Category Permanently?"
               description="Are you sure to delete permanently?"
               onConfirm={() => onDelete(true)}
               okButtonProps={{

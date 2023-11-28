@@ -1,4 +1,7 @@
-import { useGetProductsById, useUpdateProductsById } from "@/queries/products";
+import {
+  useGetCategoriesById,
+  useUpdateCategoriesById,
+} from "@/queries/categories";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
 import { Cascader, Input, Spin, message } from "antd";
@@ -9,16 +12,16 @@ import { Avatar, Button } from "@mui/material";
 import previewAttachment from "@/utilities/s3Attachment";
 import { stringAvatar } from "@/utilities/stringAvatar";
 import moment from "moment";
-import useBrand from "@/hooks/useBrand";
+// import useBrand from "@/hooks/useBrand";
 import useCategory from "@/hooks/useCategory";
 import Iconify from "@components/iconify";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading } = useGetProductsById(id);
+  const { data, isLoading } = useGetCategoriesById(id);
   const { category, isCategoryLoading, searchCategory, setdefaultcategory } =
     useCategory();
-  const { brand, isBrandLoading, searchBrand, setDefaultBrand } = useBrand();
+  // const { brand, isBrandLoading, searchBrand, setDefaultBrand } = useBrand();
   const {
     handleSubmit,
     control,
@@ -27,33 +30,32 @@ const Edit: React.FC = () => {
   } = useForm({
     // resolver: joiResolver(loginResolver),
   });
-  const [productInfo, setProductInfo] = React.useState<any>([]);
-  const { mutateAsync: update, isLoading: isProductUpdating } =
-    useUpdateProductsById();
+  const [categoryInfo, setCategoryInfo] = React.useState<any>([]);
+  const { mutateAsync: update, isLoading: isCategoryUpdating } =
+    useUpdateCategoriesById();
 
   React.useEffect(() => {
     if (!data) return;
-    setProductInfo(data);
+    setCategoryInfo(data);
     setdefaultcategory(data?.category);
-    setDefaultBrand(data?.brand);
+    // setDefaultBrand(data?.brand);
   }, [data]);
-  // console.log(productInfo, brand);
+  // console.log(categoryInfo, brand);
 
   React.useEffect(() => {
-    if (!productInfo || isDirty) return;
+    if (!categoryInfo || isDirty) return;
     reset({
-      name: productInfo?.name,
-      description: productInfo?.description,
-      brand_id: productInfo?.brand_id,
-      category_id: productInfo?.category_id,
+      name: categoryInfo?.name,
+      description: categoryInfo?.description,
+      parent_id: categoryInfo?.parent_id,
     });
-  }, [productInfo]);
+  }, [categoryInfo]);
 
   // On Submit Function
   const onSubmit = async (data: any) => {
     message.open({
       type: "loading",
-      content: "Updating Product..",
+      content: "Updating Category..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -111,7 +113,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <Input
-                    placeholder={"Enter Product Name"}
+                    placeholder={"Enter Category Name"}
                     size={"large"}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -133,7 +135,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <Input.TextArea
-                    placeholder={"Enter Description of the Product"}
+                    placeholder={"Enter Description of the Category"}
                     size={"large"}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -145,35 +147,10 @@ const Edit: React.FC = () => {
               />
             </div>
             <div>
-              <Label className="my-1">Brand</Label>
+              <Label className="my-1">Parent Category</Label>
               <Controller
                 control={control}
-                name={"brand_id"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <Cascader
-                    value={value}
-                    size="large"
-                    showSearch
-                    className="w-full"
-                    placeholder={"Select a Brand..."}
-                    suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                    onChange={onChange}
-                    options={brand}
-                    onSearch={searchBrand}
-                    loading={isBrandLoading}
-                    status={error ? "error" : ""}
-                  />
-                )}
-              />
-            </div>
-            <div>
-              <Label className="my-1">Category</Label>
-              <Controller
-                control={control}
-                name={"category_id"}
+                name={"parent_id"}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
@@ -184,7 +161,7 @@ const Edit: React.FC = () => {
                     showSearch
                     dropdownMatchSelectWidth
                     className="w-full"
-                    placeholder={"Select a Category..."}
+                    placeholder={"Select a Parent Category..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
                     onChange={onChange}
                     options={category}
@@ -203,7 +180,7 @@ const Edit: React.FC = () => {
               size="large"
               type={"submit"}
               className="w-full mt-4"
-              disabled={isProductUpdating}
+              disabled={isCategoryUpdating}
             >
               Save Changes
             </Button>
