@@ -1,30 +1,33 @@
 import React from "react";
 import { Alert, Button } from "antd";
-import { useDeleteProduct, useGetProductsById } from "@/queries/products";
+import {
+  useDeleteCategories,
+  useGetCategoriesById,
+} from "@/queries/categories";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { IProductId } from "@/types";
+import { ICategoryId } from "@/types";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
 
 const TrashAlert: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading } = useGetProductsById(id);
+  const { data, isLoading } = useGetCategoriesById(id);
 
   const { mutateAsync: Delete, isLoading: isDeleteLoading } =
-    useDeleteProduct();
+    useDeleteCategories();
   const onDelete = async (
-    id: IProductId,
+    id: ICategoryId,
     permanent: Boolean = false,
     restore: Boolean = false
   ) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Product Permanently.."
+        ? "Deleting Category Permanently.."
         : restore
-        ? "Restoring Product.."
-        : "Deleting Product..",
+        ? "Restoring Category.."
+        : "Deleting Category..",
       duration: 0,
     });
     const res = await handleResponse(() =>

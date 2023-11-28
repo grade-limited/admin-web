@@ -3,7 +3,6 @@ import { ICategoryId } from "@/types";
 import handleResponse from "@/utilities/handleResponse";
 import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
-import { Chip } from "@mui/material";
 import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { Button } from "antd";
 import moment from "moment";
@@ -109,25 +108,6 @@ const Column = (): GridColDef[] => {
       sortable: false,
       renderCell: (data: any) =>
         data?.row?.description ? <p>{data?.row?.description}</p> : "-",
-    },
-    {
-      headerName: "Parent Category",
-      headerAlign: "center",
-      field: "parent",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.parent ? (
-          <Link to={`/app/categories/i/${data?.row?.parent_id}`}>
-            <Chip label={data?.row?.parent?.name} />
-          </Link>
-        ) : (
-          // <Tag color="default">{data?.row?.brand?.name}</Tag>
-          "-"
-        ),
     },
     {
       headerName: "Created At",

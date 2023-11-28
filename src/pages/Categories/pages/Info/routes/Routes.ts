@@ -14,6 +14,10 @@ const Routes = [
     path: ROUTES.SETTINGS,
     Component: lazy(() => import("../pages/Settings")),
   },
+  {
+    path: ROUTES.SUBCATEGORY,
+    Component: lazy(() => import("../pages/Subcategory")),
+  },
 
   {
     path: ROUTES.NOTFOUND,

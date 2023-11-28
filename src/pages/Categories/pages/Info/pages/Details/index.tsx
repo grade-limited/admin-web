@@ -7,12 +7,11 @@ import moment from "moment";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { useGetProductsById } from "@/queries/products";
+import { useGetCategoriesById } from "@/queries/categories";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading } = useGetProductsById(id);
-  console.log(data);
+  const { data, isLoading } = useGetCategoriesById(id);
 
   return (
     <Spin spinning={isLoading}>
@@ -32,7 +31,7 @@ const Details: React.FC = () => {
                 size="small"
                 disabled={data?.deleted_at}
                 component={Link}
-                to={`/app/products/i/${data?.id}/edit`}
+                to={`/app/categories/i/${data?.id}/edit`}
               >
                 <Iconify icon="fluent:edit-12-regular" />
               </IconButton>
@@ -51,9 +50,9 @@ const Details: React.FC = () => {
           <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
             <div className="col-span-3">
               <p className="flex flex-row items-center font-semibold text-base pb-3">
-                Brand Info
-                {data?.brand ? (
-                  <Link to={`/app/brands/i/${data?.brand?.id}`}>
+                Parent Category Info
+                {data?.parent ? (
+                  <Link to={`/app/categories/i/${data?.parent_id}`}>
                     <IconButton size="small">
                       <Iconify icon="ph:arrow-square-out-bold" />
                     </IconButton>
@@ -64,54 +63,19 @@ const Details: React.FC = () => {
               </p>
             </div>
             <p>Id</p>
-            <p className="col-span-2">: {data?.brand?.id}</p>
+            <p className="col-span-2">: {data?.parent?.id}</p>
             <p>Name</p>
-            <p className="col-span-2">: {data?.brand?.name}</p>
+            <p className="col-span-2">: {data?.parent?.name}</p>
             <p>Created At</p>
             <p className="col-span-2">
-              {data?.brand
-                ? `: ${moment(data?.brand?.created_at).format("ll")}`
+              {data?.parent
+                ? `: ${moment(data?.parent?.created_at).format("lll")}`
                 : ": "}
             </p>
             <p>Updated At</p>
             <p className="col-span-2">
-              {data?.brand
-                ? `: ${moment(data?.brand?.updated_at).format("ll")}`
-                : ":"}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-            <div className="col-span-3">
-              <p className="flex flex-row justify-e items-center font-semibold text-base pb-3">
-                Category Info
-                {data?.category ? (
-                  <Link to={`/app/category/i/${data?.category?.id}`}>
-                    <IconButton size="small">
-                      <Iconify icon="ph:arrow-square-out-bold" />
-                    </IconButton>
-                  </Link>
-                ) : (
-                  ""
-                )}
-              </p>
-            </div>
-            <p>Id</p>
-            <p className="col-span-2">: {data?.category?.id}</p>
-            <p>Name</p>
-            <p className="col-span-2">: {data?.category?.name}</p>
-
-            <p>Created At</p>
-            <p className="col-span-2">
-              {data?.category
-                ? `: ${moment(data?.category?.created_at).format("ll")}`
-                : ": "}
-            </p>
-
-            <p>Updated At</p>
-            <p className="col-span-2">
-              {data?.category
-                ? `: ${moment(data?.category?.updated_at).format("ll")}`
+              {data?.parent
+                ? `: ${moment(data?.parent?.updated_at).format("lll")}`
                 : ":"}
             </p>
           </div>

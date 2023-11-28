@@ -14,6 +14,11 @@ const items: MenuProps["items"] = [
     icon: <Icon icon="ic:twotone-person-pin" className="text-xl" />,
   },
   {
+    label: "Subcategory",
+    key: ROUTES.SUBCATEGORY,
+    icon: <Icon icon="ic:outline-category" className="text-xl" />,
+  },
+  {
     label: "Settings",
     key: ROUTES.SETTINGS,
     icon: <Icon icon="ic:twotone-settings" className="text-xl" />,

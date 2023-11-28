@@ -19,12 +19,12 @@ export const useGetCategories = (params: any) => {
 };
 
 //Get Using ID
-const getCategoriessById = (id?: string) => {
+const getCategoriesById = (id?: string) => {
   return instance.get(`/categories/${id}`);
 };
 
-export const useGetCategoriessById = (id?: string) => {
-  return useQuery(["/categories/:id", id], () => getCategoriessById(id), {
+export const useGetCategoriesById = (id?: string) => {
+  return useQuery(["/categories/:id", id], () => getCategoriesById(id), {
     enabled: !!id,
     select(data) {
       return data.data.data;
@@ -32,8 +32,8 @@ export const useGetCategoriessById = (id?: string) => {
   });
 };
 
-//Update categoriess details
-const updateCategoriessById = ({
+//Update Details
+const updateCategoriesById = ({
   id,
   data,
 }: {
@@ -45,9 +45,9 @@ const updateCategoriessById = ({
   });
 };
 
-export const useUpdateCategoriessById = () => {
+export const useUpdateCategoriesById = () => {
   const query = useQueryClient();
-  return useMutation(updateCategoriessById, {
+  return useMutation(updateCategoriesById, {
     onSuccess: () => {
       query.invalidateQueries(["/categories"]);
       query.invalidateQueries(["/categories/:id"]);
