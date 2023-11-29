@@ -1,7 +1,7 @@
 import Iconify from "@components/iconify";
 import { Container, ListItemText, Skeleton } from "@mui/material";
 import { usePaginate } from "@tam11a/react-use-hooks";
-import { Collapse } from "antd";
+import { Collapse, Empty } from "antd";
 import React from "react";
 import { ISession } from "./types";
 import SessionCard from "./Components/SessionCard";
@@ -25,6 +25,8 @@ const Session: React.FC = () => {
     if (!data) return;
     setSessions(data?.data?.data);
   }, [data]);
+  console.log(sessions);
+
   return (
     <Container maxWidth={"sm"}>
       <Collapse
@@ -41,7 +43,7 @@ const Session: React.FC = () => {
           />
         )}
         expandIconPosition={"end"}
-        className="my-6  px-2 py-[1px] bg-slate-100"
+        className="my-6 px-2 py-[1px] bg-slate-100"
         ghost
       >
         <div>
@@ -56,41 +58,61 @@ const Session: React.FC = () => {
                 />
               ))}
         </div>
-        {sessions?.map?.((s: ISession) => {
-          return (
-            <Panel
-              header={
-                <ListItemText
-                  primary={s.ip_address}
-                  secondary={
-                    <>
-                      <p>{s.address_details}</p>
-                    </>
+        {sessions.length ? (
+          <>
+            {sessions?.map?.((s: ISession) => {
+              return (
+                <Panel
+                  header={
+                    <ListItemText
+                      primary={
+                        <>
+                          <span className="flex flex-row gap-.5">
+                            <p>{s.ip_address}</p>
+                            <Iconify
+                              icon="tabler:point-filled"
+                              color={sessions?.logged_out_at ? "" : "#5ec25e"}
+                            />
+                          </span>
+                        </>
+                      }
+                      secondary={
+                        <>
+                          <p>{s.address_details}</p>
+                        </>
+                      }
+                      className="p-0 m-0"
+                      primaryTypographyProps={{
+                        variant: "subtitle2",
+                      }}
+                      secondaryTypographyProps={{
+                        variant: "caption",
+                        className: "flex justify-between w-full",
+                      }}
+                    />
                   }
-                  className="p-0 m-0"
-                  primaryTypographyProps={{
-                    variant: "subtitle2",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "caption",
-                    className: "flex justify-between w-full",
-                  }}
-                />
-              }
-              key={s.id}
-              collapsible="header"
-              // collapsible={s.status === "Open" ? "header" : "disabled"}
-              className="my-2 bg-white rounded"
-              extra={
-                <p className="text-[11px] text-text-light">
-                  Last logged in on {moment(s.last_login).calendar()}
-                </p>
-              }
-            >
-              <SessionCard {...s} key={s.id} />
-            </Panel>
-          );
-        })}
+                  key={s.id}
+                  collapsible="header"
+                  // collapsible={s.status === "Open" ? "header" : "disabled"}
+                  className="my-2 bg-white rounded"
+                  extra={
+                    <p className="text-[11px] text-text-light">
+                      Last logged in on {moment(s.last_login).calendar()}
+                    </p>
+                  }
+                >
+                  <SessionCard {...s} key={s.id} />
+                </Panel>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <div>
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            </div>
+          </>
+        )}
       </Collapse>
     </Container>
   );
