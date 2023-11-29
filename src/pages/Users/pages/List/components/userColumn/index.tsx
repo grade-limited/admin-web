@@ -8,6 +8,7 @@ import { useDeleteUser, useSuspendUser } from "@/queries/users";
 import { IUserId } from "@/types";
 import handleResponse from "@/utilities/handleResponse";
 import { message } from "@components/antd/message";
+import { Chip } from "@mui/material";
 
 const UserColumn = (): GridColDef[] => {
   const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteUser();
@@ -53,7 +54,7 @@ const UserColumn = (): GridColDef[] => {
   const onSuspend = async (id: IUserId) => {
     message.open({
       type: "loading",
-      content: "Suspending User..",
+      content: "Updating User..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -126,8 +127,8 @@ const UserColumn = (): GridColDef[] => {
       headerAlign: "center",
       field: "phone",
       align: "center",
-      width: 100,
-      minWidth: 80,
+      width: 200,
+      minWidth: 160,
       flex: 1,
       filterable: false,
       sortable: false,
@@ -144,9 +145,73 @@ const UserColumn = (): GridColDef[] => {
       sortable: false,
     },
     {
-      headerName: "Verified At",
+      headerName: "Refferal Code",
       headerAlign: "center",
-      field: "verified_at",
+      field: "referral_code",
+      align: "center",
+      flex: 1,
+      width: 280,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      valueGetter(params) {
+        return params?.row?.referral_code || "-";
+      },
+    },
+    {
+      headerName: "Reffered By",
+      headerAlign: "center",
+      field: "referred_by",
+      align: "center",
+      flex: 1,
+      width: 280,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      valueGetter(params) {
+        return params.row?.referred_by
+          ? [
+              params?.row?.referred_by?.first_name,
+              params?.row?.referred_by.last_name,
+            ].join(" ")
+          : "-";
+      },
+    },
+    {
+      headerName: "Status",
+      headerAlign: "center",
+      field: "is_active",
+      align: "center",
+      flex: 1,
+      width: 180,
+      minWidth: 150,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.is_active === true ? (
+          <Chip label={"Active"} color={"success"} />
+        ) : (
+          <Chip label={"Inactive"} color="error" />
+        ),
+    },
+    {
+      headerName: "Phone Verified At",
+      headerAlign: "center",
+      field: "phone_verified_at",
+      align: "center",
+      flex: 1,
+      width: 280,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      valueFormatter(params) {
+        return params.value ? moment(params.value).format("lll") : "-";
+      },
+    },
+    {
+      headerName: "Email Verified At",
+      headerAlign: "center",
+      field: "email_verified_at",
       align: "center",
       flex: 1,
       width: 280,
@@ -161,6 +226,20 @@ const UserColumn = (): GridColDef[] => {
       headerName: "Created At",
       headerAlign: "center",
       field: "created_at",
+      align: "center",
+      flex: 1,
+      width: 280,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      valueFormatter(params) {
+        return moment(params.value).format("lll");
+      },
+    },
+    {
+      headerName: "updated At",
+      headerAlign: "center",
+      field: "updated_at",
       align: "center",
       flex: 1,
       width: 280,

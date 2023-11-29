@@ -13,6 +13,9 @@ const Item: React.FC = () => {
   const params = useParams();
   // const { search } = useQueryContext();
   const { data, isLoading } = useGetUsersById(params.id);
+
+  console.log(data);
+
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-2xl">
@@ -46,7 +49,7 @@ const Item: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
-          <div className="grid grid-cols-3 col-span-3 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
+          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 pl-5 py-5 pr-2 break-all rounded-3xl">
             <p>Gender</p>
             <p className="col-span-2">: {data?.gender}</p>
             <p>Phone</p>
@@ -58,10 +61,33 @@ const Item: React.FC = () => {
             <p>Address</p>
             <p className="col-span-2">: {data?.address}</p>
           </div>
-          <div className="flex items-center justify-center border border-slate-200 p-3 rounded-3xl">
-            No Badge
+          {/* <div className="flex items-center justify-center border border-slate-200 p-3 rounded-3xl"> */}
+          <div className="grid grid-cols-3 md:grid-cols-5 col-span-2 border justify-items-start gap-1 border-slate-200 pl-5 py-5 pr-2 break-all rounded-3xl">
+            <p className="md:col-span-2">Referral Code</p>
+            <p className="col-span-2 md:col-span-3">: {data?.referral_code}</p>
+            <p className="md:col-span-2">Max Session</p>
+            <p className="col-span-2 md:col-span-3">: {data?.max_session}</p>
+            <p className="md:col-span-2">Phone Verified</p>
+            <p className="col-span-2 md:col-span-3">
+              :{" "}
+              {data?.phone_verified_at
+                ? moment(data?.phone_verified_at).format("lll")
+                : "-"}
+            </p>
+            <p className="md:col-span-2">Email Verified</p>
+            <p className="col-span-2 md:col-span-3">
+              :{" "}
+              {data?.email_verified_at
+                ? moment(data?.email_verified_at).format("lll")
+                : "-"}
+            </p>
+            <p className="md:col-span-2">Registerd Device</p>
+            <p className="col-span-2  md:col-span-3">
+              : {data?.registered_from}
+            </p>
           </div>
         </div>
+        {/* </div> */}
       </div>
     </Spin>
   );
