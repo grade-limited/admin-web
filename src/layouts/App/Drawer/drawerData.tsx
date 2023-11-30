@@ -33,6 +33,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         to: "/app/brands",
       },
       {
+        name: "Oeganizations",
+        icon: <Icon icon="octicon:organization-24" />,
+        to: "/app/organizations",
+      },
+      {
         name: "Categories",
         icon: <Icon icon="iconamoon:category-light" />,
         to: "/app/categories",
