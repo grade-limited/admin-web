@@ -13,3 +13,10 @@ export type IUpdateOrganization = {
   thumbnail_url: string;
   category_id: ICategoryId;
 };
+
+export interface IOption {
+  value?: string | number | null;
+  label: string;
+  children?: IOption[];
+  data?: any;
+}
