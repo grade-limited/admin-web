@@ -170,7 +170,7 @@ const Create: React.FC = () => {
             <Controller
               control={control}
               name={"email"}
-              rules={{ required: true }}
+              rules={{ required: false }}
               render={({
                 field: { onChange, onBlur, value },
                 fieldState: { error },
