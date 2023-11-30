@@ -33,7 +33,7 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         to: "/app/brands",
       },
       {
-        name: "Oeganizations",
+        name: "Organizations",
         icon: <Icon icon="octicon:organization-24" />,
         to: "/app/organizations",
       },

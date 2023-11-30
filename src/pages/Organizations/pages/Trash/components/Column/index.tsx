@@ -1,8 +1,8 @@
 import {
-  useDeleteBrand,
-  // useSuspendBrand
-} from "@/queries/brands";
-import { IBrandId } from "@/types";
+  useDeleteOrganization,
+  // useSuspendOrganization
+} from "@/queries/organizations";
+import { IOrganizationId } from "@/types";
 import handleResponse from "@/utilities/handleResponse";
 import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
@@ -12,20 +12,21 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const Column = (): GridColDef[] => {
-  const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteBrand();
+  const { mutateAsync: Delete, isLoading: isDeleteLoading } =
+    useDeleteOrganization();
 
   const onDelete = async (
-    id: IBrandId,
+    id: IOrganizationId,
     permanent: any = null,
     restore: any = null
   ) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Brand Permanently.."
+        ? "Deleting Organization Permanently.."
         : restore
-        ? "Restoring Brand.."
-        : "Deleting Brand..",
+        ? "Restoring Organization.."
+        : "Deleting Organization..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -50,12 +51,12 @@ const Column = (): GridColDef[] => {
   };
 
   // const { mutateAsync: Suspend, isLoading: isSuspendLoading } =
-  //   useSuspendBrand();
+  //   useSuspendOrganization();
 
-  // const onSuspend = async (id: IBrandId) => {
+  // const onSuspend = async (id: IOrganizationId) => {
   //   message.open({
   //     type: "loading",
-  //     content: "Suspending Brand..",
+  //     content: "Suspending Organization..",
   //     duration: 0,
   //   });
   //   const res = await handleResponse(() =>
@@ -100,16 +101,57 @@ const Column = (): GridColDef[] => {
       // },
     },
     {
-      headerName: "Description",
+      headerName: "Number",
       headerAlign: "center",
-      field: "description",
+      field: "contact_number",
       align: "center",
       flex: 1,
-      minWidth: 250,
+      minWidth: 120,
       filterable: false,
       sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.contact_number ? <p>{data?.row?.contact_number}</p> : "-",
     },
-
+    {
+      headerName: "Email",
+      headerAlign: "center",
+      field: "contact_email",
+      align: "center",
+      flex: 1,
+      minWidth: 190,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.contact_email ? <p>{data?.row?.contact_email}</p> : "-",
+    },
+    {
+      headerName: "Business Type",
+      headerAlign: "center",
+      field: "business_type",
+      align: "center",
+      flex: 1,
+      minWidth: 200,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.business_type ? <p>{data?.row?.business_type}</p> : "-",
+    },
+    {
+      headerName: "Business Subtype",
+      headerAlign: "center",
+      field: "business_subtype",
+      align: "center",
+      flex: 1,
+      minWidth: 200,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.business_subtype ? (
+          <p>{data?.row?.business_subtype}</p>
+        ) : (
+          "-"
+        ),
+    },
     {
       headerName: "Created At",
       headerAlign: "center",
@@ -164,7 +206,7 @@ const Column = (): GridColDef[] => {
           disableFocusRipple
           className="hover: bg-transparent"
           icon={
-            <Link to={`/app/brands/i/${params.id}`}>
+            <Link to={`/app/organizations/i/${params.id}`}>
               <Button type="dashed">View</Button>
             </Link>
           }
@@ -172,7 +214,7 @@ const Column = (): GridColDef[] => {
         />,
         <GridActionsCellItem
           icon={
-            <Link to={`/app/brands/i/${params.id}/edit`}>
+            <Link to={`/app/organizations/i/${params.id}/edit`}>
               <Iconify icon={"fluent:edit-12-regular"} className="text-lg" />
             </Link>
           }
@@ -189,7 +231,7 @@ const Column = (): GridColDef[] => {
         //   disabled={isSuspendLoading}
         //   showInMenu
         //   label={
-        //     params.row.is_active ? "Suspend Brand" : "Activate Brand"
+        //     params.row.is_active ? "Suspend Organization" : "Activate Organization"
         //   }
         //   onClick={() => onSuspend(params.id)}
         // />,
