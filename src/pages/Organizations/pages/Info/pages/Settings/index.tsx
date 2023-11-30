@@ -3,23 +3,27 @@ import { Button as AntButton, Spin, Popconfirm } from "antd";
 import { useParams } from "react-router-dom";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
-import { useDeleteBrand, useGetBrandsById } from "@/queries/brands";
+import {
+  useDeleteOrganization,
+  useGetOrganizationsById,
+} from "@/queries/organizations";
 
 const Security: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading } = useGetBrandsById(id);
+  const { data, isLoading } = useGetOrganizationsById(id);
 
-  const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteBrand();
+  const { mutateAsync: Delete, isLoading: isDeleteLoading } =
+    useDeleteOrganization();
 
   const onDelete = async (permanent: any = null, restore: any = null) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Brand Permanently.."
+        ? "Deleting Organization Permanently.."
         : restore
-        ? "Restoring Brand.."
-        : "Deleting Brand..",
+        ? "Restoring Organization.."
+        : "Deleting Organization..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -50,17 +54,17 @@ const Security: React.FC = () => {
           {data?.deleted_at ? (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Restore Brand</p>
+                <p className=" text-md font-semibold">Restore Organization</p>
                 <p className="text-xs text-text-light">
-                  Restoring a brand involves reinstating their previously
+                  Restoring a organization involves reinstating their previously
                   deleted or suspended account, and allowing them to regain
                   access and functionality."
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Restore Brand?"
-                  description="Are you sure to restore the brand?"
+                  title="Restore Organization?"
+                  description="Are you sure to restore the organization?"
                   onConfirm={() => onDelete(null, true)}
                   okButtonProps={{
                     type: "primary",
@@ -87,16 +91,16 @@ const Security: React.FC = () => {
           ) : (
             <>
               <div className="col-span-2">
-                <p className=" text-md font-semibold">Delete Brand</p>
+                <p className=" text-md font-semibold">Delete Organization</p>
                 <p className="text-xs text-text-light">
-                  Deleting a brand involves temporarily removing their account
-                  and associated data.
+                  Deleting a organization involves temporarily removing their
+                  account and associated data.
                 </p>
               </div>
               <div>
                 <Popconfirm
-                  title="Delete Brand?"
-                  description="Are you sure to delete this brand?"
+                  title="Delete Organization?"
+                  description="Are you sure to delete this organization?"
                   onConfirm={() => onDelete()}
                   okButtonProps={{
                     type: "primary",
@@ -125,13 +129,14 @@ const Security: React.FC = () => {
           <div className="col-span-2">
             <p className=" text-md font-semibold">Permanently Delete</p>
             <p className="text-xs text-text-light">
-              Deleting a brand involves permanently removing their account and
-              associated data. You will not be able to recover this brand.
+              Deleting a organization involves permanently removing their
+              account and associated data. You will not be able to recover this
+              organization.
             </p>
           </div>
           <div>
             <Popconfirm
-              title="Delete Brand Permanently?"
+              title="Delete Organization Permanently?"
               description="Are you sure to delete permanently?"
               onConfirm={() => onDelete(true)}
               okButtonProps={{
