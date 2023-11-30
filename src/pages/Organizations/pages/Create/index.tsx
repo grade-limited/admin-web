@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCreateOrganization } from "@/queries/organizations";
 import { IOption } from "@/queries/organizations/type";
+import Iconify from "@components/iconify";
 
 const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
@@ -226,6 +227,117 @@ const Create: React.FC = () => {
                   options={typeData}
                   onChange={onChange}
                   onBlur={onBlur}
+                  status={error ? "error" : ""}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <p className="font-medium my-2">Social Media Information</p>
+
+        <div className="border p-3 rounded-md bg-slate-50">
+          <div>
+            <Label className="my-1">Website Link</Label>
+            <Controller
+              control={control}
+              name={"website_url"}
+              rules={{ required: false }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <Input
+                  placeholder={"eg: https://www.mywebsite.com"}
+                  size={"large"}
+                  className="relative w-full"
+                  prefix={
+                    <Iconify icon="ph:globe-light" className="text-2xl mr-1" />
+                  }
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  status={error ? "error" : ""}
+                />
+              )}
+            />
+          </div>
+          <div>
+            <Label className="my-1">LinkedIn</Label>
+            <Controller
+              control={control}
+              name={"linkedin_url"}
+              rules={{ required: false }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <Input
+                  placeholder={"eg: https://www.linkedin.com/in/username/"}
+                  size={"large"}
+                  className="relative w-full"
+                  prefix={
+                    <Iconify icon="circum:linkedin" className="text-2xl mr-1" />
+                  }
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  status={error ? "error" : ""}
+                />
+              )}
+            />
+          </div>
+          <div>
+            <Label className="my-1">Facebook</Label>
+            <Controller
+              control={control}
+              name={"facebook_url"}
+              rules={{ required: false }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <Input
+                  placeholder={"eg: https://www.facebook.com/username/"}
+                  size={"large"}
+                  className="relative w-full"
+                  prefix={
+                    <Iconify
+                      icon="ant-design:facebook-outlined"
+                      className="text-2xl mr-1"
+                    />
+                  }
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  status={error ? "error" : ""}
+                />
+              )}
+            />
+          </div>
+          <div>
+            <Label className="my-1">Instagram</Label>
+            <Controller
+              control={control}
+              name={"instagram_url"}
+              rules={{ required: false }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <Input
+                  placeholder={"eg: https://www.instagram.com/username"}
+                  size={"large"}
+                  className="relative w-full"
+                  prefix={
+                    <Iconify
+                      icon="iconoir:instagram"
+                      className="text-2xl mr-1"
+                    />
+                  }
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
                   status={error ? "error" : ""}
                 />
               )}
