@@ -3,6 +3,7 @@ export type ISessionId = any;
 export type IProductId = string | number | undefined;
 export type IBrandId = string | number | undefined;
 export type IOrganizationId = string | number | undefined;
+export type ICampaignId = string | number | undefined;
 export type IEmployeeId = string | number | undefined;
 export type ICategoryId = string | number | undefined;
 
