@@ -39,10 +39,8 @@ const Edit: React.FC = () => {
       name: organizationInfo?.name,
       contact_number: organizationInfo?.contact_number,
       contact_email: organizationInfo?.contact_email,
-      businessType: [
-        organizationInfo?.business_type,
-        organizationInfo?.business_subtype,
-      ],
+      business_type: organizationInfo?.business_type,
+      business_subtype: organizationInfo?.business_subtype,
       website_url: organizationInfo?.website_url,
       linkedin_url: organizationInfo?.linkedin_url,
       facebook_url: organizationInfo?.facebook_url,

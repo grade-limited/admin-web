@@ -42,6 +42,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         icon: <Icon icon="iconamoon:category-light" />,
         to: "/app/categories",
       },
+      {
+        name: "Campaigns",
+        icon: <Icon icon="material-symbols:campaign-outline-sharp" />,
+        to: "/app/campaigns",
+      },
     ],
   },
   {
