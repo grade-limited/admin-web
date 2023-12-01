@@ -3,7 +3,7 @@ import useQueryContext from "@/hooks/useQueryContext";
 import { DataGrid } from "@mui/x-data-grid";
 import Column from "./components/Column";
 import { useNavigate } from "react-router-dom";
-import { useGetOrganizations } from "@/queries/organizations";
+import { useGetCampaigns } from "@/queries/campaigns";
 
 const List: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const List: React.FC = () => {
     setPage,
     setLimit,
   } = useQueryContext();
-  const { data, isLoading } = useGetOrganizations({ ...getQueryParams() });
+  const { data, isLoading } = useGetCampaigns({ ...getQueryParams() });
 
   return (
     <div className="p-3 w-full h-full max-h-[500px]">

@@ -1,8 +1,10 @@
-import { useGetOrganizationsById } from "@/queries/organizations";
+import { useGetCampaignsById } from "@/queries/campaigns";
+import previewAttachment from "@/utilities/s3Attachment";
+import { stringAvatar } from "@/utilities/stringAvatar";
 import Iconify from "@components/iconify";
 import { IconButton } from "@mui/material";
 // import { DataGrid } from "@mui/x-data-grid";
-import { Spin } from "antd";
+import { Image, Spin } from "antd";
 import moment from "moment";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -13,7 +15,7 @@ import { Link, useParams } from "react-router-dom";
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   // const navigate = useNavigate();
-  const { data, isLoading } = useGetOrganizationsById(id);
+  const { data, isLoading } = useGetCampaignsById(id);
   // const {
   //   getQueryParams,
   //   page,
@@ -24,17 +26,31 @@ const Details: React.FC = () => {
 
   // const { data: prodData, isLoading: isProdLoading } = useGetProducts({
   //   ...getQueryParams,
-  //   organization_id: id,
+  //   campaign_id: id,
   // });
 
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-2xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 my-3 rounded-3xl">
+          <Image
+            className="rounded-2xl w-full h-auto object-contain"
+            src={previewAttachment(data?.cover_url)}
+            alt={data?.name}
+            {...stringAvatar(data?.name)}
+          />
+        </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
-          <div className="p-4">
+          <Image
+            className="rounded-2xl w-32 h-auto "
+            src={previewAttachment(data?.thumbnail_url)}
+            alt={data?.name}
+            {...stringAvatar(data?.name)}
+          />
+          <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {data?.name}
-              <Link to={`/app/organizations/i/${data?.id}/edit`}>
+              <Link to={`/app/campaigns/i/${data?.id}/edit`}>
                 <IconButton size="small">
                   <Iconify icon="fluent:edit-12-regular" />
                 </IconButton>
@@ -46,7 +62,8 @@ const Details: React.FC = () => {
             <p className="text-text-light text-xs">
               Last Updated {moment(data?.updated_at).calendar()}
             </p>
-            {/* <div>
+          </div>
+          {/* <div>
               <a href={data?.website_url} target="__blank">
                 <IconButton>
                   <Iconify icon="ph:globe-light" className="text-2xl -mx-2" />
@@ -74,48 +91,62 @@ const Details: React.FC = () => {
                 </IconButton>
               </a>
             </div> */}
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
-          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-            <div className="col-span-3">
-              <p className="flex flex-row items-center font-semibold text-base pb-3">
-                Info
-              </p>
-            </div>
-            <p>Id</p>
-            <p className="col-span-2">: {data?.id}</p>
-            <p>Name</p>
-            <p className="col-span-2">: {data?.name}</p>
-            <p>Number</p>
-            <p className="col-span-2">: {data?.contact_number}</p>
-            <p>Email</p>
-            <p className="col-span-2">: {data?.contact_email}</p>
-            <p>Type</p>
-            <p className="col-span-2">: {data?.business_type}</p>
-            <p>Subtype</p>
-            <p className="col-span-2">: {data?.business_subtype}</p>
+        <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl my-3">
+          <div className="col-span-3">
+            <p className="flex flex-row items-center font-semibold text-base pb-3">
+              Info
+            </p>
           </div>
-
-          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-            <div className="col-span-3">
-              <p className="flex flex-row justify-e items-center font-semibold text-base pb-3">
-                Social Info
-              </p>
-            </div>
-            <p>Id</p>
-            <p className="col-span-2">: {data?.website_url}</p>
-            <p>Name</p>
-            <p className="col-span-2">: {data?.linkedin_url}</p>
-
-            <p>Created At</p>
-            <p className="col-span-2">: {data?.facebook_url} </p>
-
-            <p>Updated At</p>
-            <p className="col-span-2">: {data?.instagram_url}</p>
-          </div>
+          <p>Id</p>
+          <p className="col-span-2">: {data?.id}</p>
+          <p>Name</p>
+          <p className="col-span-2">: {data?.name}</p>
+          <p>Campaign Type</p>
+          <p className="col-span-2">: {data?.campaign_type}</p>
+          <p>Amount</p>
+          <p className="col-span-2">
+            : {data?.amount}{" "}
+            {data?.amount_type === "amount"
+              ? "৳"
+              : data?.amount_type === "percentage"
+              ? "%"
+              : "-"}
+          </p>
+          <p>Publish Date</p>
+          <p className="col-span-2">
+            : {moment(data?.publish_date).format("ll")}
+          </p>
+          <p>Start Date</p>
+          <p className="col-span-2">
+            :{" "}
+            {data?.start_date ? (
+              <>{moment(data?.start_date).format("ll")}</>
+            ) : (
+              "-"
+            )}
+          </p>
+          <p>End Date</p>
+          <p className="col-span-2">
+            :{" "}
+            {data?.end_date ? <>{moment(data?.end_date).format("ll")}</> : "-"}
+          </p>
         </div>
+        {data?.description ? (
+          <>
+            <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl my-3">
+              <div className="col-span-3">
+                <p className="flex flex-row items-center font-semibold text-base pb-3">
+                  Info
+                </p>
+              </div>
+              <p>{data?.description}</p>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </Spin>
   );

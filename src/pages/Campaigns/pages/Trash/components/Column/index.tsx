@@ -1,8 +1,8 @@
 import {
-  useDeleteOrganization,
-  // useSuspendOrganization
-} from "@/queries/organizations";
-import { IOrganizationId } from "@/types";
+  useDeleteCampaign,
+  // useSuspendCampaign
+} from "@/queries/campaigns";
+import { ICampaignId } from "@/types";
 import handleResponse from "@/utilities/handleResponse";
 import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
@@ -13,20 +13,20 @@ import { Link } from "react-router-dom";
 
 const Column = (): GridColDef[] => {
   const { mutateAsync: Delete, isLoading: isDeleteLoading } =
-    useDeleteOrganization();
+    useDeleteCampaign();
 
   const onDelete = async (
-    id: IOrganizationId,
+    id: ICampaignId,
     permanent: any = null,
     restore: any = null
   ) => {
     message.open({
       type: "loading",
       content: permanent
-        ? "Deleting Organization Permanently.."
+        ? "Deleting Campaign Permanently.."
         : restore
-        ? "Restoring Organization.."
-        : "Deleting Organization..",
+        ? "Restoring Campaign.."
+        : "Deleting Campaign..",
       duration: 0,
     });
     const res = await handleResponse(() =>
@@ -51,12 +51,12 @@ const Column = (): GridColDef[] => {
   };
 
   // const { mutateAsync: Suspend, isLoading: isSuspendLoading } =
-  //   useSuspendOrganization();
+  //   useSuspendCampaign();
 
-  // const onSuspend = async (id: IOrganizationId) => {
+  // const onSuspend = async (id: ICampaignId) => {
   //   message.open({
   //     type: "loading",
-  //     content: "Suspending Organization..",
+  //     content: "Suspending Campaign..",
   //     duration: 0,
   //   });
   //   const res = await handleResponse(() =>
@@ -101,53 +101,84 @@ const Column = (): GridColDef[] => {
       // },
     },
     {
-      headerName: "Number",
+      headerName: "Campaign Type",
       headerAlign: "center",
-      field: "contact_number",
+      field: "campaign_type",
       align: "center",
       flex: 1,
       minWidth: 120,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.contact_number ? <p>{data?.row?.contact_number}</p> : "-",
+        data?.row?.campaign_type ? <p>{data?.row?.campaign_type}</p> : "-",
     },
     {
-      headerName: "Email",
+      headerName: "Amount",
       headerAlign: "center",
-      field: "contact_email",
+      field: "amount",
       align: "center",
       flex: 1,
       minWidth: 190,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.contact_email ? <p>{data?.row?.contact_email}</p> : "-",
+        data?.row?.amount ? (
+          <p>
+            {data?.row?.amount}{" "}
+            {data?.row?.amount_type === "amount"
+              ? "৳"
+              : data?.row?.amount_type === "percentage"
+              ? "%"
+              : "-"}
+          </p>
+        ) : (
+          "_"
+        ),
     },
     {
-      headerName: "Business Type",
+      headerName: "Publish Date",
       headerAlign: "center",
-      field: "business_type",
+      field: "publish_date",
       align: "center",
       flex: 1,
       minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.business_type ? <p>{data?.row?.business_type}</p> : "-",
+        data?.row?.publish_date ? (
+          <p>{moment(data?.row?.publish_date).format("lll")}</p>
+        ) : (
+          "-"
+        ),
     },
     {
-      headerName: "Business Subtype",
+      headerName: "Start Date",
       headerAlign: "center",
-      field: "business_subtype",
+      field: "start_date",
       align: "center",
       flex: 1,
       minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.business_subtype ? (
-          <p>{data?.row?.business_subtype}</p>
+        data?.row?.start_date ? (
+          <p>{moment(data?.row?.start_date).format("lll")}</p>
+        ) : (
+          "-"
+        ),
+    },
+    {
+      headerName: "End Date",
+      headerAlign: "center",
+      field: "end_date",
+      align: "center",
+      flex: 1,
+      minWidth: 200,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.end_date ? (
+          <p>{moment(data?.row?.end_date).format("lll")}</p>
         ) : (
           "-"
         ),
@@ -206,7 +237,7 @@ const Column = (): GridColDef[] => {
           disableFocusRipple
           className="hover: bg-transparent"
           icon={
-            <Link to={`/app/organizations/i/${params.id}`}>
+            <Link to={`/app/campaigns/i/${params.id}`}>
               <Button type="dashed">View</Button>
             </Link>
           }
@@ -214,7 +245,7 @@ const Column = (): GridColDef[] => {
         />,
         <GridActionsCellItem
           icon={
-            <Link to={`/app/organizations/i/${params.id}/edit`}>
+            <Link to={`/app/campaigns/i/${params.id}/edit`}>
               <Iconify icon={"fluent:edit-12-regular"} className="text-lg" />
             </Link>
           }
@@ -231,7 +262,7 @@ const Column = (): GridColDef[] => {
         //   disabled={isSuspendLoading}
         //   showInMenu
         //   label={
-        //     params.row.is_active ? "Suspend Organization" : "Activate Organization"
+        //     params.row.is_active ? "Suspend Campaign" : "Activate Campaign"
         //   }
         //   onClick={() => onSuspend(params.id)}
         // />,
