@@ -10,6 +10,8 @@ import { useCreateProduct } from "@/queries/products";
 import useBrand from "@/hooks/useBrand";
 import Iconify from "@components/iconify";
 import useCategory from "@/hooks/useCategory";
+import DatePicker from "@components/antd/DatePicker";
+import moment from "moment";
 
 const Create: React.FC = () => {
   const { brand, isBrandLoading, searchBrand } = useBrand();
@@ -31,6 +33,8 @@ const Create: React.FC = () => {
       () =>
         create({
           ...data,
+          start_date: data?.range?.[0],
+          end_date: data?.range?.[1],
         }),
       [201]
     );
@@ -152,6 +156,54 @@ const Create: React.FC = () => {
                   onSearch={searchCategory}
                   loading={isCategoryLoading}
                   status={error ? "error" : ""}
+                />
+              )}
+            />
+          </div>
+          <div className="mt-2">
+            <Label className="my-1">Start & End Date </Label>
+            <Controller
+              control={control}
+              name={"range"}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <DatePicker.RangePicker
+                  bordered={true}
+                  size={"large"}
+                  allowClear={false}
+                  allowEmpty={[false, false]}
+                  className="w-full min-w-[250px]"
+                  presets={[
+                    {
+                      label: "Today",
+                      value: [moment(), moment()],
+                    },
+                    {
+                      label: "Tomorrow",
+                      value: [moment().add(1, "days"), moment().add(1, "days")],
+                    },
+                    {
+                      label: "Next 7 Days",
+                      value: [moment().add(7, "days"), moment()],
+                    },
+                    {
+                      label: "Next 30 Days",
+                      value: [moment().add(30, "days"), moment()],
+                    },
+                    {
+                      label: "Next 6 Months",
+                      value: [moment().add(6, "months"), moment()],
+                    },
+                    {
+                      label: "Next 1 Year",
+                      value: [moment().add(1, "year"), moment()],
+                    },
+                  ]}
+                  value={value}
+                  onBlur={onBlur}
+                  onChange={onChange}
                 />
               )}
             />

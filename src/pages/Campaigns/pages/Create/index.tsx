@@ -41,6 +41,8 @@ const Create: React.FC = () => {
         create({
           ...data,
           isActive: true,
+          start_date: data?.range?.[0],
+          end_date: data?.range?.[1],
         }),
       [201]
     );
@@ -97,125 +99,136 @@ const Create: React.FC = () => {
       >
         <p className="font-medium mb-2">Basic Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
-          <Label>Thumbnail Image</Label>
-          <Controller
-            control={control}
-            name={"thumbnail_url"}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <AntUpload
-                fileList={
-                  value
-                    ? [
-                        {
-                          uid: value,
-                          url: previewAttachment(value),
-                          preview: previewAttachment(value),
-                          thumbUrl: previewAttachment(value),
-                          name: value,
-                          fileName: value,
-                          status: "done",
-                          error,
-                        },
-                      ]
-                    : undefined
-                }
-                maxCount={1}
-                listType="picture-card"
-                showUploadList={{
-                  showDownloadIcon: true,
-                }}
-                action={`${instance.getUri()}files/upload/multiple`}
-                method="POST"
-                name="files"
-                onChange={(i) => {
-                  if (i.file.status === "done") {
-                    onChange(i.file.response?.[0]?.filename);
-                  }
-                  //   if (i.file.status === "success") {
-                  //     messageApi.info("Please click update to save changes");
-                  //   }
+          <div className="flex flex-row items-center gap-10">
+            <span>
+              <Label>Thumbnail Image</Label>
+              <Controller
+                control={control}
+                name={"thumbnail_url"}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <AntUpload
+                    fileList={
+                      value
+                        ? [
+                            {
+                              uid: value,
+                              url: previewAttachment(value),
+                              preview: previewAttachment(value),
+                              thumbUrl: previewAttachment(value),
+                              name: value,
+                              fileName: value,
+                              status: "done",
+                              error,
+                            },
+                          ]
+                        : undefined
+                    }
+                    maxCount={1}
+                    listType="picture-card"
+                    showUploadList={{
+                      showDownloadIcon: true,
+                    }}
+                    action={`${instance.getUri()}files/upload/multiple`}
+                    method="POST"
+                    name="files"
+                    onChange={(i) => {
+                      if (i.file.status === "done") {
+                        onChange(i.file.response?.[0]?.filename);
+                      }
+                      //   if (i.file.status === "success") {
+                      //     messageApi.info("Please click update to save changes");
+                      //   }
 
-                  if (i.file.status === "removed") onChange(null);
+                      if (i.file.status === "removed") onChange(null);
 
-                  if (i.file.status === "error") {
-                    messageApi.error(i.file.response?.message);
-                  }
-                }}
-              >
-                {value ? null : (
-                  <AntButton
-                    className="flex flex-col items-center justify-center text-sm gap-1"
-                    type="text"
+                      if (i.file.status === "error") {
+                        messageApi.error(i.file.response?.message);
+                      }
+                    }}
                   >
-                    <span>
-                      <Icon icon={"material-symbols:upload"} />
-                    </span>
-                    Upload
-                  </AntButton>
+                    {value ? null : (
+                      <AntButton
+                        className="flex flex-col items-center justify-center text-sm gap-1"
+                        type="text"
+                      >
+                        <span>
+                          <Icon icon={"material-symbols:upload"} />
+                        </span>
+                        Upload
+                      </AntButton>
+                    )}
+                  </AntUpload>
                 )}
-              </AntUpload>
-            )}
-          />
+              />
+            </span>
+            <span>
+              <Label>Cover Image</Label>
+              <Controller
+                control={control}
+                name={"cover_url"}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <AntUpload
+                    fileList={
+                      value
+                        ? [
+                            {
+                              uid: value,
+                              url: previewAttachment(value),
+                              preview: previewAttachment(value),
+                              thumbUrl: previewAttachment(value),
+                              name: value,
+                              fileName: value,
+                              status: "done",
+                              error,
+                            },
+                          ]
+                        : undefined
+                    }
+                    maxCount={1}
+                    listType="picture-card"
+                    showUploadList={{
+                      showDownloadIcon: true,
+                    }}
+                    action={`${instance.getUri()}files/upload/multiple`}
+                    method="POST"
+                    name="files"
+                    onChange={(i) => {
+                      if (i.file.status === "done") {
+                        onChange(i.file.response?.[0]?.filename);
+                      }
+                      //   if (i.file.status === "success") {
+                      //     messageApi.info("Please click update to save changes");
+                      //   }
 
-          <Label>Cover Image</Label>
-          <Controller
-            control={control}
-            name={"cover_url"}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <AntUpload
-                fileList={
-                  value
-                    ? [
-                        {
-                          uid: value,
-                          url: previewAttachment(value),
-                          preview: previewAttachment(value),
-                          thumbUrl: previewAttachment(value),
-                          name: value,
-                          fileName: value,
-                          status: "done",
-                          error,
-                        },
-                      ]
-                    : undefined
-                }
-                maxCount={1}
-                listType="picture-card"
-                showUploadList={{
-                  showDownloadIcon: true,
-                }}
-                action={`${instance.getUri()}files/upload/multiple`}
-                method="POST"
-                name="files"
-                onChange={(i) => {
-                  if (i.file.status === "done") {
-                    onChange(i.file.response?.[0]?.filename);
-                  }
-                  //   if (i.file.status === "success") {
-                  //     messageApi.info("Please click update to save changes");
-                  //   }
+                      if (i.file.status === "removed") onChange(null);
 
-                  if (i.file.status === "removed") onChange(null);
-
-                  if (i.file.status === "error") {
-                    messageApi.error(i.file.response?.message);
-                  }
-                }}
-              >
-                {value ? null : (
-                  <AntButton
-                    className="flex flex-col items-center justify-center text-sm gap-1"
-                    type="text"
+                      if (i.file.status === "error") {
+                        messageApi.error(i.file.response?.message);
+                      }
+                    }}
                   >
-                    <span>
-                      <Icon icon={"material-symbols:upload"} />
-                    </span>
-                    Upload
-                  </AntButton>
+                    {value ? null : (
+                      <AntButton
+                        className="flex flex-col items-center justify-center text-sm gap-1"
+                        type="text"
+                      >
+                        <span>
+                          <Icon icon={"material-symbols:upload"} />
+                        </span>
+                        Upload
+                      </AntButton>
+                    )}
+                  </AntUpload>
                 )}
-              </AntUpload>
-            )}
-          />
+              />
+            </span>
+          </div>
           <div>
             <Label isRequired className="my-1">
               Name
@@ -361,81 +374,54 @@ const Create: React.FC = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div className="mt-2">
-              <Label className="my-1">Publish Date </Label>
-              <Controller
-                control={control}
-                name={"publish_date"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <DatePicker
-                    size="large"
-                    className={"w-full"}
-                    allowClear
-                    placeholder="Publish Date"
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value ? moment(value) : null}
-                  />
-                )}
-              />
-            </div>
-            {/* <div className="mt-2">
-              <Label className="my-1">Publish Date </Label>
-              <Controller
-                control={control}
-                name={"publish_date"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <DatePicker.RangePicker
-                    bordered={true}
-                    size={"large"}
-                    allowClear={false}
-                    allowEmpty={[false, false]}
-                    className="w-fit min-w-[250px]"
-                    presets={[
-                      {
-                        label: "Today",
-                        value: [moment(), moment()],
-                      },
-                      {
-                        label: "Yesterday",
-                        value: [
-                          moment().add(-1, "days"),
-                          moment().add(-1, "days"),
-                        ],
-                      },
-                      {
-                        label: "Last 7 Days",
-                        value: [moment().add(-7, "days"), moment()],
-                      },
-                      {
-                        label: "Last 30 Days",
-                        value: [moment().add(-30, "days"), moment()],
-                      },
-                      {
-                        label: "Last 6 Months",
-                        value: [moment().add(-3, "months"), moment()],
-                      },
-                      {
-                        label: "Last 1 Year",
-                        value: [moment().add(-1, "year"), moment()],
-                      },
-                    ]}
-                    value={watch("range") as any}
-                    onBlur={onBlur}
-                    onChange={(v) => {
-                      setDateRange("range", v || [null, null]);
-                    }}
-                  />
-                )}
-              />
-            </div> */}
+
+          <div className="mt-2">
+            <Label className="my-1">Start & End Date </Label>
+            <Controller
+              control={control}
+              name={"range"}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <DatePicker.RangePicker
+                  bordered={true}
+                  size={"large"}
+                  allowClear={true}
+                  allowEmpty={[true, true]}
+                  className="w-full min-w-[250px]"
+                  presets={[
+                    {
+                      label: "Today",
+                      value: [moment(), moment()],
+                    },
+                    {
+                      label: "Tomorrow",
+                      value: [moment().add(1, "days"), moment().add(1, "days")],
+                    },
+                    {
+                      label: "Next 7 Days",
+                      value: [moment().add(7, "days"), moment()],
+                    },
+                    {
+                      label: "Next 30 Days",
+                      value: [moment().add(30, "days"), moment()],
+                    },
+                    {
+                      label: "Next 6 Months",
+                      value: [moment().add(6, "months"), moment()],
+                    },
+                    {
+                      label: "Next 1 Year",
+                      value: [moment().add(1, "year"), moment()],
+                    },
+                  ]}
+                  value={value}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                />
+              )}
+            />
           </div>
         </div>
         <Button
