@@ -1,7 +1,7 @@
 import Iconify from "@components/iconify";
 import { Container, ListItemText, Skeleton } from "@mui/material";
 import { usePaginate } from "@tam11a/react-use-hooks";
-import { Collapse } from "antd";
+import { Badge, Collapse } from "antd";
 import React from "react";
 import { ISession } from "./types";
 import SessionCard from "./Components/SessionCard";
@@ -64,12 +64,13 @@ const Session: React.FC = () => {
                 <ListItemText
                   primary={
                     <>
-                      <span className="flex flex-row gap-.5">
+                      <span className="flex flex-row gap-2">
                         <p>{s.ip_address}</p>
-                        <Iconify
-                          icon="tabler:point-filled"
-                          color={sessions?.logged_out_at ? "" : "#5ec25e"}
-                        />
+                        {s?.logged_out_at ? (
+                          ""
+                        ) : (
+                          <Badge status="processing" color="#5ec25e" />
+                        )}
                       </span>
                     </>
                   }

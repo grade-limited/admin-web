@@ -1,7 +1,7 @@
 import Iconify from "@components/iconify";
 import { Container, ListItemText, Skeleton } from "@mui/material";
 import { usePaginate } from "@tam11a/react-use-hooks";
-import { Collapse } from "antd";
+import { Badge, Collapse } from "antd";
 import React from "react";
 import { ISession } from "./types";
 import SessionCard from "./Components/SessionCard";
@@ -61,7 +61,18 @@ const Session: React.FC = () => {
             <Panel
               header={
                 <ListItemText
-                  primary={s.ip_address}
+                  primary={
+                    <>
+                      <span className="flex flex-row gap-2">
+                        <p>{s.ip_address}</p>
+                        {s?.logged_out_at ? (
+                          ""
+                        ) : (
+                          <Badge status="processing" color="#5ec25e" />
+                        )}
+                      </span>
+                    </>
+                  }
                   secondary={
                     <>
                       <p>{s.address_details}</p>

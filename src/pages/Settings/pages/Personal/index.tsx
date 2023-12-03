@@ -321,7 +321,7 @@ const Personal: React.FC = () => {
             fullWidth
             size="large"
             type={"submit"}
-            className="mt-5 bg-slate-600"
+            className="mt-5"
             disabled={isSubmitting}
           >
             Update
