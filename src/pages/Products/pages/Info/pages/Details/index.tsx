@@ -1,8 +1,8 @@
 import previewAttachment from "@/utilities/s3Attachment";
 import { stringAvatar } from "@/utilities/stringAvatar";
 import Iconify from "@components/iconify";
-import { Avatar, IconButton } from "@mui/material";
-import { Spin } from "antd";
+import { IconButton } from "@mui/material";
+import { Image, Spin } from "antd";
 import moment from "moment";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -12,18 +12,16 @@ import { useGetProductsById } from "@/queries/products";
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetProductsById(id);
-  console.log(data);
 
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-3xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
-          <Avatar
-            className="rounded-2xl w-32 h-32 aspect-square"
-            variant="square"
-            src={previewAttachment(data?.display_picture)}
-            alt={[data?.name, data?.last_name].join(" ")}
-            {...stringAvatar([data?.name, data?.last_name].join(" "))}
+          <Image
+            className="rounded-2xl w-24 h-auto object-contain"
+            src={previewAttachment(data?.thumbnail_url)}
+            alt={data?.name}
+            {...stringAvatar(data?.name)}
           />
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">

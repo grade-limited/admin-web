@@ -3,15 +3,22 @@ import { useForm, Controller } from "react-hook-form";
 import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
-import { Cascader, Divider, Input } from "antd";
+import {
+  Cascader,
+  Divider,
+  Input,
+  Upload as AntUpload,
+  Button as AntButton,
+} from "antd";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCreateProduct } from "@/queries/products";
 import useBrand from "@/hooks/useBrand";
 import Iconify from "@components/iconify";
 import useCategory from "@/hooks/useCategory";
-import DatePicker from "@components/antd/DatePicker";
-import moment from "moment";
+import instance from "@/services";
+import previewAttachment from "@/utilities/s3Attachment";
+import { Icon } from "@iconify/react";
 
 const Create: React.FC = () => {
   const { brand, isBrandLoading, searchBrand } = useBrand();
@@ -19,6 +26,7 @@ const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
     // resolver: joiResolver(loginResolver),
   });
+  const [messageApi, contextHolder] = message.useMessage();
   const { mutateAsync: create, isLoading: productCreating } =
     useCreateProduct();
 
@@ -49,6 +57,7 @@ const Create: React.FC = () => {
 
   return (
     <div>
+      {contextHolder}
       <div className="max-w-md mt-6 mx-auto text-center">
         <p className="text-lg font-medium mb-2">Create New Product</p>
 
@@ -66,6 +75,65 @@ const Create: React.FC = () => {
       >
         <p className="font-medium mb-2">Product Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
+          <Label>Thumbnail Image</Label>
+          <Controller
+            control={control}
+            name={"thumbnail_url"}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <AntUpload
+                fileList={
+                  value
+                    ? [
+                        {
+                          uid: value,
+                          url: previewAttachment(value),
+                          preview: previewAttachment(value),
+                          thumbUrl: previewAttachment(value),
+                          name: value,
+                          fileName: value,
+                          status: "done",
+                          error,
+                        },
+                      ]
+                    : undefined
+                }
+                maxCount={1}
+                listType="picture-card"
+                showUploadList={{
+                  showDownloadIcon: true,
+                }}
+                action={`${instance.getUri()}files/upload/multiple`}
+                method="POST"
+                name="files"
+                onChange={(i) => {
+                  if (i.file.status === "done") {
+                    onChange(i.file.response?.[0]?.filename);
+                  }
+                  //   if (i.file.status === "success") {
+                  //     messageApi.info("Please click update to save changes");
+                  //   }
+
+                  if (i.file.status === "removed") onChange(null);
+
+                  if (i.file.status === "error") {
+                    messageApi.error(i.file.response?.message);
+                  }
+                }}
+              >
+                {value ? null : (
+                  <AntButton
+                    className="flex flex-col items-center justify-center text-sm gap-1"
+                    type="text"
+                  >
+                    <span>
+                      <Icon icon={"material-symbols:upload"} />
+                    </span>
+                    Upload
+                  </AntButton>
+                )}
+              </AntUpload>
+            )}
+          />
           <div>
             <Label className="my-1">Product Name</Label>
             <Controller
@@ -156,54 +224,6 @@ const Create: React.FC = () => {
                   onSearch={searchCategory}
                   loading={isCategoryLoading}
                   status={error ? "error" : ""}
-                />
-              )}
-            />
-          </div>
-          <div className="mt-2">
-            <Label className="my-1">Start & End Date </Label>
-            <Controller
-              control={control}
-              name={"range"}
-              render={({
-                field: { onChange, onBlur, value },
-                fieldState: { error },
-              }) => (
-                <DatePicker.RangePicker
-                  bordered={true}
-                  size={"large"}
-                  allowClear={false}
-                  allowEmpty={[false, false]}
-                  className="w-full min-w-[250px]"
-                  presets={[
-                    {
-                      label: "Today",
-                      value: [moment(), moment()],
-                    },
-                    {
-                      label: "Tomorrow",
-                      value: [moment().add(1, "days"), moment().add(1, "days")],
-                    },
-                    {
-                      label: "Next 7 Days",
-                      value: [moment().add(7, "days"), moment()],
-                    },
-                    {
-                      label: "Next 30 Days",
-                      value: [moment().add(30, "days"), moment()],
-                    },
-                    {
-                      label: "Next 6 Months",
-                      value: [moment().add(6, "months"), moment()],
-                    },
-                    {
-                      label: "Next 1 Year",
-                      value: [moment().add(1, "year"), moment()],
-                    },
-                  ]}
-                  value={value}
-                  onBlur={onBlur}
-                  onChange={onChange}
                 />
               )}
             />
