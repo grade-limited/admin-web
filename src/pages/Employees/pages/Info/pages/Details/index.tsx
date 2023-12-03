@@ -2,8 +2,8 @@ import { useGetEmployeesById } from "@/queries/employees";
 import previewAttachment from "@/utilities/s3Attachment";
 import { stringAvatar } from "@/utilities/stringAvatar";
 import Iconify from "@components/iconify";
-import { Avatar, IconButton } from "@mui/material";
-import { Spin } from "antd";
+import { IconButton } from "@mui/material";
+import { Image, Spin } from "antd";
 import moment from "moment";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -15,9 +15,8 @@ const Details: React.FC = () => {
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-2xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
-          <Avatar
+          <Image
             className="rounded-2xl w-32 h-32 aspect-square"
-            variant="square"
             src={previewAttachment(data?.display_picture)}
             alt={[data?.first_name, data?.last_name].join(" ")}
             {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
