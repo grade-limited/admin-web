@@ -18,10 +18,10 @@ const Routes = [
 		Component: lazy(() => import("../pages/Trash")),
 		navigator: true,
 	},
-	{
-		path: ROUTES.CREATE,
-		Component: lazy(() => import("../pages/Create")),
-	},
+	// {
+	// 	path: ROUTES.CREATE,
+	// 	Component: lazy(() => import("../pages/Create")),
+	// },
 	{
 		path: ROUTES.INFO,
 		Component: lazy(() => import("../pages/Info")),
