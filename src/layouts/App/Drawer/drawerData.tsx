@@ -38,6 +38,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         to: "/app/organizations",
       },
       {
+        name: "Requests",
+        icon: <Icon icon="fluent:branch-request-16-regular" />,
+        to: "/app/requests",
+      },
+      {
         name: "Categories",
         icon: <Icon icon="iconamoon:category-light" />,
         to: "/app/categories",
