@@ -13,6 +13,7 @@ import {
   message,
   Upload as AntUpload,
   Button as AntButton,
+  Image,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import previewAttachment from "@/utilities/s3Attachment";
 import moment from "moment";
 import instance from "@/services";
 import { Icon } from "@iconify/react";
+import { stringAvatar } from "@/utilities/stringAvatar";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -91,70 +93,12 @@ const Edit: React.FC = () => {
       <div>
         {contextHolder}
         <div className=" flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl max-w-xl mb-4 mx-auto">
-          <span>
-            <Label className="pb-3">Thumbnail Image</Label>
-            <Controller
-              control={control}
-              name={"thumbnail_url"}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <AntUpload
-                  fileList={
-                    value
-                      ? [
-                          {
-                            uid: value,
-                            url: previewAttachment(value),
-                            preview: previewAttachment(value),
-                            thumbUrl: previewAttachment(value),
-                            name: value,
-                            fileName: value,
-                            status: "done",
-                            error,
-                          },
-                        ]
-                      : undefined
-                  }
-                  maxCount={1}
-                  listType="picture-card"
-                  showUploadList={{
-                    showDownloadIcon: true,
-                  }}
-                  action={`${instance.getUri()}files/upload/multiple`}
-                  method="POST"
-                  name="files"
-                  onChange={(i) => {
-                    if (i.file.status === "done") {
-                      onChange(i.file.response?.[0]?.filename);
-                    }
-                    //   if (i.file.status === "success") {
-                    //     messageApi.info("Please click update to save changes");
-                    //   }
-
-                    if (i.file.status === "removed") onChange(null);
-
-                    if (i.file.status === "error") {
-                      messageApi.error(i.file.response?.message);
-                    }
-                  }}
-                >
-                  {value ? null : (
-                    <AntButton
-                      className="flex flex-col items-center justify-center text-sm gap-1"
-                      type="text"
-                    >
-                      <span>
-                        <Icon icon={"material-symbols:upload"} />
-                      </span>
-                      Upload
-                    </AntButton>
-                  )}
-                </AntUpload>
-              )}
-            />
-          </span>
+          <Image
+            className="rounded-2xl w-32 h-32 aspect-square"
+            src={previewAttachment(data?.display_picture)}
+            alt={[data?.first_name, data?.last_name].join(" ")}
+            {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
+          />
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {[data?.first_name, data?.last_name].join(" ")}{" "}
@@ -177,6 +121,70 @@ const Edit: React.FC = () => {
         >
           <p className="font-medium mb-2">Personal Information</p>
           <div className="border p-3 rounded-md bg-slate-50">
+            <span>
+              <Label className="pb-3">Display Picture</Label>
+              <Controller
+                control={control}
+                name={"display_picture"}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <AntUpload
+                    fileList={
+                      value
+                        ? [
+                            {
+                              uid: value,
+                              url: previewAttachment(value),
+                              preview: previewAttachment(value),
+                              thumbUrl: previewAttachment(value),
+                              name: value,
+                              fileName: value,
+                              status: "done",
+                              error,
+                            },
+                          ]
+                        : undefined
+                    }
+                    maxCount={1}
+                    listType="picture-card"
+                    showUploadList={{
+                      showDownloadIcon: true,
+                    }}
+                    action={`${instance.getUri()}files/upload/multiple`}
+                    method="POST"
+                    name="files"
+                    onChange={(i) => {
+                      if (i.file.status === "done") {
+                        onChange(i.file.response?.[0]?.filename);
+                      }
+                      //   if (i.file.status === "success") {
+                      //     messageApi.info("Please click update to save changes");
+                      //   }
+
+                      if (i.file.status === "removed") onChange(null);
+
+                      if (i.file.status === "error") {
+                        messageApi.error(i.file.response?.message);
+                      }
+                    }}
+                  >
+                    {value ? null : (
+                      <AntButton
+                        className="flex flex-col items-center justify-center text-sm gap-1"
+                        type="text"
+                      >
+                        <span>
+                          <Icon icon={"material-symbols:upload"} />
+                        </span>
+                        Upload
+                      </AntButton>
+                    )}
+                  </AntUpload>
+                )}
+              />
+            </span>
             <div>
               <Label isRequired>Full Name</Label>
               <Input.Group compact>
