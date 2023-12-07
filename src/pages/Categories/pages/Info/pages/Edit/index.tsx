@@ -53,6 +53,21 @@ const Edit: React.FC = () => {
 	}, [data]);
 	// console.log(categoryInfo, brand);
 
+	// const findCategoryHierarchy = (categories: any[], categoryId: number, hierarchy = []) => {
+	// 	for (const category of categories) {
+	// 	  if (category.id === categoryId) {
+	// 		hierarchy.unshift(category?.id ||);
+	// 		if (category.parentId !== null) {
+	// 		  findCategoryHierarchy(categories, category.parentId, hierarchy);
+	// 		}
+	// 		break;
+	// 	  } else if (category.children.length > 0) {
+	// 		findCategoryHierarchy(category.children, categoryId, hierarchy);
+	// 	  }
+	// 	}
+	// 	return hierarchy;
+	//   };
+
 	React.useEffect(() => {
 		if (!categoryInfo || isDirty) return;
 		reset({
@@ -62,6 +77,12 @@ const Edit: React.FC = () => {
 			thumbnail_url: categoryInfo?.thumbnail_url,
 			cover_url: categoryInfo?.cover_url,
 			icon_url: categoryInfo?.icon_url,
+			parent_hierarchy: JSON.parse(
+				JSON.stringify([
+					categoryInfo?.parent?.parent_id,
+					categoryInfo?.parent_id,
+				])
+			),
 		});
 	}, [categoryInfo]);
 
