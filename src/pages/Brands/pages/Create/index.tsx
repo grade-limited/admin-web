@@ -11,10 +11,13 @@ import { Icon } from "@iconify/react";
 import previewAttachment from "@/utilities/s3Attachment";
 import instance from "@/services";
 import JoditEditor from "jodit-react";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { brandCreateResolver } from "./resolver";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
 
 const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(brandCreateResolver),
   });
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -65,7 +68,6 @@ const Create: React.FC = () => {
         <div className="border p-3 rounded-md bg-slate-50">
           <div className="flex flex-row items-center gap-10">
             <span>
-              <Label>Thumbnail Image</Label>
               <Controller
                 control={control}
                 name={"thumbnail_url"}
@@ -73,63 +75,68 @@ const Create: React.FC = () => {
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <AntUpload
-                    fileList={
-                      value
-                        ? [
-                            {
-                              uid: value,
-                              url: previewAttachment(value),
-                              preview: previewAttachment(value),
-                              thumbUrl: previewAttachment(value),
-                              name: value,
-                              fileName: value,
-                              status: "done",
-                              error,
-                            },
-                          ]
-                        : undefined
-                    }
-                    maxCount={1}
-                    listType="picture-card"
-                    showUploadList={{
-                      showDownloadIcon: true,
-                    }}
-                    action={`${instance.getUri()}files/upload/multiple`}
-                    method="POST"
-                    name="files"
-                    onChange={(i) => {
-                      if (i.file.status === "done") {
-                        onChange(i.file.response?.[0]?.filename);
+                  <>
+                    <Label>
+                      Thumbnail Image
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <AntUpload
+                      fileList={
+                        value
+                          ? [
+                              {
+                                uid: value,
+                                url: previewAttachment(value),
+                                preview: previewAttachment(value),
+                                thumbUrl: previewAttachment(value),
+                                name: value,
+                                fileName: value,
+                                status: "done",
+                                error,
+                              },
+                            ]
+                          : undefined
                       }
-                      //   if (i.file.status === "success") {
-                      //     messageApi.info("Please click update to save changes");
-                      //   }
+                      maxCount={1}
+                      listType="picture-card"
+                      showUploadList={{
+                        showDownloadIcon: true,
+                      }}
+                      action={`${instance.getUri()}files/upload/multiple`}
+                      method="POST"
+                      name="files"
+                      onChange={(i) => {
+                        if (i.file.status === "done") {
+                          onChange(i.file.response?.[0]?.filename);
+                        }
+                        //   if (i.file.status === "success") {
+                        //     messageApi.info("Please click update to save changes");
+                        //   }
 
-                      if (i.file.status === "removed") onChange(null);
+                        if (i.file.status === "removed") onChange(null);
 
-                      if (i.file.status === "error") {
-                        messageApi.error(i.file.response?.message);
-                      }
-                    }}
-                  >
-                    {value ? null : (
-                      <AntButton
-                        className="flex flex-col items-center justify-center text-sm gap-1"
-                        type="text"
-                      >
-                        <span>
-                          <Icon icon={"material-symbols:upload"} />
-                        </span>
-                        Upload
-                      </AntButton>
-                    )}
-                  </AntUpload>
+                        if (i.file.status === "error") {
+                          messageApi.error(i.file.response?.message);
+                        }
+                      }}
+                    >
+                      {value ? null : (
+                        <AntButton
+                          className="flex flex-col items-center justify-center text-sm gap-1"
+                          type="text"
+                        >
+                          <span>
+                            <Icon icon={"material-symbols:upload"} />
+                          </span>
+                          Upload
+                        </AntButton>
+                      )}
+                    </AntUpload>
+                  </>
                 )}
               />
             </span>
             <span>
-              <Label>Cover Image</Label>
               <Controller
                 control={control}
                 name={"cover_url"}
@@ -137,64 +144,69 @@ const Create: React.FC = () => {
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <AntUpload
-                    fileList={
-                      value
-                        ? [
-                            {
-                              uid: value,
-                              url: previewAttachment(value),
-                              preview: previewAttachment(value),
-                              thumbUrl: previewAttachment(value),
-                              name: value,
-                              fileName: value,
-                              status: "done",
-                              error,
-                            },
-                          ]
-                        : undefined
-                    }
-                    maxCount={1}
-                    listType="picture-card"
-                    showUploadList={{
-                      showDownloadIcon: true,
-                    }}
-                    action={`${instance.getUri()}files/upload/multiple`}
-                    method="POST"
-                    name="files"
-                    onChange={(i) => {
-                      if (i.file.status === "done") {
-                        onChange(i.file.response?.[0]?.filename);
+                  <>
+                    <Label>
+                      Cover Image
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <AntUpload
+                      fileList={
+                        value
+                          ? [
+                              {
+                                uid: value,
+                                url: previewAttachment(value),
+                                preview: previewAttachment(value),
+                                thumbUrl: previewAttachment(value),
+                                name: value,
+                                fileName: value,
+                                status: "done",
+                                error,
+                              },
+                            ]
+                          : undefined
                       }
-                      //   if (i.file.status === "success") {
-                      //     messageApi.info("Please click update to save changes");
-                      //   }
+                      maxCount={1}
+                      listType="picture-card"
+                      showUploadList={{
+                        showDownloadIcon: true,
+                      }}
+                      action={`${instance.getUri()}files/upload/multiple`}
+                      method="POST"
+                      name="files"
+                      onChange={(i) => {
+                        if (i.file.status === "done") {
+                          onChange(i.file.response?.[0]?.filename);
+                        }
+                        //   if (i.file.status === "success") {
+                        //     messageApi.info("Please click update to save changes");
+                        //   }
 
-                      if (i.file.status === "removed") onChange(null);
+                        if (i.file.status === "removed") onChange(null);
 
-                      if (i.file.status === "error") {
-                        messageApi.error(i.file.response?.message);
-                      }
-                    }}
-                  >
-                    {value ? null : (
-                      <AntButton
-                        className="flex flex-col items-center justify-center text-sm gap-1"
-                        type="text"
-                      >
-                        <span>
-                          <Icon icon={"material-symbols:upload"} />
-                        </span>
-                        Upload
-                      </AntButton>
-                    )}
-                  </AntUpload>
+                        if (i.file.status === "error") {
+                          messageApi.error(i.file.response?.message);
+                        }
+                      }}
+                    >
+                      {value ? null : (
+                        <AntButton
+                          className="flex flex-col items-center justify-center text-sm gap-1"
+                          type="text"
+                        >
+                          <span>
+                            <Icon icon={"material-symbols:upload"} />
+                          </span>
+                          Upload
+                        </AntButton>
+                      )}
+                    </AntUpload>
+                  </>
                 )}
               />
             </span>
           </div>
           <div>
-            <Label className="my-1">Brand Name</Label>
             <Controller
               control={control}
               name={"name"}
@@ -203,21 +215,26 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"Enter Brand Name"}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Brand Name
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"Enter Brand Name"}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>
 
           <div>
-            <Label className="my-1">Description</Label>
             <Controller
               control={control}
               name={"description"}
@@ -226,20 +243,26 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <JoditEditor
-                  value={value}
-                  config={{
-                    statusbar: false,
-                    readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-                    // placeholder: "Aa...",
-                    removeButtons: ["image"],
-                  }}
-                  // tabIndex={1} // tabIndex of textarea
-                  onBlur={(x) => {
-                    onChange(x);
-                  }} // preferred to use only this option to update the content for performance reasons
-                  onChange={() => {}}
-                />
+                <>
+                  <Label className="my-1">
+                    Description
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <JoditEditor
+                    value={value}
+                    config={{
+                      statusbar: false,
+                      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+                      // placeholder: "Aa...",
+                      removeButtons: ["image"],
+                    }}
+                    // tabIndex={1} // tabIndex of textarea
+                    onBlur={(x) => {
+                      onChange(x);
+                    }} // preferred to use only this option to update the content for performance reasons
+                    onChange={() => {}}
+                  />
+                </>
               )}
             />
           </div>

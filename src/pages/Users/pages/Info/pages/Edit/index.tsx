@@ -21,6 +21,9 @@ import moment from "moment";
 import { useGetUsersById, useUpdateUsersById } from "@/queries/users";
 import instance from "@/services";
 import { Icon } from "@iconify/react";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
+import { userUpdateResolver } from "./resolver";
+import { joiResolver } from "@hookform/resolvers/joi";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,7 +38,7 @@ const Edit: React.FC = () => {
     reset,
     formState: { isDirty },
   } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(userUpdateResolver),
   });
   const [userInfo, setUserInfo] = React.useState<any>([]);
   const { mutateAsync: update, isLoading: isUserUpdating } =
@@ -117,66 +120,71 @@ const Edit: React.FC = () => {
           <p className="font-medium mb-2">Personal Information</p>
           <div className="border p-3 rounded-md bg-slate-50">
             <span>
-              <Label className="pb-3">Thumbnail Image</Label>
               <Controller
                 control={control}
-                name={"thumbnail_url"}
+                name={"display_picture"}
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <AntUpload
-                    fileList={
-                      value
-                        ? [
-                            {
-                              uid: value,
-                              url: previewAttachment(value),
-                              preview: previewAttachment(value),
-                              thumbUrl: previewAttachment(value),
-                              name: value,
-                              fileName: value,
-                              status: "done",
-                              error,
-                            },
-                          ]
-                        : undefined
-                    }
-                    maxCount={1}
-                    listType="picture-card"
-                    showUploadList={{
-                      showDownloadIcon: true,
-                    }}
-                    action={`${instance.getUri()}files/upload/multiple`}
-                    method="POST"
-                    name="files"
-                    onChange={(i) => {
-                      if (i.file.status === "done") {
-                        onChange(i.file.response?.[0]?.filename);
+                  <>
+                    <Label className="pb-3">
+                      Display Image Thumbnail Image
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <AntUpload
+                      fileList={
+                        value
+                          ? [
+                              {
+                                uid: value,
+                                url: previewAttachment(value),
+                                preview: previewAttachment(value),
+                                thumbUrl: previewAttachment(value),
+                                name: value,
+                                fileName: value,
+                                status: "done",
+                                error,
+                              },
+                            ]
+                          : undefined
                       }
-                      //   if (i.file.status === "success") {
-                      //     messageApi.info("Please click update to save changes");
-                      //   }
+                      maxCount={1}
+                      listType="picture-card"
+                      showUploadList={{
+                        showDownloadIcon: true,
+                      }}
+                      action={`${instance.getUri()}files/upload/multiple`}
+                      method="POST"
+                      name="files"
+                      onChange={(i) => {
+                        if (i.file.status === "done") {
+                          onChange(i.file.response?.[0]?.filename);
+                        }
+                        //   if (i.file.status === "success") {
+                        //     messageApi.info("Please click update to save changes");
+                        //   }
 
-                      if (i.file.status === "removed") onChange(null);
+                        if (i.file.status === "removed") onChange(null);
 
-                      if (i.file.status === "error") {
-                        messageApi.error(i.file.response?.message);
-                      }
-                    }}
-                  >
-                    {value ? null : (
-                      <AntButton
-                        className="flex flex-col items-center justify-center text-sm gap-1"
-                        type="text"
-                      >
-                        <span>
-                          <Icon icon={"material-symbols:upload"} />
-                        </span>
-                        Upload
-                      </AntButton>
-                    )}
-                  </AntUpload>
+                        if (i.file.status === "error") {
+                          messageApi.error(i.file.response?.message);
+                        }
+                      }}
+                    >
+                      {value ? null : (
+                        <AntButton
+                          className="flex flex-col items-center justify-center text-sm gap-1"
+                          type="text"
+                        >
+                          <span>
+                            <Icon icon={"material-symbols:upload"} />
+                          </span>
+                          Upload
+                        </AntButton>
+                      )}
+                    </AntUpload>
+                  </>
                 )}
               />
             </span>
@@ -199,7 +207,7 @@ const Edit: React.FC = () => {
                       onBlur={onBlur}
                       value={value}
                       status={error ? "error" : ""}
-                      //   suffix={<ErrorSuffix error={error} />}
+                      suffix={<ErrorSuffix error={error} />}
                     />
                   )}
                 />
@@ -219,15 +227,13 @@ const Edit: React.FC = () => {
                       onBlur={onBlur}
                       value={value}
                       status={error ? "error" : ""}
-                      //   suffix={<ErrorSuffix error={error} />}
+                      suffix={<ErrorSuffix error={error} />}
                     />
                   )}
                 />
               </Input.Group>
             </div>
-
             <div>
-              <Label className="my-1">Gender</Label>
               <Controller
                 control={control}
                 name={"gender"}
@@ -237,25 +243,29 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Select
-                    placeholder={"Gender"}
-                    size={"large"}
-                    className="relative w-full"
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    options={[
-                      { value: "Male", label: "Male" },
-                      { value: "Female", label: "Female" },
-                      { value: "Non Binary", label: "Non Binary" },
-                    ]}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Gender
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Select
+                      placeholder={"Gender"}
+                      size={"large"}
+                      className="relative w-full"
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      options={[
+                        { value: "Male", label: "Male" },
+                        { value: "Female", label: "Female" },
+                        { value: "Non Binary", label: "Non Binary" },
+                      ]}
+                    />
+                  </>
                 )}
               />
             </div>
-
             <div>
-              <Label className="mt-2 mb-1">Date of Birth</Label>
               <Controller
                 control={control}
                 name={"dob"}
@@ -263,74 +273,84 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <DatePicker
-                    size="large"
-                    className={"w-full"}
-                    allowClear
-                    placeholder="Date of Birth"
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value ? dayjs(value) : null}
-                  />
+                  <>
+                    <Label className="mt-2 mb-1">
+                      Date of Birth
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <DatePicker
+                      size="large"
+                      className={"w-full"}
+                      allowClear
+                      placeholder="Date of Birth"
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value ? dayjs(value) : null}
+                    />
+                  </>
                 )}
               />
             </div>
           </div>
-
           <p className="font-medium mb-2 mt-4">Contact Information</p>
           <div className="border p-3 rounded-md bg-slate-50">
             <div>
-              <Label className="my-1">Email</Label>
               <Controller
                 control={control}
                 name={"email"}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input
-                    placeholder={"Enter Email Address"}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Email
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input
+                      placeholder={"Enter Email Address"}
+                      size={"large"}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      status={error ? "error" : ""}
+                      //   suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
                 )}
               />
             </div>
-
             <div>
-              <Label isRequired className="my-1">
-                Phone
-              </Label>
               <Controller
                 control={control}
                 name={"phone"}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input
-                    readOnly
-                    // disabled
-                    placeholder={"Enter Phone Number"}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Phone
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input
+                      // readOnly
+                      // disabled
+                      placeholder={"Enter Phone Number"}
+                      size={"large"}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      status={error ? "error" : ""}
+                      //   suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
                 )}
               />
             </div>
-
             <div>
-              <Label className="my-1">Address</Label>
               <Controller
                 control={control}
                 name={"address"}
@@ -338,25 +358,29 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input.TextArea
-                    placeholder={"Enter Address..."}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    rows={4}
-                    value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Address
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input.TextArea
+                      placeholder={"Enter Address..."}
+                      size={"large"}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      rows={4}
+                      value={value}
+                      status={error ? "error" : ""}
+                      //   suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
                 )}
               />
             </div>
           </div>
-
           <p className="font-medium mb-2 mt-4">Access Information</p>
           <div className="border p-3 rounded-md bg-slate-50">
             <div>
-              <Label className="my-1">Maximum Device</Label>
               <Controller
                 control={control}
                 name={"max_session"}
@@ -364,20 +388,25 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input
-                    placeholder={"4"}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Maximum Device
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input
+                      placeholder={"4"}
+                      size={"large"}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      status={error ? "error" : ""}
+                      //   suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
                 )}
               />
             </div>
           </div>
-
           {isDirty && (
             <Button
               variant="contained"

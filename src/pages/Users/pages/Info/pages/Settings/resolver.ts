@@ -1,13 +1,12 @@
-import { z } from "zod";
+import Joi from "joi";
 
-export const updatePasswordResolver = z
-	.object({
-		phone: z.string().min(1),
-		currentPassword: z.string().min(1),
-		password: z.string().min(6),
-		cpassword: z.string().min(6),
-	})
-	.refine((data) => data.password === data.cpassword, {
-		message: `Passwords don't match`,
-		path: ["cpassword"],
-	});
+export const updatePasswordResolver = Joi.object({
+  new_password: Joi.string().label("Password").min(6).required().trim(),
+  confirm_password: Joi.any()
+    .label("Confirm New Password")
+    .valid(Joi.ref("password"))
+    .required()
+    .messages({
+      "any.only": "Passwords do not match.",
+    }),
+});

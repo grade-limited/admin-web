@@ -20,6 +20,9 @@ import { Link } from "react-router-dom";
 import instance from "@/services";
 import previewAttachment from "@/utilities/s3Attachment";
 import { Icon } from "@iconify/react";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { EmployeeCreateResolver } from "./resolver";
 
 const Create: React.FC = () => {
   // Get Roles
@@ -27,7 +30,7 @@ const Create: React.FC = () => {
 
   const { role, isRoleLoading, searchRole } = useRole();
   const { handleSubmit, control, reset } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(EmployeeCreateResolver),
   });
   const { mutateAsync: create, isLoading: employeeCreating } =
     useCreateEmployee();
@@ -80,7 +83,6 @@ const Create: React.FC = () => {
         <p className="font-medium mb-2">Personal Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
           <span>
-            <Label>Display Image</Label>
             <Controller
               control={control}
               name={"display_picture"}
@@ -88,58 +90,64 @@ const Create: React.FC = () => {
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <AntUpload
-                  fileList={
-                    value
-                      ? [
-                          {
-                            uid: value,
-                            url: previewAttachment(value),
-                            preview: previewAttachment(value),
-                            thumbUrl: previewAttachment(value),
-                            name: value,
-                            fileName: value,
-                            status: "done",
-                            error,
-                          },
-                        ]
-                      : undefined
-                  }
-                  maxCount={1}
-                  listType="picture-card"
-                  showUploadList={{
-                    showDownloadIcon: true,
-                  }}
-                  action={`${instance.getUri()}files/upload/multiple`}
-                  method="POST"
-                  name="files"
-                  onChange={(i) => {
-                    if (i.file.status === "done") {
-                      onChange(i.file.response?.[0]?.filename);
+                <>
+                  <Label>
+                    Display Image
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <AntUpload
+                    fileList={
+                      value
+                        ? [
+                            {
+                              uid: value,
+                              url: previewAttachment(value),
+                              preview: previewAttachment(value),
+                              thumbUrl: previewAttachment(value),
+                              name: value,
+                              fileName: value,
+                              status: "done",
+                              error,
+                            },
+                          ]
+                        : undefined
                     }
-                    //   if (i.file.status === "success") {
-                    //     messageApi.info("Please click update to save changes");
-                    //   }
+                    maxCount={1}
+                    listType="picture-card"
+                    showUploadList={{
+                      showDownloadIcon: true,
+                    }}
+                    action={`${instance.getUri()}files/upload/multiple`}
+                    method="POST"
+                    name="files"
+                    onChange={(i) => {
+                      if (i.file.status === "done") {
+                        onChange(i.file.response?.[0]?.filename);
+                      }
+                      //   if (i.file.status === "success") {
+                      //     messageApi.info("Please click update to save changes");
+                      //   }
 
-                    if (i.file.status === "removed") onChange(null);
+                      if (i.file.status === "removed") onChange(null);
 
-                    if (i.file.status === "error") {
-                      messageApi.error(i.file.response?.message);
-                    }
-                  }}
-                >
-                  {value ? null : (
-                    <AntButton
-                      className="flex flex-col items-center justify-center text-sm gap-1"
-                      type="text"
-                    >
-                      <span>
-                        <Icon icon={"material-symbols:upload"} />
-                      </span>
-                      Upload
-                    </AntButton>
-                  )}
-                </AntUpload>
+                      if (i.file.status === "error") {
+                        messageApi.error(i.file.response?.message);
+                      }
+                    }}
+                  >
+                    {value ? null : (
+                      <AntButton
+                        className="flex flex-col items-center justify-center text-sm gap-1"
+                        type="text"
+                      >
+                        <span>
+                          <Icon icon={"material-symbols:upload"} />
+                        </span>
+                        Upload
+                      </AntButton>
+                    )}
+                  </AntUpload>
+                </>
               )}
             />
           </span>
@@ -162,7 +170,7 @@ const Create: React.FC = () => {
                     onBlur={onBlur}
                     value={value}
                     status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
+                    suffix={<ErrorSuffix error={error} />}
                   />
                 )}
               />
@@ -182,7 +190,7 @@ const Create: React.FC = () => {
                     onBlur={onBlur}
                     value={value}
                     status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
+                    suffix={<ErrorSuffix error={error} />}
                   />
                 )}
               />
@@ -190,7 +198,6 @@ const Create: React.FC = () => {
           </div>
 
           <div>
-            <Label className="my-1">Gender</Label>
             <Controller
               control={control}
               name={"gender"}
@@ -200,25 +207,30 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Select
-                  placeholder={"Gender"}
-                  size={"large"}
-                  className="relative w-full"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  options={[
-                    { value: "Male", label: "Male" },
-                    { value: "Female", label: "Female" },
-                    { value: "Non Binary", label: "Non Binary" },
-                  ]}
-                />
+                <>
+                  <Label className="my-1">
+                    Gender
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Select
+                    placeholder={"Gender"}
+                    size={"large"}
+                    className="relative w-full"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    options={[
+                      { value: "Male", label: "Male" },
+                      { value: "Female", label: "Female" },
+                      { value: "Non Binary", label: "Non Binary" },
+                    ]}
+                  />
+                </>
               )}
             />
           </div>
 
           <div>
-            <Label className="mt-2 mb-1">Date of Birth</Label>
             <Controller
               control={control}
               name={"dob"}
@@ -226,15 +238,21 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <DatePicker
-                  size="large"
-                  className={"w-full"}
-                  allowClear
-                  placeholder="Date of Birth"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value ? dayjs(value) : null}
-                />
+                <>
+                  <Label className="mt-2 mb-1">
+                    Date of Birth
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <DatePicker
+                    size="large"
+                    className={"w-full"}
+                    allowClear
+                    placeholder="Date of Birth"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value ? dayjs(value) : null}
+                  />
+                </>
               )}
             />
           </div>
@@ -243,7 +261,6 @@ const Create: React.FC = () => {
         <p className="font-medium mb-2 mt-4">Contact Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
           <div>
-            <Label className="my-1">Email</Label>
             <Controller
               control={control}
               name={"email"}
@@ -252,23 +269,25 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"Enter Email Address"}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label className="my-1">
+                    Email
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"Enter Email Address"}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>
-
           <div>
-            <Label isRequired className="my-1">
-              Phone
-            </Label>
             <Controller
               control={control}
               name={"phone"}
@@ -277,22 +296,27 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  // disabled
-                  placeholder={"Enter Phone Number"}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Phone
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    // disabled
+                    placeholder={"Enter Phone Number"}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>
 
           <div>
-            <Label className="my-1">Address</Label>
             <Controller
               control={control}
               name={"address"}
@@ -300,16 +324,22 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input.TextArea
-                  placeholder={"Enter Address..."}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  rows={4}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label className="my-1">
+                    Address
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input.TextArea
+                    placeholder={"Enter Address..."}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    rows={4}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>
@@ -332,18 +362,7 @@ const Create: React.FC = () => {
                     className="flex flex-row items-center gap-1"
                   >
                     Password
-                    {/* {error ? (
-                    <ErrorSuffix error={error} />
-                  ) : (
-                    <Tooltip
-                      title={"Password should be atleast 6 characters long."}
-                       placement="topLeft"
-                    >
-                       <Icon color={"action"} className="text-base mb-1">
-                        <AiFillInfoCircle />
-                      </Icon> 
-                    </Tooltip>
-                  )}  */}
+                    <ErrorSuffix error={error} size="small" />
                   </Label>
                   <Input.Password
                     placeholder="Enter Password"
@@ -359,7 +378,6 @@ const Create: React.FC = () => {
           />
 
           <div>
-            <Label className="my-1">Role</Label>
             <Controller
               control={control}
               name={"role_id"}
@@ -367,25 +385,30 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Select
-                  value={value}
-                  size="large"
-                  showSearch
-                  className="w-full"
-                  placeholder={"Select a Role..."}
-                  suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                  onChange={onChange}
-                  options={role}
-                  onSearch={searchRole}
-                  loading={isRoleLoading}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label className="my-1">
+                    Role
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Select
+                    value={value}
+                    size="large"
+                    showSearch
+                    className="w-full"
+                    placeholder={"Select a Role..."}
+                    suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
+                    onChange={onChange}
+                    options={role}
+                    onSearch={searchRole}
+                    loading={isRoleLoading}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
 
           <div>
-            <Label className="my-1">Maximum Device</Label>
             <Controller
               control={control}
               name={"max_session"}
@@ -393,15 +416,21 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"4"}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label className="my-1">
+                    Maximum Device
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"4"}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>

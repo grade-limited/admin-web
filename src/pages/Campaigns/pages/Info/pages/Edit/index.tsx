@@ -27,6 +27,9 @@ import { message } from "@components/antd/message";
 import previewAttachment from "@/utilities/s3Attachment";
 import instance from "@/services";
 import JoditEditor from "jodit-react";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { campaignUpdateResolver } from "./resolver";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,7 +41,7 @@ const Edit: React.FC = () => {
     watch,
     formState: { isDirty },
   } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(campaignUpdateResolver),
   });
   const [messageApi, contextHolder] = message.useMessage();
   const [campaignInfo, setCampaignInfo] = React.useState<any>([]);
@@ -149,7 +152,6 @@ const Edit: React.FC = () => {
           <div className="border p-3 rounded-md bg-slate-50">
             <div className="flex flex-row items-center gap-10">
               <span>
-                <Label className="pb-3">Thumbnail Image</Label>
                 <Controller
                   control={control}
                   name={"thumbnail_url"}
@@ -157,64 +159,69 @@ const Edit: React.FC = () => {
                     field: { onChange, value },
                     fieldState: { error },
                   }) => (
-                    <AntUpload
-                      fileList={
-                        value
-                          ? [
-                              {
-                                uid: value,
-                                url: previewAttachment(value),
-                                preview: previewAttachment(value),
-                                thumbUrl: previewAttachment(value),
-                                name: value,
-                                fileName: value,
-                                status: "done",
-                                error,
-                              },
-                            ]
-                          : undefined
-                      }
-                      maxCount={1}
-                      listType="picture-card"
-                      showUploadList={{
-                        showDownloadIcon: true,
-                      }}
-                      action={`${instance.getUri()}files/upload/multiple`}
-                      method="POST"
-                      name="files"
-                      onChange={(i) => {
-                        if (i.file.status === "done") {
-                          onChange(i.file.response?.[0]?.filename);
+                    <>
+                      <Label className="pb-3">
+                        Thumbnail Image
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <AntUpload
+                        fileList={
+                          value
+                            ? [
+                                {
+                                  uid: value,
+                                  url: previewAttachment(value),
+                                  preview: previewAttachment(value),
+                                  thumbUrl: previewAttachment(value),
+                                  name: value,
+                                  fileName: value,
+                                  status: "done",
+                                  error,
+                                },
+                              ]
+                            : undefined
                         }
-                        //   if (i.file.status === "success") {
-                        //     messageApi.info("Please click update to save changes");
-                        //   }
+                        maxCount={1}
+                        listType="picture-card"
+                        showUploadList={{
+                          showDownloadIcon: true,
+                        }}
+                        action={`${instance.getUri()}files/upload/multiple`}
+                        method="POST"
+                        name="files"
+                        onChange={(i) => {
+                          if (i.file.status === "done") {
+                            onChange(i.file.response?.[0]?.filename);
+                          }
+                          //   if (i.file.status === "success") {
+                          //     messageApi.info("Please click update to save changes");
+                          //   }
 
-                        if (i.file.status === "removed") onChange(null);
+                          if (i.file.status === "removed") onChange(null);
 
-                        if (i.file.status === "error") {
-                          messageApi.error(i.file.response?.message);
-                        }
-                      }}
-                    >
-                      {value ? null : (
-                        <AntButton
-                          className="flex flex-col items-center justify-center text-sm gap-1"
-                          type="text"
-                        >
-                          <span>
-                            <Icon icon={"material-symbols:upload"} />
-                          </span>
-                          Upload
-                        </AntButton>
-                      )}
-                    </AntUpload>
+                          if (i.file.status === "error") {
+                            messageApi.error(i.file.response?.message);
+                          }
+                        }}
+                      >
+                        {value ? null : (
+                          <AntButton
+                            className="flex flex-col items-center justify-center text-sm gap-1"
+                            type="text"
+                          >
+                            <span>
+                              <Icon icon={"material-symbols:upload"} />
+                            </span>
+                            Upload
+                          </AntButton>
+                        )}
+                      </AntUpload>
+                    </>
                   )}
                 />
               </span>
 
               <span>
-                <Label className="pb-3">Cover Image</Label>
                 <Controller
                   control={control}
                   name={"cover_url"}
@@ -222,66 +229,69 @@ const Edit: React.FC = () => {
                     field: { onChange, value },
                     fieldState: { error },
                   }) => (
-                    <AntUpload
-                      fileList={
-                        value
-                          ? [
-                              {
-                                uid: value,
-                                url: previewAttachment(value),
-                                preview: previewAttachment(value),
-                                thumbUrl: previewAttachment(value),
-                                name: value,
-                                fileName: value,
-                                status: "done",
-                                error,
-                              },
-                            ]
-                          : undefined
-                      }
-                      maxCount={1}
-                      listType="picture-card"
-                      showUploadList={{
-                        showDownloadIcon: true,
-                      }}
-                      action={`${instance.getUri()}files/upload/multiple`}
-                      method="POST"
-                      name="files"
-                      onChange={(i) => {
-                        if (i.file.status === "done") {
-                          onChange(i.file.response?.[0]?.filename);
+                    <>
+                      <Label className="pb-3">
+                        Cover Image
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <AntUpload
+                        fileList={
+                          value
+                            ? [
+                                {
+                                  uid: value,
+                                  url: previewAttachment(value),
+                                  preview: previewAttachment(value),
+                                  thumbUrl: previewAttachment(value),
+                                  name: value,
+                                  fileName: value,
+                                  status: "done",
+                                  error,
+                                },
+                              ]
+                            : undefined
                         }
-                        //   if (i.file.status === "success") {
-                        //     messageApi.info("Please click update to save changes");
-                        //   }
+                        maxCount={1}
+                        listType="picture-card"
+                        showUploadList={{
+                          showDownloadIcon: true,
+                        }}
+                        action={`${instance.getUri()}files/upload/multiple`}
+                        method="POST"
+                        name="files"
+                        onChange={(i) => {
+                          if (i.file.status === "done") {
+                            onChange(i.file.response?.[0]?.filename);
+                          }
+                          //   if (i.file.status === "success") {
+                          //     messageApi.info("Please click update to save changes");
+                          //   }
 
-                        if (i.file.status === "removed") onChange(null);
+                          if (i.file.status === "removed") onChange(null);
 
-                        if (i.file.status === "error") {
-                          messageApi.error(i.file.response?.message);
-                        }
-                      }}
-                    >
-                      {value ? null : (
-                        <AntButton
-                          className="flex flex-col items-center justify-center text-sm gap-1"
-                          type="text"
-                        >
-                          <span>
-                            <Icon icon={"material-symbols:upload"} />
-                          </span>
-                          Upload
-                        </AntButton>
-                      )}
-                    </AntUpload>
+                          if (i.file.status === "error") {
+                            messageApi.error(i.file.response?.message);
+                          }
+                        }}
+                      >
+                        {value ? null : (
+                          <AntButton
+                            className="flex flex-col items-center justify-center text-sm gap-1"
+                            type="text"
+                          >
+                            <span>
+                              <Icon icon={"material-symbols:upload"} />
+                            </span>
+                            Upload
+                          </AntButton>
+                        )}
+                      </AntUpload>
+                    </>
                   )}
                 />
               </span>
             </div>
             <div>
-              <Label isRequired className="my-1">
-                Name
-              </Label>
               <Controller
                 control={control}
                 name={"name"}
@@ -290,42 +300,52 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input
-                    placeholder={"Enter Campaign Name"}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
-                  />
+                  <>
+                    <Label isRequired className="my-1">
+                      Name
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input
+                      placeholder={"Enter Campaign Name"}
+                      size={"large"}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      status={error ? "error" : ""}
+                      // suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
                 )}
               />
             </div>
             <div>
-              <Label className="my-1">Description</Label>
               <Controller
                 control={control}
                 name={"description"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <JoditEditor
-                    value={value}
-                    config={{
-                      statusbar: false,
-                      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-                      // placeholder: "Aa...",
-                      removeButtons: ["image"],
-                    }}
-                    // tabIndex={1} // tabIndex of textarea
-                    onBlur={(x) => {
-                      onChange(x);
-                    }} // preferred to use only this option to update the content for performance reasons
-                    onChange={() => {}}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Description
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <JoditEditor
+                      value={value}
+                      config={{
+                        statusbar: false,
+                        readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+                        // placeholder: "Aa...",
+                        removeButtons: ["image"],
+                      }}
+                      // tabIndex={1} // tabIndex of textarea
+                      onBlur={(x) => {
+                        onChange(x);
+                      }} // preferred to use only this option to update the content for performance reasons
+                      onChange={() => {}}
+                    />
+                  </>
                 )}
               />
             </div>
@@ -335,7 +355,6 @@ const Edit: React.FC = () => {
 
           <div className="border p-3 rounded-md bg-slate-50">
             <div className="flex flex-col mt-2">
-              <Label className="my-1">Campaign Type</Label>
               <Controller
                 control={control}
                 name={"campaign_type"}
@@ -344,26 +363,29 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Cascader
-                    size={"large"}
-                    placeholder={"Select type of offer"}
-                    className="relative w-full"
-                    allowClear={false}
-                    value={value}
-                    showSearch
-                    options={campaignTypeData}
-                    onChange={(v) => onChange(v?.[0])}
-                    onBlur={onBlur}
-                    status={error ? "error" : ""}
-                  />
+                  <>
+                    <Label className="my-1">
+                      Campaign Type
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Cascader
+                      size={"large"}
+                      placeholder={"Select type of offer"}
+                      className="relative w-full"
+                      allowClear={false}
+                      value={value}
+                      showSearch
+                      options={campaignTypeData}
+                      onChange={(v) => onChange(v?.[0])}
+                      onBlur={onBlur}
+                      status={error ? "error" : ""}
+                    />
+                  </>
                 )}
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="mt-2">
-                <Label isRequired className="my-1">
-                  Amount Type
-                </Label>
                 <Controller
                   control={control}
                   name={"amount_type"}
@@ -372,25 +394,28 @@ const Edit: React.FC = () => {
                     field: { onChange, onBlur, value },
                     fieldState: { error },
                   }) => (
-                    <Cascader
-                      size={"large"}
-                      placeholder={"Select type of offer"}
-                      className="relative w-full"
-                      allowClear={false}
-                      value={value}
-                      showSearch
-                      options={typeData}
-                      onChange={(v) => onChange(v?.[0])}
-                      onBlur={onBlur}
-                      status={error ? "error" : ""}
-                    />
+                    <>
+                      <Label isRequired className="my-1">
+                        Amount Type
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <Cascader
+                        size={"large"}
+                        placeholder={"Select type of offer"}
+                        className="relative w-full"
+                        allowClear={false}
+                        value={value}
+                        showSearch
+                        options={typeData}
+                        onChange={(v) => onChange(v?.[0])}
+                        onBlur={onBlur}
+                        status={error ? "error" : ""}
+                      />
+                    </>
                   )}
                 />
               </div>
               <div className="mt-2">
-                <Label isRequired className="my-1">
-                  Amount
-                </Label>
                 <Controller
                   control={control}
                   name={"amount"}
@@ -399,38 +424,44 @@ const Edit: React.FC = () => {
                     field: { onChange, onBlur, value },
                     fieldState: { error },
                   }) => (
-                    <Input
-                      size={"large"}
-                      placeholder={"Enter an amount"}
-                      className="w-full"
-                      allowClear={false}
-                      value={value}
-                      prefix={
-                        watch("amount_type") === "percentage" ? (
-                          <Icon
-                            className="text-2xl text-text-light mr-2"
-                            icon={"mdi:percent-box"}
-                          />
-                        ) : watch("amount_type") === "amount" ? (
-                          <Icon
-                            className="text-2xl text-text-light mr-2"
-                            icon={"tabler:currency-taka"}
-                          />
-                        ) : (
-                          ""
-                        )
-                      }
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      status={error ? "error" : ""}
-                    />
+                    <>
+                      <Label isRequired className="my-1">
+                        Amount
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <Input
+                        size={"large"}
+                        placeholder={"Enter an amount"}
+                        className="w-full"
+                        allowClear={false}
+                        value={value}
+                        prefix={
+                          watch("amount_type") === "percentage" ? (
+                            <Icon
+                              className="text-2xl text-text-light mr-2"
+                              icon={"mdi:percent-box"}
+                            />
+                          ) : watch("amount_type") === "amount" ? (
+                            <Icon
+                              className="text-2xl text-text-light mr-2"
+                              icon={"tabler:currency-taka"}
+                            />
+                          ) : (
+                            ""
+                          )
+                        }
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        status={error ? "error" : ""}
+                        // suffix={<ErrorSuffix error={error} />}
+                      />
+                    </>
                   )}
                 />
               </div>
             </div>
 
             <div className="mt-2">
-              <Label className="my-1">Start & End Date </Label>
               <Controller
                 control={control}
                 name={"range"}
@@ -438,45 +469,48 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <DatePicker.RangePicker
-                    bordered={true}
-                    size={"large"}
-                    allowClear={false}
-                    allowEmpty={[false, false]}
-                    className="w-full min-w-[250px]"
-                    presets={[
-                      {
-                        label: "Today",
-                        value: [moment(), moment()],
-                      },
-                      {
-                        label: "Tomorrow",
-                        value: [
-                          moment().add(1, "days"),
-                          moment().add(1, "days"),
-                        ],
-                      },
-                      {
-                        label: "Next 7 Days",
-                        value: [moment().add(7, "days"), moment()],
-                      },
-                      {
-                        label: "Next 30 Days",
-                        value: [moment().add(30, "days"), moment()],
-                      },
-                      {
-                        label: "Next 6 Months",
-                        value: [moment().add(6, "months"), moment()],
-                      },
-                      {
-                        label: "Next 1 Year",
-                        value: [moment().add(1, "year"), moment()],
-                      },
-                    ]}
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={onChange}
-                  />
+                  <>
+                    <Label className="my-1">Start & End Date</Label>
+                    <DatePicker.RangePicker
+                      bordered={true}
+                      size={"large"}
+                      allowClear={false}
+                      allowEmpty={[false, false]}
+                      className="w-full min-w-[250px]"
+                      presets={[
+                        {
+                          label: "Today",
+                          value: [moment(), moment()],
+                        },
+                        {
+                          label: "Tomorrow",
+                          value: [
+                            moment().add(1, "days"),
+                            moment().add(1, "days"),
+                          ],
+                        },
+                        {
+                          label: "Next 7 Days",
+                          value: [moment().add(7, "days"), moment()],
+                        },
+                        {
+                          label: "Next 30 Days",
+                          value: [moment().add(30, "days"), moment()],
+                        },
+                        {
+                          label: "Next 6 Months",
+                          value: [moment().add(6, "months"), moment()],
+                        },
+                        {
+                          label: "Next 1 Year",
+                          value: [moment().add(1, "year"), moment()],
+                        },
+                      ]}
+                      value={value}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                    />
+                  </>
                 )}
               />
             </div>
