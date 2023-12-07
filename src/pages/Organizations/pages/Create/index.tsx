@@ -9,10 +9,13 @@ import { Link } from "react-router-dom";
 import { useCreateOrganization } from "@/queries/organizations";
 import { IOption } from "@/queries/organizations/type";
 import Iconify from "@components/iconify";
+import { organizationCreateResolver } from "./resolver";
+import { joiResolver } from "@hookform/resolvers/joi";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
 
 const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(organizationCreateResolver),
   });
   const { mutateAsync: create, isLoading: organizationCreating } =
     useCreateOrganization();
@@ -134,9 +137,6 @@ const Create: React.FC = () => {
         <p className="font-medium mb-2">Organization Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
           <div>
-            <Label isRequired className="my-1">
-              Name
-            </Label>
             <Controller
               control={control}
               name={"name"}
@@ -145,22 +145,25 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"Enter Organization Name"}
-                  size={"large"}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Name
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"Enter Organization Name"}
+                    size={"large"}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label isRequired className="my-1">
-              Number
-            </Label>
             <Controller
               control={control}
               name={"contact_number"}
@@ -169,22 +172,25 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"Number"}
-                  size={"large"}
-                  className="relative w-full"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Number
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"Number"}
+                    size={"large"}
+                    className="relative w-full"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label isRequired className="my-1">
-              Email
-            </Label>
             <Controller
               control={control}
               name={"contact_email"}
@@ -193,22 +199,25 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"Email"}
-                  size={"large"}
-                  className="relative w-full"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Email
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"Email"}
+                    size={"large"}
+                    className="relative w-full"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label isRequired className="my-1">
-              Business Type
-            </Label>
             <Controller
               control={control}
               name={"businessType"}
@@ -217,18 +226,24 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Cascader
-                  size={"large"}
-                  placeholder={"Search Organization Type, Subtype.."}
-                  className="relative w-full"
-                  allowClear={false}
-                  value={value}
-                  showSearch
-                  options={typeData}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label isRequired className="my-1">
+                    Business Type
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Cascader
+                    size={"large"}
+                    placeholder={"Search Organization Type, Subtype.."}
+                    className="relative w-full"
+                    allowClear={false}
+                    value={value}
+                    showSearch
+                    options={typeData}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
@@ -238,7 +253,6 @@ const Create: React.FC = () => {
 
         <div className="border p-3 rounded-md bg-slate-50">
           <div>
-            <Label className="my-1">Website Link</Label>
             <Controller
               control={control}
               name={"website_url"}
@@ -247,23 +261,31 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"eg: https://www.mywebsite.com"}
-                  size={"large"}
-                  className="relative w-full"
-                  prefix={
-                    <Iconify icon="ph:globe-light" className="text-2xl mr-1" />
-                  }
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label className="my-1">
+                    Website Link
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"eg: https://www.mywebsite.com"}
+                    size={"large"}
+                    className="relative w-full"
+                    prefix={
+                      <Iconify
+                        icon="ph:globe-light"
+                        className="text-2xl mr-1"
+                      />
+                    }
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label className="my-1">LinkedIn</Label>
             <Controller
               control={control}
               name={"linkedin_url"}
@@ -272,23 +294,31 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"eg: https://www.linkedin.com/in/username/"}
-                  size={"large"}
-                  className="relative w-full"
-                  prefix={
-                    <Iconify icon="circum:linkedin" className="text-2xl mr-1" />
-                  }
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label className="my-1">
+                    LinkedIn
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"eg: https://www.linkedin.com/in/username/"}
+                    size={"large"}
+                    className="relative w-full"
+                    prefix={
+                      <Iconify
+                        icon="circum:linkedin"
+                        className="text-2xl mr-1"
+                      />
+                    }
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label className="my-1">Facebook</Label>
             <Controller
               control={control}
               name={"facebook_url"}
@@ -297,26 +327,31 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"eg: https://www.facebook.com/username/"}
-                  size={"large"}
-                  className="relative w-full"
-                  prefix={
-                    <Iconify
-                      icon="ant-design:facebook-outlined"
-                      className="text-2xl mr-1"
-                    />
-                  }
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label className="my-1">
+                    Facebook
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"eg: https://www.facebook.com/username/"}
+                    size={"large"}
+                    className="relative w-full"
+                    prefix={
+                      <Iconify
+                        icon="ant-design:facebook-outlined"
+                        className="text-2xl mr-1"
+                      />
+                    }
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>
           <div>
-            <Label className="my-1">Instagram</Label>
             <Controller
               control={control}
               name={"instagram_url"}
@@ -325,21 +360,27 @@ const Create: React.FC = () => {
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
-                <Input
-                  placeholder={"eg: https://www.instagram.com/username"}
-                  size={"large"}
-                  className="relative w-full"
-                  prefix={
-                    <Iconify
-                      icon="iconoir:instagram"
-                      className="text-2xl mr-1"
-                    />
-                  }
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  status={error ? "error" : ""}
-                />
+                <>
+                  <Label className="my-1">
+                    Instagram
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <Input
+                    placeholder={"eg: https://www.instagram.com/username"}
+                    size={"large"}
+                    className="relative w-full"
+                    prefix={
+                      <Iconify
+                        icon="iconoir:instagram"
+                        className="text-2xl mr-1"
+                      />
+                    }
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    status={error ? "error" : ""}
+                  />
+                </>
               )}
             />
           </div>

@@ -1,5 +1,12 @@
 import React from "react";
-import { Input, Divider, Button as AntButton, Spin, Popconfirm } from "antd";
+import {
+  Input,
+  Divider,
+  Button as AntButton,
+  Spin,
+  Popconfirm,
+  Tooltip,
+} from "antd";
 import {
   Controller,
   //  FieldValues,
@@ -15,6 +22,8 @@ import {
   useGetUsersById,
   useSuspendUser,
 } from "@/queries/users";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
+import { Icon } from "@iconify/react";
 
 const Security: React.FC = () => {
   const {
@@ -100,18 +109,16 @@ const Security: React.FC = () => {
               <>
                 <Label className="mb-2">
                   New Password
-                  {/* {error ? (
+                  {error ? (
                     <ErrorSuffix error={error} />
                   ) : (
                     <Tooltip
                       title={"Password should be atleast 6 characters long."}
-                       placement="topLeft"
+                      placement="topLeft"
                     >
-                       <Icon color={"action"} className="text-base mb-1">
-                        <AiFillInfoCircle />
-                      </Icon> 
+                      <Icon icon="ph:info-fill" />
                     </Tooltip>
-                  )}  */}
+                  )}
                 </Label>
                 <Input.Password
                   readOnly
@@ -136,7 +143,7 @@ const Security: React.FC = () => {
               <>
                 <Label className="my-2">
                   Confirm New Password
-                  {/* {error ? (
+                  {error ? (
                     <ErrorSuffix error={error} />
                   ) : (
                     <Tooltip
@@ -145,7 +152,7 @@ const Security: React.FC = () => {
                     >
                       <Icon icon="ph:info-fill" />
                     </Tooltip>
-                  )} */}
+                  )}
                 </Label>
                 <Input.Password
                   readOnly
