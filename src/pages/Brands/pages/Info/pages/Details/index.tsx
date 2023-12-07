@@ -72,9 +72,12 @@ const Details: React.FC = () => {
             Description
           </p>
           {!!data?.description ? (
-            <p className="text-text-light text-xs font-bold break-words">
-              {data?.description}
-            </p>
+            <p
+              className="pl-6"
+              dangerouslySetInnerHTML={{
+                __html: data?.description,
+              }}
+            ></p>
           ) : (
             "No Description Added"
           )}

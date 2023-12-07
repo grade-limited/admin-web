@@ -16,6 +16,7 @@ import previewAttachment from "@/utilities/s3Attachment";
 import moment from "moment";
 import instance from "@/services";
 import { Icon } from "@iconify/react";
+import JoditEditor from "jodit-react";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -257,14 +258,19 @@ const Edit: React.FC = () => {
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
-                  <Input.TextArea
-                    placeholder={"Enter Description of the Brand"}
-                    size={"large"}
-                    onChange={onChange}
-                    onBlur={onBlur}
+                  <JoditEditor
                     value={value}
-                    status={error ? "error" : ""}
-                    //   suffix={<ErrorSuffix error={error} />}
+                    config={{
+                      statusbar: false,
+                      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+                      // placeholder: "Aa...",
+                      removeButtons: ["image"],
+                    }}
+                    // tabIndex={1} // tabIndex of textarea
+                    onBlur={(x) => {
+                      onChange(x);
+                    }} // preferred to use only this option to update the content for performance reasons
+                    onChange={() => {}}
                   />
                 )}
               />

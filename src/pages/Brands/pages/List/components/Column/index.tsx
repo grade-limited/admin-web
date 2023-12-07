@@ -97,18 +97,6 @@ const Column = (): GridColDef[] => {
       //   );
       // },
     },
-    {
-      headerName: "Description",
-      headerAlign: "center",
-      field: "description",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.description ? <p>{data?.row?.description}</p> : "-",
-    },
 
     {
       headerName: "Created At",

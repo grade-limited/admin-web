@@ -133,20 +133,21 @@ const Details: React.FC = () => {
             {data?.end_date ? <>{moment(data?.end_date).format("ll")}</> : "-"}
           </p>
         </div>
-        {data?.description ? (
-          <>
-            <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl my-3">
-              <div className="col-span-3">
-                <p className="flex flex-row items-center font-semibold text-base pb-3">
-                  Info
-                </p>
-              </div>
-              <p>{data?.description}</p>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
+        <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
+          <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px] pb-3">
+            Description
+          </p>
+          {!!data?.description ? (
+            <p
+              className="pl-6"
+              dangerouslySetInnerHTML={{
+                __html: data?.description,
+              }}
+            ></p>
+          ) : (
+            "No Description Added"
+          )}
+        </div>
       </div>
     </Spin>
   );
