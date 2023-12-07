@@ -133,7 +133,7 @@ const Details: React.FC = () => {
           }}
           pageSizeOptions={[10, 25, 50, 100, 200]}
           paginationMode={"server"}
-          onRowDoubleClick={(row) => navigate(`/app/categpries/i/${row.id}`)}
+          onRowDoubleClick={(row) => navigate(`/app/categories/i/${row.id}`)}
           disableRowSelectionOnClick
           disableColumnFilter
         />

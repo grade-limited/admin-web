@@ -73,7 +73,6 @@ const Details: React.FC = () => {
           </p>
           {!!data?.description ? (
             <p
-              className="pl-6"
               dangerouslySetInnerHTML={{
                 __html: data?.description,
               }}
