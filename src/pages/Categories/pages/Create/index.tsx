@@ -316,6 +316,7 @@ const Create: React.FC = () => {
 									// onSearch={searchCategory}
 									loading={isCategoryLoading}
 									status={error ? "error" : ""}
+									expandTrigger="hover"
 								/>
 							)}
 						/>
