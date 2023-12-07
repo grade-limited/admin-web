@@ -28,7 +28,7 @@ export const EmployeeCreateResolver = Joi.object({
     .allow(null)
     .trim(),
   address: Joi.string().label("Addess").trim(),
-  dob: Joi.date().label("Date of Birth"),
+  dob: Joi.any().label("Date of Birth"),
   password: Joi.string().label("Password").min(6).required().trim(),
   role_id: Joi.string().label("Role"),
   max_session: Joi.string().label("Maximum Device"),

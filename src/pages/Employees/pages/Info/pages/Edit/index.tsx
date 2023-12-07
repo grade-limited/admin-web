@@ -6,7 +6,6 @@ import {
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
 import {
-  DatePicker,
   Input,
   Select,
   Spin,
@@ -17,7 +16,6 @@ import {
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import * as dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import Iconify from "@components/iconify";
@@ -29,6 +27,7 @@ import { stringAvatar } from "@/utilities/stringAvatar";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { EmployeeUpdateResolver } from "./resolver";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
+import DatePicker from "@components/antd/DatePicker";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -289,7 +288,7 @@ const Edit: React.FC = () => {
                       placeholder="Date of Birth"
                       onChange={onChange}
                       onBlur={onBlur}
-                      value={value ? dayjs(value) : null}
+                      value={value ? moment(value) : null}
                     />
                   </>
                 )}

@@ -1,7 +1,6 @@
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
 import {
-  DatePicker,
   Input,
   Select,
   Spin,
@@ -12,11 +11,9 @@ import {
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import * as dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import previewAttachment from "@/utilities/s3Attachment";
-import { stringAvatar } from "@/utilities/stringAvatar";
 import moment from "moment";
 import { useGetUsersById, useUpdateUsersById } from "@/queries/users";
 import instance from "@/services";
@@ -24,6 +21,7 @@ import { Icon } from "@iconify/react";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
 import { userUpdateResolver } from "./resolver";
 import { joiResolver } from "@hookform/resolvers/joi";
+import DatePicker from "@components/antd/DatePicker";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -95,7 +93,7 @@ const Edit: React.FC = () => {
             className="rounded-2xl w-32 h-32 aspect-square"
             src={previewAttachment(data?.display_picture)}
             alt={[data?.first_name, data?.last_name].join(" ")}
-            {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
+            // {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
           />
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
@@ -285,7 +283,7 @@ const Edit: React.FC = () => {
                       placeholder="Date of Birth"
                       onChange={onChange}
                       onBlur={onBlur}
-                      value={value ? dayjs(value) : null}
+                      value={value ? moment(value) : null}
                     />
                   </>
                 )}

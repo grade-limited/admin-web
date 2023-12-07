@@ -9,7 +9,7 @@ export const userUpdateResolver = Joi.object({
   first_name: Joi.string().required().label("First Name").trim(),
   last_name: Joi.string().required().label("Last Name").trim(),
   gender: Joi.string().label("Gender").trim(),
-  dob: Joi.date().label("Date of Birth"),
+  dob: Joi.any().label("Date of Birth"),
   email: Joi.string()
     .pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
     .label("Email")

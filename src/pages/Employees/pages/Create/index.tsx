@@ -6,7 +6,6 @@ import { message } from "@components/antd/message";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
 import {
-  DatePicker,
   Divider,
   Input,
   Select,
@@ -15,7 +14,6 @@ import {
 } from "antd";
 import Iconify from "@components/iconify";
 import { Button } from "@mui/material";
-import * as dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import instance from "@/services";
 import previewAttachment from "@/utilities/s3Attachment";
@@ -23,6 +21,8 @@ import { Icon } from "@iconify/react";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { EmployeeCreateResolver } from "./resolver";
+import moment from "moment";
+import DatePicker from "@components/antd/DatePicker";
 
 const Create: React.FC = () => {
   // Get Roles
@@ -250,7 +250,7 @@ const Create: React.FC = () => {
                     placeholder="Date of Birth"
                     onChange={onChange}
                     onBlur={onBlur}
-                    value={value ? dayjs(value) : null}
+                    value={value ? moment(value) : null}
                   />
                 </>
               )}
