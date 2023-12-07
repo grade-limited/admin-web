@@ -22,10 +22,8 @@ import useSearchCategory from "@/hooks/useSearchCategory";
 import JoditEditor from "jodit-react";
 
 const Create: React.FC = () => {
-	// const { brand, isBrandLoading, searchBrand } = useBrand();
 	const [messageApi, contextHolder] = message.useMessage();
 
-	// const { category, isCategoryLoading, searchCategory } = useCategory();
 	const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
 	const { handleSubmit, control, reset } = useForm({
 		// resolver: joiResolver(loginResolver),
