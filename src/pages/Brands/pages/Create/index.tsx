@@ -11,10 +11,12 @@ import { Icon } from "@iconify/react";
 import previewAttachment from "@/utilities/s3Attachment";
 import instance from "@/services";
 import JoditEditor from "jodit-react";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { brandCreateResolver } from "./resolver";
 
 const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(brandCreateResolver),
   });
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -194,7 +196,9 @@ const Create: React.FC = () => {
             </span>
           </div>
           <div>
-            <Label className="my-1">Brand Name</Label>
+            <Label isRequired className="my-1">
+              Brand Name
+            </Label>
             <Controller
               control={control}
               name={"name"}

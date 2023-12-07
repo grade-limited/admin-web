@@ -16,7 +16,9 @@ import previewAttachment from "@/utilities/s3Attachment";
 import moment from "moment";
 import instance from "@/services";
 import { Icon } from "@iconify/react";
+import { joiResolver } from "@hookform/resolvers/joi";
 import JoditEditor from "jodit-react";
+import { loginResolver } from "@pages/Login/resolver";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,7 +31,7 @@ const Edit: React.FC = () => {
     reset,
     formState: { isDirty },
   } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(loginResolver),
   });
   const [brandInfo, setBrandInfo] = React.useState<any>([]);
   const { mutateAsync: update, isLoading: isBrandUpdating } =

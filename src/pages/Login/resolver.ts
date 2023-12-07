@@ -7,7 +7,8 @@ export const loginResolver = Joi.object({
     .required()
     .messages({
       "string.pattern.base": "Invalid Phone Number",
-    }),
-  password: Joi.string().label("Password").min(6).required(),
+    })
+    .trim(),
+  password: Joi.string().label("Password").min(6).required().trim(),
   remember: Joi.boolean().default(true),
 });
