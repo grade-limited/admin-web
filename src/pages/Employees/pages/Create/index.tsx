@@ -291,7 +291,6 @@ const Create: React.FC = () => {
             <Controller
               control={control}
               name={"phone"}
-              rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value },
                 fieldState: { error },

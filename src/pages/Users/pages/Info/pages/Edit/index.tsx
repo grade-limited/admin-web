@@ -387,7 +387,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label className="my-1">
+                    <Label isRequired className="my-1">
                       Maximum Device
                       <ErrorSuffix error={error} size="small" />
                     </Label>

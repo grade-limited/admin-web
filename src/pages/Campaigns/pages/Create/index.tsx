@@ -370,7 +370,6 @@ const Create: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    \
                     <Label isRequired className="my-1">
                       Amount
                       <ErrorSuffix error={error} size="small" />

@@ -172,13 +172,12 @@ const Edit: React.FC = () => {
               <Controller
                 control={control}
                 name={"name"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label className="my-1">
+                    <Label isRequired className="my-1">
                       Name
                       <ErrorSuffix error={error} size="small" />
                     </Label>
@@ -199,7 +198,6 @@ const Edit: React.FC = () => {
               <Controller
                 control={control}
                 name={"contact_number"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
@@ -226,7 +224,6 @@ const Edit: React.FC = () => {
               <Controller
                 control={control}
                 name={"contact_email"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
@@ -253,13 +250,12 @@ const Edit: React.FC = () => {
               <Controller
                 control={control}
                 name={"businessType"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label className="my-1">
+                    <Label isRequired className="my-1">
                       Business Type
                       <ErrorSuffix error={error} size="small" />
                     </Label>

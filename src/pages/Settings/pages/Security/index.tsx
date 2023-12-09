@@ -14,8 +14,7 @@ const Security: React.FC = () => {
   const { reset, handleSubmit, control } = useForm({
     // resolver: joiResolver(loginResolver),
   });
-  const { mutateAsync: updatePassword, isLoading: isSubmitting } =
-    useUpdatePassword();
+  const { mutateAsync: updatePassword } = useUpdatePassword();
 
   const onValid = async (d: FieldValues) => {
     messageApi.open({
@@ -130,7 +129,7 @@ const Security: React.FC = () => {
             fullWidth
             className="mt-5 bg-slate-600"
             type="submit"
-            disabled={isSubmitting}
+            disabled
           >
             Create New Password
           </Button>

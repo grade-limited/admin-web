@@ -174,7 +174,7 @@ const Create: React.FC = () => {
               }) => (
                 <>
                   <Label isRequired className="my-1">
-                    Number
+                    Contact Number
                     <ErrorSuffix error={error} size="small" />
                   </Label>
                   <Input
@@ -201,7 +201,7 @@ const Create: React.FC = () => {
               }) => (
                 <>
                   <Label isRequired className="my-1">
-                    Email
+                    Contact Email
                     <ErrorSuffix error={error} size="small" />
                   </Label>
                   <Input

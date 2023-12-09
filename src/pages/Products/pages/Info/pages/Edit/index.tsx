@@ -39,10 +39,13 @@ const Edit: React.FC = () => {
     handleSubmit,
     control,
     reset,
+    getValues,
     formState: { isDirty },
   } = useForm({
     resolver: joiResolver(productUpdateResolver),
   });
+  console.log(getValues());
+
   const [productInfo, setProductInfo] = React.useState<any>([]);
   const { mutateAsync: update, isLoading: isProductUpdating } =
     useUpdateProductsById();
@@ -195,7 +198,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label>
+                    <Label isRequired>
                       Name
                       <ErrorSuffix error={error} size="small" />
                     </Label>
@@ -221,7 +224,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label>
+                    <Label className="my-1">
                       Description
                       <ErrorSuffix error={error} size="small" />
                     </Label>
@@ -272,7 +275,7 @@ const Edit: React.FC = () => {
                       className="w-full"
                       placeholder={"Select a Brand..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={onChange}
+                      onChange={(v) => onChange(v?.[0])}
                       options={brand}
                       onSearch={searchBrand}
                       loading={isBrandLoading}
@@ -291,7 +294,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label className="my-1">
+                    <Label isRequired className="my-1">
                       Category
                       <ErrorSuffix error={error} size="small" />
                     </Label>

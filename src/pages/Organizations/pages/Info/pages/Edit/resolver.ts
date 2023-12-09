@@ -20,23 +20,31 @@ export const organizationUpdateResolver = Joi.object({
     .allow("")
     .allow(null)
     .trim(),
-  businessType: Joi.string().label("Business Type").trim(),
+  businessType: Joi.array().label("Business Type").required(),
   website_url: Joi.string()
     .label("Website Link")
     .pattern(
       /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-    ),
+    )
+    .allow("")
+    .allow(null),
   linkedin_url: Joi.string()
     .pattern(
       /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
     )
-    .label("LinkedIn"),
+    .label("LinkedIn")
+    .allow("")
+    .allow(null),
   facebook_url: Joi.string()
     .pattern(
       /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/
     )
-    .label("Facebook"),
+    .label("Facebook")
+    .allow("")
+    .allow(null),
   instagram_url: Joi.string()
     .pattern(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/)
-    .label("Instagram"),
+    .label("Instagram")
+    .allow("")
+    .allow(null),
 });

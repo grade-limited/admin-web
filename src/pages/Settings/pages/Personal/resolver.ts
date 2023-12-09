@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const EmployeeUpdateResolver = Joi.object({
+export const UpdateResolver = Joi.object({
   display_picture: Joi.string()
     .label("Display Image")
     .trim()

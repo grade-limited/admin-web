@@ -275,7 +275,7 @@ const Edit: React.FC = () => {
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label>
+                    <Label className="my-2">
                       Description
                       <ErrorSuffix error={error} size="small" />
                     </Label>

@@ -8,5 +8,5 @@ export const brandCreateResolver = Joi.object({
     .allow(null),
   cover_url: Joi.string().label("Cover Image").trim().allow("").allow(null),
   name: Joi.string().required().label("Brand Name").trim(),
-  description: Joi.string().label("Description").trim(),
+  description: Joi.string().label("Description").trim().allow("").allow(null),
 });

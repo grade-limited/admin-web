@@ -28,6 +28,6 @@ export const userUpdateResolver = Joi.object({
     .allow("")
     .allow(null)
     .trim(),
-  address: Joi.string().label("Address").trim(),
-  max_session: Joi.number().label("Maximum Device"),
+  address: Joi.string().label("Address").trim().allow("").allow(null),
+  max_session: Joi.number().label("Maximum Device").min(1).required(),
 });

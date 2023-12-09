@@ -153,7 +153,7 @@ const Create: React.FC = () => {
                 fieldState: { error },
               }) => (
                 <>
-                  <Label className="my-1">
+                  <Label isRequired className="my-1">
                     Product Name
                     <ErrorSuffix error={error} size="small" />
                   </Label>
@@ -250,7 +250,7 @@ const Create: React.FC = () => {
                 fieldState: { error },
               }) => (
                 <>
-                  <Label className="my-1">
+                  <Label isRequired className="my-1">
                     Category
                     <ErrorSuffix error={error} size="small" />
                   </Label>

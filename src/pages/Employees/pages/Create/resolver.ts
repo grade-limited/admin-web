@@ -24,8 +24,7 @@ export const EmployeeCreateResolver = Joi.object({
     .messages({
       "string.pattern.base": "Invalid Phone Number",
     })
-    .allow("")
-    .allow(null)
+    .required()
     .trim(),
   address: Joi.string().label("Addess").trim(),
   dob: Joi.any().label("Date of Birth"),

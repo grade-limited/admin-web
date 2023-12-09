@@ -5,8 +5,6 @@ import handleResponse from "@/utilities/handleResponse";
 import { useUpdateUserInfo } from "@/queries/auth";
 import {
   Input,
-  Tooltip,
-  DatePicker,
   Segmented,
   Button as AntButton,
   Upload as AntUpload,
@@ -15,10 +13,14 @@ import {
 import { Button } from "@mui/material";
 import useUser from "@/hooks/useUser";
 import { Icon } from "@iconify/react";
-import dayjs from "dayjs";
 import Label from "@components/Label";
 import previewAttachment from "@/utilities/s3Attachment";
 import instance from "@/services";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { UpdateResolver } from "./resolver";
+import ErrorSuffix from "@components/antd/ErrorSuffix";
+import moment from "moment";
+import DatePicker from "@components/antd/DatePicker";
 
 const Personal: React.FC = () => {
   const user = useUser();
@@ -29,7 +31,7 @@ const Personal: React.FC = () => {
     control,
     formState: { isDirty },
   } = useForm({
-    // resolver: joiResolver(loginResolver),
+    resolver: joiResolver(UpdateResolver),
   });
   const { mutateAsync: updateUser, isLoading: isSubmitting } =
     useUpdateUserInfo();
@@ -82,7 +84,7 @@ const Personal: React.FC = () => {
       {contextHolder}
       <div className="container max-w-sm mx-auto ">
         <form onSubmit={handleSubmit(onValid)}>
-          <Label isRequired>Display Image</Label>
+          <Label>Display Image</Label>
           <Controller
             control={control}
             name={"display_picture"}
@@ -141,7 +143,10 @@ const Personal: React.FC = () => {
               </AntUpload>
             )}
           />
-          <Label className="flex flex-row items-center gap-1 mt-2 my-1 text-text-dark">
+          <Label
+            isRequired
+            className="flex flex-row items-center gap-1 mt-2 my-1 text-text-dark"
+          >
             Full Name
           </Label>
           <Input.Group compact>
@@ -161,7 +166,7 @@ const Personal: React.FC = () => {
                   onBlur={onBlur}
                   value={value}
                   status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
+                  suffix={<ErrorSuffix error={error} />}
                 />
               )}
             />
@@ -181,7 +186,7 @@ const Personal: React.FC = () => {
                   onBlur={onBlur}
                   value={value}
                   status={error ? "error" : ""}
-                  //   suffix={<ErrorSuffix error={error} />}
+                  suffix={<ErrorSuffix error={error} />}
                 />
               )}
             />
@@ -206,19 +211,13 @@ const Personal: React.FC = () => {
                 onBlur={onBlur}
                 value={value}
                 status={error ? "error" : ""}
-                //   suffix={<ErrorSuffix error={error} />}
+                suffix={<ErrorSuffix error={error} />}
               />
             )}
           />
 
           <Label className="flex flex-row items-center gap-1 mt-2 my-1 text-text-dark">
             Email
-            <Tooltip
-              title={"Please enter a valid email address"}
-              placement="rightTop"
-            >
-              <Icon icon="ph:info-fill" />
-            </Tooltip>
           </Label>
           <Controller
             control={control}
@@ -235,7 +234,7 @@ const Personal: React.FC = () => {
                 onBlur={onBlur}
                 value={value}
                 status={error ? "error" : ""}
-                //   suffix={<ErrorSuffix error={error} />}
+                suffix={<ErrorSuffix error={error} />}
               />
             )}
           />
@@ -287,9 +286,9 @@ const Personal: React.FC = () => {
                 placeholder="Date of Birth"
                 onChange={onChange}
                 onBlur={onBlur}
-                value={dayjs(value)}
                 status={error ? "error" : ""}
                 className="w-full"
+                value={value ? moment(value) : null}
               />
             )}
           />
