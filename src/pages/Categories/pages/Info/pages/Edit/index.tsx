@@ -12,6 +12,7 @@ import {
   Upload as AntUpload,
   Button as AntButton,
   Image,
+  ColorPicker,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -80,6 +81,7 @@ const Edit: React.FC = () => {
       thumbnail_url: categoryInfo?.thumbnail_url,
       cover_url: categoryInfo?.cover_url,
       icon_url: categoryInfo?.icon_url,
+      color_code: categoryInfo?.color_code,
       parent_hierarchy: JSON.parse(
         JSON.stringify([
           categoryInfo?.parent?.parent_id,
@@ -355,6 +357,29 @@ const Edit: React.FC = () => {
               </span>
             </div>
             <div>
+              <Controller
+                control={control}
+                name={"color_code"}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <>
+                    <Label className="my-1">
+                      Thumbnail Color
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <ColorPicker
+                      size={"large"}
+                      onChange={(_v, hex) => onChange(hex)}
+                      value={value}
+                      defaultFormat="hex"
+                      format="hex"
+                      //   suffix={<ErrorSuffix error={error} />}
+                    />
+                  </>
+                )}
+              />
               <Controller
                 control={control}
                 name={"name"}

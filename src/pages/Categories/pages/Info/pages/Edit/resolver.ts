@@ -11,5 +11,6 @@ export const categoryUpdateResolver = Joi.object({
   name: Joi.string().required().label("Category Name").trim(),
   description: Joi.string().label("Description").trim().allow("").allow(null),
   parent_id: Joi.any().label("Parent Category").allow(null),
+  color_code: Joi.string().label("Thumbnail Color").allow(null),
   parent_hierarchy: Joi.any().label("Parent Category").allow(null),
 });

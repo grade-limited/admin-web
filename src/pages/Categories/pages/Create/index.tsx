@@ -9,6 +9,7 @@ import {
   Input,
   Upload as AntUpload,
   Button as AntButton,
+  ColorPicker,
 } from "antd";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -218,6 +219,7 @@ const Create: React.FC = () => {
                 )}
               />
             </span>
+
             <span>
               <Controller
                 control={control}
@@ -289,6 +291,29 @@ const Create: React.FC = () => {
             </span>
           </div>
           <div>
+            <Controller
+              control={control}
+              name={"color_code"}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <Label className="my-1">
+                    Thumbnail Color
+                    <ErrorSuffix error={error} size="small" />
+                  </Label>
+                  <ColorPicker
+                    size={"large"}
+                    onChange={(_v, hex) => onChange(hex)}
+                    value={value}
+                    defaultFormat="hex"
+                    format="hex"
+                    //   suffix={<ErrorSuffix error={error} />}
+                  />
+                </>
+              )}
+            />
             <Controller
               control={control}
               name={"name"}

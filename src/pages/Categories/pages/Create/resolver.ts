@@ -11,5 +11,6 @@ export const categoryCreateResolver = Joi.object({
   name: Joi.string().required().label("Category Name").trim(),
   description: Joi.string().label("Description").trim().allow("").allow(null),
   parent_id: Joi.any().label("Parent Category").allow(null),
-  parent_hierarchy: Joi.any().label("Parent Category").allow(null),
+  parent_hierarchy: Joi.any().label("Parent Hierarchy").allow(null),
+  color_code: Joi.any().label("Color").allow(null),
 });

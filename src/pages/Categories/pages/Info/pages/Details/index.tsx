@@ -96,21 +96,21 @@ const Details: React.FC = () => {
         ) : (
           ""
         )}
-        <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
-          <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px] pb-3">
-            Description
-          </p>
-          {!!data?.description ? (
+        {!!data?.description ? (
+          <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
+            <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px] pb-3">
+              Description
+            </p>
             <p
               className=""
               dangerouslySetInnerHTML={{
                 __html: data?.description,
               }}
             ></p>
-          ) : (
-            "No Description Added"
-          )}
-        </div>
+          </div>
+        ) : (
+          "No Description Added"
+        )}
       </div>
     </Spin>
   );
