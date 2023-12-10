@@ -49,9 +49,10 @@ const AppDrawer: React.FC<{ open: boolean; toggleDrawer: () => void }> = ({
             src={"/favicon.svg"}
             sx={{
               position: "relative",
-              width: "53px",
+              width: open ? "0px" : "53px",
               height: "auto",
-              p: 0.8,
+              p: open ? 0 : 0.8,
+              transition: "all 0.5s ease-in-out",
             }}
           />
           <Avatar
@@ -62,9 +63,9 @@ const AppDrawer: React.FC<{ open: boolean; toggleDrawer: () => void }> = ({
               width: open ? "150px" : "0px",
               height: "auto",
               p: open ? 0.8 : 0,
-              transition: "all 0.3s ease-in-out",
+              transition: "all 0.5s ease-in-out",
             }}
-            className="mix-blend-difference"
+            // className="mix-blend-difference"
           />
         </DrawerHeader>
         <Divider variant="middle" sx={{ mb: 1 }} />

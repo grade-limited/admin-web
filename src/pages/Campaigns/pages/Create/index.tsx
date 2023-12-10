@@ -334,13 +334,12 @@ const Create: React.FC = () => {
               <Controller
                 control={control}
                 name={"amount_type"}
-                rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label isRequired className="my-1">
+                    <Label className="my-1">
                       Amount Type
                       <ErrorSuffix error={error} size="small" />
                     </Label>
@@ -348,7 +347,7 @@ const Create: React.FC = () => {
                       size={"large"}
                       placeholder={"Select type of offer"}
                       className="relative w-full"
-                      allowClear={false}
+                      allowClear={true}
                       value={value}
                       showSearch
                       options={typeData}
@@ -364,13 +363,12 @@ const Create: React.FC = () => {
               <Controller
                 control={control}
                 name={"amount"}
-                rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
                 }) => (
                   <>
-                    <Label isRequired className="my-1">
+                    <Label className="my-1">
                       Amount
                       <ErrorSuffix error={error} size="small" />
                     </Label>
