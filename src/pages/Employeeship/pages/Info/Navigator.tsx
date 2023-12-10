@@ -14,11 +14,6 @@ const items: MenuProps["items"] = [
     icon: <Icon icon="ic:twotone-person-pin" className="text-xl" />,
   },
   {
-    label: "Employees",
-    key: ROUTES.EMPLOYEESHIP,
-    icon: <Icon icon="clarity:employee-group-solid" className="text-xl" />,
-  },
-  {
     label: "Settings",
     key: ROUTES.SETTINGS,
     icon: <Icon icon="ic:twotone-settings" className="text-xl" />,

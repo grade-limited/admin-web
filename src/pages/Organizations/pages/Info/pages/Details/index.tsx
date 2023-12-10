@@ -104,15 +104,15 @@ const Details: React.FC = () => {
                 Social Info
               </p>
             </div>
-            <p>Id</p>
+            <p>Website</p>
             <p className="col-span-2">: {data?.website_url}</p>
-            <p>Name</p>
+            <p>LinkedIn</p>
             <p className="col-span-2">: {data?.linkedin_url}</p>
 
-            <p>Created At</p>
+            <p>Facebook</p>
             <p className="col-span-2">: {data?.facebook_url} </p>
 
-            <p>Updated At</p>
+            <p>Instagram</p>
             <p className="col-span-2">: {data?.instagram_url}</p>
           </div>
         </div>

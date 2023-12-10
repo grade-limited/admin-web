@@ -11,10 +11,6 @@ const Routes = [
     Component: lazy(() => import("../pages/Edit")),
   },
   {
-    path: ROUTES.EMPLOYEESHIP,
-    Component: lazy(() => import("../pages/OrgEmployees")),
-  },
-  {
     path: ROUTES.SETTINGS,
     Component: lazy(() => import("../pages/Settings")),
   },
