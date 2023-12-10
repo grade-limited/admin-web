@@ -7,7 +7,7 @@ export const productUpdateResolver = Joi.object({
     .allow("")
     .allow(null),
   name: Joi.string().label("Product Name").trim(),
-  description: Joi.string().label("Description").trim(),
-  brand_id: Joi.number().label("Brand"),
-  category_id: Joi.array().required().label("Category"),
+  description: Joi.string().label("Description").trim().allow(null),
+  brand_id: Joi.number().label("Brand").allow(null),
+  category_id: Joi.number().required().label("Category"),
 });

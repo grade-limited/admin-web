@@ -231,7 +231,7 @@ const Create: React.FC = () => {
                     className="w-full"
                     placeholder={"Select a Brand..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                    onChange={onChange}
+                    onChange={(v) => onChange(v?.[0])}
                     options={brand}
                     onSearch={searchBrand}
                     loading={isBrandLoading}
@@ -261,7 +261,7 @@ const Create: React.FC = () => {
                     className="w-full"
                     placeholder={"Select a Category..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                    onChange={onChange}
+                    onChange={(v) => onChange(v?.[v?.length - 1])}
                     options={category}
                     onSearch={searchCategory}
                     loading={isCategoryLoading}

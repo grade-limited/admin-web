@@ -317,7 +317,7 @@ const Create: React.FC = () => {
                     size={"large"}
                     placeholder={"Select type of offer"}
                     className="relative w-full"
-                    allowClear={false}
+                    allowClear={true}
                     value={value}
                     showSearch
                     options={campaignTypeData}

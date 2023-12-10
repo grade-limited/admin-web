@@ -116,12 +116,16 @@ const Edit: React.FC = () => {
       <div>
         {contextHolder}
         <div className=" flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl max-w-xl mb-4 mx-auto">
-          <Image
-            className="rounded-2xl w-32 h-auto "
-            src={previewAttachment(data?.thumbnail_url)}
-            alt={data?.name}
-            {...stringAvatar(data?.name)}
-          />
+          {data?.thumbnail_url ? (
+            <Image
+              className="rounded-2xl w-32 h-auto "
+              src={previewAttachment(data?.thumbnail_url)}
+              alt={data?.name}
+              {...stringAvatar(data?.name)}
+            />
+          ) : (
+            ""
+          )}
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {data?.name}

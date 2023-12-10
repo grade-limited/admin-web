@@ -16,21 +16,29 @@ const Details: React.FC = () => {
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-3xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 my-3 rounded-3xl">
-          <Image
-            className="rounded-2xl w-full h-auto object-contain"
-            src={previewAttachment(data?.cover_url)}
-            alt={data?.name}
-            {...stringAvatar(data?.name)}
-          />
-        </div>
+        {data?.cover_url ? (
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 my-3 rounded-3xl">
+            <Image
+              className="rounded-2xl w-full h-auto object-contain"
+              src={previewAttachment(data?.cover_url)}
+              alt={data?.name}
+              {...stringAvatar(data?.name)}
+            />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
-          <Image
-            className="rounded-2xl w-32 h-auto "
-            src={previewAttachment(data?.thumbnail_url)}
-            alt={data?.name}
-            {...stringAvatar(data?.name)}
-          />
+          {data?.thumbnail_url ? (
+            <Image
+              className="rounded-2xl w-32 h-auto "
+              src={previewAttachment(data?.thumbnail_url)}
+              alt={data?.name}
+              {...stringAvatar(data?.name)}
+            />
+          ) : (
+            ""
+          )}
 
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
@@ -94,7 +102,7 @@ const Details: React.FC = () => {
           </p>
           {!!data?.description ? (
             <p
-              className="pl-6"
+              className=""
               dangerouslySetInnerHTML={{
                 __html: data?.description,
               }}

@@ -16,15 +16,19 @@ const Details: React.FC = () => {
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-3xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
-          <Image
-            className="rounded-2xl w-24 h-auto object-contain"
-            src={previewAttachment(data?.thumbnail_url)}
-            alt={data?.name}
-            {...stringAvatar(data?.name)}
-          />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 pl-4 rounded-3xl">
+          {data?.thumbnail_url ? (
+            <Image
+              className="rounded-2xl w-24 h-auto object-contain"
+              src={previewAttachment(data?.thumbnail_url)}
+              alt={data?.name}
+              {...stringAvatar(data?.name)}
+            />
+          ) : (
+            ""
+          )}
           <div>
-            <p className="text-2xl font-bold flex flex-row items-center gap-2">
+            <p className="text-2xl font-bold flex flex-row items-center gap-2 ">
               {data?.name}
               <IconButton
                 size="small"

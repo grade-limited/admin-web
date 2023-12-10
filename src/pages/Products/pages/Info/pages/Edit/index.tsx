@@ -39,12 +39,10 @@ const Edit: React.FC = () => {
     handleSubmit,
     control,
     reset,
-    getValues,
     formState: { isDirty },
   } = useForm({
     resolver: joiResolver(productUpdateResolver),
   });
-  console.log(getValues());
 
   const [productInfo, setProductInfo] = React.useState<any>([]);
   const { mutateAsync: update, isLoading: isProductUpdating } =
@@ -96,13 +94,17 @@ const Edit: React.FC = () => {
       <div>
         {contextHolder}
         <div className=" flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl max-w-xl mb-4 mx-auto">
-          <Image
-            className="rounded-2xl w-24 h-auto object-contain"
-            src={previewAttachment(data?.thumbnail_url)}
-            alt={data?.name}
-            {...stringAvatar(data?.name)}
-          />
-          <div>
+          {data?.thumbnail_url ? (
+            <Image
+              className="rounded-2xl w-24 h-auto object-contain"
+              src={previewAttachment(data?.thumbnail_url)}
+              alt={data?.name}
+              {...stringAvatar(data?.name)}
+            />
+          ) : (
+            ""
+          )}
+          <div className="pl-2">
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {data?.name}
             </p>
@@ -306,7 +308,7 @@ const Edit: React.FC = () => {
                       className="w-full"
                       placeholder={"Select a Category..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={onChange}
+                      onChange={(v) => onChange(v?.[v?.length - 1])}
                       options={category}
                       onSearch={searchCategory}
                       loading={isCategoryLoading}

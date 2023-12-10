@@ -134,22 +134,6 @@ const Column = (): GridColDef[] => {
         ),
     },
     {
-      headerName: "Publish Date",
-      headerAlign: "center",
-      field: "publish_date",
-      align: "center",
-      flex: 1,
-      minWidth: 200,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.publish_date ? (
-          <p>{moment(data?.row?.publish_date).format("lll")}</p>
-        ) : (
-          "-"
-        ),
-    },
-    {
       headerName: "Start Date",
       headerAlign: "center",
       field: "start_date",

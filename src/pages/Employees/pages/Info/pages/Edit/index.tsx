@@ -95,12 +95,16 @@ const Edit: React.FC = () => {
       <div>
         {contextHolder}
         <div className=" flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl max-w-xl mb-4 mx-auto">
-          <Image
-            className="rounded-2xl w-32 h-32 aspect-square"
-            src={previewAttachment(data?.display_picture)}
-            alt={[data?.first_name, data?.last_name].join(" ")}
-            {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
-          />
+          {data?.display_picture ? (
+            <Image
+              className="rounded-2xl w-32 h-32 aspect-square"
+              src={previewAttachment(data?.display_picture)}
+              alt={[data?.first_name, data?.last_name].join(" ")}
+              {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
+            />
+          ) : (
+            ""
+          )}
           <div>
             <p className="text-2xl font-bold flex flex-row items-center gap-2">
               {[data?.first_name, data?.last_name].join(" ")}{" "}
