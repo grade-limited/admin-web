@@ -54,40 +54,40 @@ const Details: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
-          <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-            <div className="col-span-3">
-              <p className="flex flex-row items-center font-semibold text-base pb-3">
-                Parent Category Info
-                {data?.parent ? (
+        {data?.parent ? (
+          <div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
+            <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
+              <div className="col-span-3">
+                <p className="flex flex-row items-center font-semibold text-base pb-3">
+                  Parent Category Info
                   <Link to={`/app/categories/i/${data?.parent_id}`}>
                     <IconButton size="small">
                       <Iconify icon="ph:arrow-square-out-bold" />
                     </IconButton>
                   </Link>
-                ) : (
-                  ""
-                )}
+                </p>
+              </div>
+              <p>Id</p>
+              <p className="col-span-2">: {data?.parent?.id}</p>
+              <p>Name</p>
+              <p className="col-span-2">: {data?.parent?.name}</p>
+              <p>Created At</p>
+              <p className="col-span-2">
+                {data?.parent
+                  ? `: ${moment(data?.parent?.created_at).format("lll")}`
+                  : ": "}
+              </p>
+              <p>Updated At</p>
+              <p className="col-span-2">
+                {data?.parent
+                  ? `: ${moment(data?.parent?.updated_at).format("lll")}`
+                  : ":"}
               </p>
             </div>
-            <p>Id</p>
-            <p className="col-span-2">: {data?.parent?.id}</p>
-            <p>Name</p>
-            <p className="col-span-2">: {data?.parent?.name}</p>
-            <p>Created At</p>
-            <p className="col-span-2">
-              {data?.parent
-                ? `: ${moment(data?.parent?.created_at).format("lll")}`
-                : ": "}
-            </p>
-            <p>Updated At</p>
-            <p className="col-span-2">
-              {data?.parent
-                ? `: ${moment(data?.parent?.updated_at).format("lll")}`
-                : ":"}
-            </p>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
         <div className="mx-auto max-w-3xl flex flex-col border border-slate-200 rounded-2xl mt-3 p-3 ">
           <p className="text-lg font-bold flex flex-row items-center h-full max-h-[200px] pb-3">
             Description
