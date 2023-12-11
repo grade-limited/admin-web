@@ -1,9 +1,15 @@
-import { useGetQuotationsById } from "@/queries/quotations";
+import { IOption } from "@/hooks/useRole/types";
+import {
+  useGetQuotationsById,
+  useUpdateQuotationsById,
+} from "@/queries/quotations";
+import handleResponse from "@/utilities/handleResponse";
 import previewAttachment from "@/utilities/s3Attachment";
+import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
 import { Avatar, IconButton } from "@mui/material";
 // import { DataGrid } from "@mui/x-data-grid";
-import { Spin } from "antd";
+import { Select, Spin } from "antd";
 import moment from "moment";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -16,6 +22,61 @@ const Details: React.FC = () => {
   // const navigate = useNavigate();
   const { data, isLoading } = useGetQuotationsById(id);
 
+  const { mutateAsync: update } = useUpdateQuotationsById();
+
+  const [status, setStatus] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (!data) return;
+    setStatus(data?.status);
+  }, [data]);
+
+  // React.useEffect(() => {
+  //   if (!status) return;
+  //   onSubmit({ status });
+  // }, [status]);
+
+  const onSubmit = async (data: any) => {
+    message.open({
+      type: "loading",
+      content: "Updating Quotation..",
+      duration: 0,
+    });
+    const res = await handleResponse(() =>
+      update({
+        id,
+        data,
+      })
+    );
+    message.destroy();
+    if (res.status) {
+      message.success(res.message);
+    } else {
+      message.error(res.message);
+    }
+  };
+  const statusData: IOption[] = [
+    {
+      value: "Pending",
+      label: "Pending",
+    },
+    {
+      value: "Accepted",
+      label: "Accepted",
+    },
+    {
+      value: "Processing",
+      label: "Processing",
+    },
+    {
+      value: "Delivered",
+      label: "Delivered",
+    },
+    {
+      value: "Declined",
+      label: "Declined",
+    },
+  ];
   // const {
   //   getQueryParams,
   //   page,
@@ -32,8 +93,8 @@ const Details: React.FC = () => {
   return (
     <Spin spinning={isLoading}>
       <div className="mx-auto max-w-3xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center  gap-5 border border-slate-200 p-3 pl-5 rounded-3xl">
-          <div>
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-5 border border-slate-200 p-3 pl-5 rounded-3xl">
+          <div className="flex flex-col">
             <div className="flex flex-row items-center gap-2">
               <p className="text-2xl font-bold flex flex-row items-center">
                 {[data?.user?.first_name, data?.user?.last_name].join(" ")}{" "}
@@ -44,11 +105,9 @@ const Details: React.FC = () => {
                 </IconButton>
               </Link>
             </div>
-
             <p className="text-text-light font-semibold">
               @{data?.user?.username || "-"}
             </p>
-
             <p className="text-text-light text-xs mt-2">
               Created {moment(data?.created_at).calendar()}
             </p>
@@ -56,6 +115,17 @@ const Details: React.FC = () => {
               Last Updated {moment(data?.updated_at).calendar()}
             </p>
           </div>
+          <Select
+            size={"large"}
+            placeholder={"Select Status"}
+            className="relative m-2 "
+            value={status}
+            options={statusData}
+            onChange={(v) => {
+              onSubmit({ status: v });
+              setStatus(v);
+            }}
+          />
         </div>
         <div className=" md:grid-cols-4 content-center gap-2 py-3">
           <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">

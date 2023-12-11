@@ -10,13 +10,13 @@ import {
   Upload as AntUpload,
   Button as AntButton,
   Select,
+  TreeSelect,
 } from "antd";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCreateProduct } from "@/queries/products";
 import useBrand from "@/hooks/useBrand";
 import Iconify from "@components/iconify";
-import useCategory from "@/hooks/useCategory";
 import instance from "@/services";
 import previewAttachment from "@/utilities/s3Attachment";
 import { Icon } from "@iconify/react";
@@ -24,15 +24,14 @@ import JoditEditor from "jodit-react";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { productCreateResolver } from "./resolver";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
+import useSearchCategory from "@/hooks/useSearchCategory";
 
 const Create: React.FC = () => {
   const { brand, isBrandLoading, searchBrand } = useBrand();
-  const { category, isCategoryLoading, searchCategory } = useCategory();
-  const { handleSubmit, control, reset, getValues } = useForm({
+  const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
+  const { handleSubmit, control, reset } = useForm({
     resolver: joiResolver(productCreateResolver),
   });
-
-  console.log(getValues());
 
   const [messageApi, contextHolder] = message.useMessage();
   const { mutateAsync: create, isLoading: productCreating } =
@@ -351,18 +350,24 @@ const Create: React.FC = () => {
                     Category
                     <ErrorSuffix error={error} size="small" />
                   </Label>
-                  <Cascader
+                  <TreeSelect
                     value={value}
                     size="large"
+                    allowClear
+                    onClear={() => onChange(null)}
+                    onDeselect={() => onChange(null)}
                     showSearch
                     className="w-full"
-                    placeholder={"Select a Category..."}
+                    placeholder={"Select a Parent Category..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                    onChange={(v) => onChange(v?.[v?.length - 1])}
-                    options={category}
-                    onSearch={searchCategory}
+                    onChange={(v) => onChange(v || null)}
+                    fieldNames={{ label: "name", value: "id" }}
+                    treeData={category}
                     loading={isCategoryLoading}
                     status={error ? "error" : ""}
+                    // changeOnSelect
+                    onBlur={onBlur}
+                    // expandTrigger="hover"
                   />
                 </>
               )}

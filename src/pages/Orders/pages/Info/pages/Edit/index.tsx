@@ -136,7 +136,7 @@ const Edit: React.FC = () => {
                   }) => (
                     <>
                       <Label className="my-2">
-                        Description
+                        Expected Delivery Date
                         <ErrorSuffix error={error} size="small" />
                       </Label>
                       <DatePicker

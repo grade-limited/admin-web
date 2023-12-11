@@ -84,6 +84,19 @@ const Column = (): GridColDef[] => {
       sortable: false,
     },
     {
+      headerName: "Business Type",
+      headerAlign: "center",
+      field: "request_status",
+      align: "center",
+      flex: 1,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.request_status ? <p>{data?.row?.request_status}</p> : "-",
+    },
+
+    {
       headerName: "Org Name",
       headerAlign: "center",
       field: "organization_name",

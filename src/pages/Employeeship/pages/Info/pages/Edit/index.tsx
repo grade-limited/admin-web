@@ -13,16 +13,16 @@ import { Button } from "@mui/material";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { employeeshipUpdateResolver } from "./resolver";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
-import Iconify from "@components/iconify";
-import useOrganization from "@/hooks/useOrganization";
-import useUserHook from "@/hooks/useUserHook";
+// import Iconify from "@components/iconify";
+// import useOrganization from "@/hooks/useOrganization";
+// import useUserHook from "@/hooks/useUserHook";
 import { IOption } from "@/hooks/useRole/types";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { organization, isOrganizationLoading, searchOrganization } =
-    useOrganization();
-  const { user, isUserLoading, searchUser } = useUserHook();
+  // const { organization, isOrganizationLoading, searchOrganization } =
+  //   useOrganization();
+  // const { user, isUserLoading, searchUser } = useUserHook();
   const { data, isLoading } = useGetEmployeeshipById(id);
   const {
     handleSubmit,
@@ -45,8 +45,8 @@ const Edit: React.FC = () => {
     if (!employeeshipInfo || isDirty) return;
     reset({
       employeeship_status: employeeshipInfo?.employeeship_status,
-      organization_id: employeeshipInfo?.organization_id,
-      user_id: employeeshipInfo?.user_id,
+      // organization_id: employeeshipInfo?.organization_id,
+      // user_id: employeeshipInfo?.user_id,
       employee_id: employeeshipInfo?.employee_id,
       depertment: employeeshipInfo?.depertment,
       designation: employeeshipInfo?.designation,
@@ -131,7 +131,7 @@ const Edit: React.FC = () => {
                 )}
               />
             </div>
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <Controller
                 control={control}
                 name={"user_id"}
@@ -145,6 +145,7 @@ const Edit: React.FC = () => {
                       <ErrorSuffix error={error} size="small" />
                     </Label>
                     <Cascader
+                    
                       value={value}
                       size="large"
                       showSearch
@@ -160,37 +161,36 @@ const Edit: React.FC = () => {
                   </>
                 )}
               />
-              {/* </div> */}
-            </div>
+            </div> */}
 
-            <div className="mt-2">
-              <Controller
-                control={control}
-                name={"employee_id"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <Label className="my-2">
-                      Employee ID
-                      <ErrorSuffix error={error} size="small" />
-                    </Label>
-                    <Input
-                      placeholder={"Enter Employee ID"}
-                      size={"large"}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      status={error ? "error" : ""}
-                      //   suffix={<ErrorSuffix error={error} />}
-                    />
-                  </>
-                )}
-              />
-            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="mt-2">
+                <Controller
+                  control={control}
+                  name={"employee_id"}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState: { error },
+                  }) => (
+                    <>
+                      <Label isRequired className="my-2">
+                        Employee ID
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <Input
+                        placeholder={"Enter Employee ID"}
+                        size={"large"}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        status={error ? "error" : ""}
+                        //   suffix={<ErrorSuffix error={error} />}
+                      />
+                    </>
+                  )}
+                />
+              </div>
+              {/* <div className="mt-2">
                 <Controller
                   control={control}
                   name={"organization_id"}
@@ -219,8 +219,7 @@ const Edit: React.FC = () => {
                     </>
                   )}
                 />
-                {/* </div> */}
-              </div>
+              </div> */}
               <div className="mt-2">
                 <Controller
                   control={control}
@@ -230,7 +229,7 @@ const Edit: React.FC = () => {
                     fieldState: { error },
                   }) => (
                     <>
-                      <Label className="my-2">
+                      <Label isRequired className="my-2">
                         Branch
                         <ErrorSuffix error={error} size="small" />
                       </Label>
@@ -259,7 +258,7 @@ const Edit: React.FC = () => {
                     fieldState: { error },
                   }) => (
                     <>
-                      <Label className="my-2">
+                      <Label isRequired className="my-2">
                         Department
                         <ErrorSuffix error={error} size="small" />
                       </Label>
@@ -285,7 +284,7 @@ const Edit: React.FC = () => {
                     fieldState: { error },
                   }) => (
                     <>
-                      <Label className="my-2">
+                      <Label isRequired className="my-2">
                         Designation
                         <ErrorSuffix error={error} size="small" />
                       </Label>

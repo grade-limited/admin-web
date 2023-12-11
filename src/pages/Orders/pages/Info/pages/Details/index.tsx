@@ -28,7 +28,6 @@ const Details: React.FC = () => {
   //   ...getQueryParams,
   //   brand_id: id,
   // });
-  console.log(data);
 
   return (
     <Spin spinning={isLoading}>
@@ -124,7 +123,14 @@ const Details: React.FC = () => {
                 />
               </div>
               <div>
-                <p className="font-bold">{product?.name}</p>
+                <p className="font-bold">
+                  {product?.name}
+                  <Link to={`/app/products/i/${product?.id}`}>
+                    <IconButton size="small">
+                      <Iconify icon="ph:arrow-square-out-bold" />
+                    </IconButton>
+                  </Link>
+                </p>
                 <p className="text-sm text-slate-600">
                   ${product?.ProductOrderJunction?.unit_price} x{" "}
                   <b>{product?.ProductOrderJunction?.quantity} items</b> ={" "}

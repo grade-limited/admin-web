@@ -10,6 +10,7 @@ import {
   Button as AntButton,
   Image,
   Select,
+  TreeSelect,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -18,7 +19,6 @@ import { Button } from "@mui/material";
 import previewAttachment from "@/utilities/s3Attachment";
 import moment from "moment";
 import useBrand from "@/hooks/useBrand";
-import useCategory from "@/hooks/useCategory";
 import Iconify from "@components/iconify";
 import instance from "@/services";
 import { Icon } from "@iconify/react";
@@ -27,14 +27,15 @@ import JoditEditor from "jodit-react";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { productUpdateResolver } from "./resolver";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
+import useSearchCategory from "@/hooks/useSearchCategory";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [messageApi, contextHolder] = message.useMessage();
 
   const { data, isLoading } = useGetProductsById(id);
-  const { category, isCategoryLoading, searchCategory, setdefaultcategory } =
-    useCategory();
+  const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
+
   const { brand, isBrandLoading, searchBrand, setDefaultBrand } = useBrand();
   const {
     handleSubmit,
@@ -52,7 +53,7 @@ const Edit: React.FC = () => {
   React.useEffect(() => {
     if (!data) return;
     setProductInfo(data);
-    setdefaultcategory(data?.category);
+    // setdefaultcategory(data?.category);
     setDefaultBrand(data?.brand);
   }, [data]);
   // console.log(productInfo, brand);
@@ -409,20 +410,24 @@ const Edit: React.FC = () => {
                       Category
                       <ErrorSuffix error={error} size="small" />
                     </Label>
-                    <Cascader
+                    <TreeSelect
                       value={value}
                       size="large"
+                      allowClear
+                      onClear={() => onChange(null)}
+                      onDeselect={() => onChange(null)}
                       showSearch
-                      dropdownMatchSelectWidth
                       className="w-full"
-                      placeholder={"Select a Category..."}
+                      placeholder={"Select a Parent Category..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={(v) => onChange(v?.[v?.length - 1])}
-                      options={category}
-                      onSearch={searchCategory}
-                      onBlur={onBlur}
+                      onChange={(v) => onChange(v || null)}
+                      fieldNames={{ label: "name", value: "id" }}
+                      treeData={category}
                       loading={isCategoryLoading}
                       status={error ? "error" : ""}
+                      // changeOnSelect
+                      onBlur={onBlur}
+                      // expandTrigger="hover"
                     />
                   </>
                 )}

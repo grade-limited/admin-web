@@ -35,6 +35,8 @@ const Details: React.FC = () => {
                 Request Information
               </p>
             </div>
+            <p className="col-span-2">Status</p>
+            <p className="col-span-2">: {data?.request_status}</p>
             <p className="col-span-2">Business Type</p>
             <p className="col-span-2">: {data?.business_type}</p>
             <p className="col-span-2">Business Subtype</p>

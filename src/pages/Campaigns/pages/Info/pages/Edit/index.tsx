@@ -358,7 +358,6 @@ const Edit: React.FC = () => {
               <Controller
                 control={control}
                 name={"campaign_type"}
-                rules={{ required: false }}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
@@ -389,13 +388,12 @@ const Edit: React.FC = () => {
                 <Controller
                   control={control}
                   name={"amount_type"}
-                  rules={{ required: true }}
                   render={({
                     field: { onChange, onBlur, value },
                     fieldState: { error },
                   }) => (
                     <>
-                      <Label isRequired className="my-1">
+                      <Label className="my-1">
                         Amount Type
                         <ErrorSuffix error={error} size="small" />
                       </Label>
@@ -403,11 +401,11 @@ const Edit: React.FC = () => {
                         size={"large"}
                         placeholder={"Select type of offer"}
                         className="relative w-full"
-                        allowClear={false}
+                        allowClear={true}
                         value={value}
                         showSearch
                         options={typeData}
-                        onChange={(v) => onChange(v?.[0])}
+                        onChange={(v) => onChange(v?.[0] || null)}
                         onBlur={onBlur}
                         status={error ? "error" : ""}
                       />
@@ -419,13 +417,12 @@ const Edit: React.FC = () => {
                 <Controller
                   control={control}
                   name={"amount"}
-                  rules={{ required: true }}
                   render={({
                     field: { onChange, onBlur, value },
                     fieldState: { error },
                   }) => (
                     <>
-                      <Label isRequired className="my-1">
+                      <Label className="my-1">
                         Amount
                         <ErrorSuffix error={error} size="small" />
                       </Label>

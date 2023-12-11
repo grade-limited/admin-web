@@ -5,7 +5,6 @@ import {
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
 import {
-  Cascader,
   Input,
   Spin,
   message,
@@ -13,6 +12,7 @@ import {
   Button as AntButton,
   Image,
   ColorPicker,
+  TreeSelect,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -82,6 +82,7 @@ const Edit: React.FC = () => {
       cover_url: categoryInfo?.cover_url,
       icon_url: categoryInfo?.icon_url,
       color_code: categoryInfo?.color_code,
+
       parent_hierarchy: JSON.parse(
         JSON.stringify([
           categoryInfo?.parent?.parent_id,
@@ -440,7 +441,7 @@ const Edit: React.FC = () => {
             <div>
               <Controller
                 control={control}
-                name={"parent_hierarchy"}
+                name={"parent_id"}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
@@ -450,21 +451,24 @@ const Edit: React.FC = () => {
                       Parent Category
                       <ErrorSuffix error={error} size="small" />
                     </Label>
-                    <Cascader
+                    <TreeSelect
                       value={value}
                       size="large"
+                      allowClear
+                      onClear={() => onChange(null)}
+                      onDeselect={() => onChange(null)}
                       showSearch
                       className="w-full"
                       placeholder={"Select a Parent Category..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={onChange}
+                      onChange={(v) => onChange(v || null)}
                       fieldNames={{ label: "name", value: "id" }}
-                      options={category}
+                      treeData={category}
                       loading={isCategoryLoading}
                       status={error ? "error" : ""}
-                      changeOnSelect
+                      // changeOnSelect
                       onBlur={onBlur}
-                      expandTrigger="hover"
+                      // expandTrigger="hover"
                     />
                   </>
                 )}

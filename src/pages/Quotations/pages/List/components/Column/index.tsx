@@ -85,6 +85,29 @@ const Column = (): GridColDef[] => {
       sortable: false,
     },
     {
+      headerName: "Username",
+      headerAlign: "center",
+      field: "user",
+      align: "center",
+      flex: 1,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      renderCell: (data: any) =>
+        data?.row?.user ? (
+          <Link to={`/app/users/i/${data?.row?.user?.id}`}>
+            <Chip
+              label={[
+                data?.row?.user?.first_name,
+                data?.row?.user?.last_name,
+              ].join(" ")}
+            />
+          </Link>
+        ) : (
+          "-"
+        ),
+    },
+    {
       headerName: "Contact Name",
       headerAlign: "center",
       field: "contact_name",
@@ -151,27 +174,6 @@ const Column = (): GridColDef[] => {
       sortable: false,
       renderCell: (data: any) =>
         data?.row?.status ? <Chip label={data?.row?.status} /> : "-",
-    },
-
-    {
-      headerName: "Username",
-      headerAlign: "center",
-      field: "user",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.user ? (
-          <p>
-            {[data?.row?.user?.first_name, data?.row?.user?.last_name].join(
-              " "
-            )}
-          </p>
-        ) : (
-          "-"
-        ),
     },
     {
       headerName: "Created At",
