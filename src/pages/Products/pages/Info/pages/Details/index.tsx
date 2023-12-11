@@ -122,8 +122,11 @@ const Details: React.FC = () => {
 				<div className="grid grid-cols-1 md:grid-cols-4 content-center gap-2 py-3">
 					<div className="col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
 						<div className="col-span-3">
-							<p className="flex flex-row items-center font-semibold text-base pb-3">
-								Price Table
+							<p className="flex flex-row items-center font-semibold text-base pb-3 justify-between px-3">
+								<span>Price Table</span>{" "}
+								<span className="text-slate-600 text-sm">
+									Market Rate: {data?.market_price || 0}৳
+								</span>
 							</p>
 						</div>
 						{/* 
@@ -134,6 +137,7 @@ const Details: React.FC = () => {
               }[];
             */}
 						<Table
+							className="mt-2"
 							columns={[
 								{
 									title: "Account",
@@ -152,6 +156,9 @@ const Details: React.FC = () => {
 									title: "Unit Cost",
 									dataIndex: "per_unit",
 									key: "per_unit",
+									render(value) {
+										return `${value || 0}৳`;
+									},
 								},
 							]}
 							dataSource={data?.price || []}
@@ -159,7 +166,7 @@ const Details: React.FC = () => {
 					</div>
 
 					<div className="col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-						<div className="col-span-3">
+						<div className="col-span-3 px-3">
 							<p className="flex flex-row justify-e items-center font-semibold text-base pb-3">
 								Minimum Order Table
 							</p>
@@ -171,6 +178,7 @@ const Details: React.FC = () => {
               }[]
               */}
 						<Table
+							className="mt-2"
 							columns={[
 								{
 									title: "Account",
