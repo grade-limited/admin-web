@@ -52,6 +52,11 @@ export const DrawerData = (logout?: () => void): IDrawerData[] => [
         icon: <Icon icon="material-symbols:campaign-outline-sharp" />,
         to: "/app/campaigns",
       },
+      {
+        name: "Orders",
+        icon: <Icon icon="mdi:cart-outline" />,
+        to: "/app/orders",
+      },
     ],
   },
   {
