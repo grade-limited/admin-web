@@ -1,4 +1,4 @@
-import { useDeleteOrders } from "@/queries/orders";
+import { useDeleteQuotations } from "@/queries/quotations";
 import { IOrderId } from "@/types";
 import handleResponse from "@/utilities/handleResponse";
 import { message } from "@components/antd/message";
@@ -10,7 +10,8 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const Column = (): GridColDef[] => {
-  const { mutateAsync: Delete, isLoading: isDeleteLoading } = useDeleteOrders();
+  const { mutateAsync: Delete, isLoading: isDeleteLoading } =
+    useDeleteQuotations();
 
   const onDelete = async (
     id: IOrderId,
@@ -50,7 +51,7 @@ const Column = (): GridColDef[] => {
   // const { mutateAsync: Suspend, isLoading: isSuspendLoading } =
   //   useSuspendEmployee();
 
-  // const onSuspend = async (id: IOrdersId) => {
+  // const onSuspend = async (id: IQuotationsId) => {
   //   message.open({
   //     type: "loading",
   //     content: "Suspending Employee..",
@@ -84,9 +85,9 @@ const Column = (): GridColDef[] => {
       sortable: false,
     },
     {
-      headerName: "Recipient Name",
+      headerName: "Contact Name",
       headerAlign: "center",
-      field: "recipient_name",
+      field: "contact_name",
       align: "center",
       minWidth: 200,
       flex: 1,
@@ -99,38 +100,34 @@ const Column = (): GridColDef[] => {
       // },
     },
     {
-      headerName: "Recipient Number",
+      headerName: "Contact Number",
       headerAlign: "center",
-      field: "recipient_number",
+      field: "contact_number",
       align: "center",
       flex: 1,
       minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.recipient_number ? (
-          <p>{data?.row?.recipient_number}</p>
-        ) : (
-          "-"
-        ),
+        data?.row?.contact_number ? <p>{data?.row?.contact_number}</p> : "-",
     },
 
     {
-      headerName: "Recipient Email",
+      headerName: "Contact Email",
       headerAlign: "center",
-      field: "recipient_email",
+      field: "contact_email",
       align: "center",
       flex: 1,
       minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
-        data?.row?.recipient_email ? <p>{data?.row?.recipient_email}</p> : "-",
+        data?.row?.contact_email ? <p>{data?.row?.contact_email}</p> : "-",
     },
     {
-      headerName: "Recipient Address",
+      headerName: "Contact Designation",
       headerAlign: "center",
-      field: "recipient_address",
+      field: "contact_designation",
       align: "center",
       flex: 1,
       minWidth: 250,
@@ -138,7 +135,7 @@ const Column = (): GridColDef[] => {
       sortable: false,
       renderCell: (data: any) =>
         data?.row?.recipient_address ? (
-          <p>{data?.row?.recipient_address}</p>
+          <p>{data?.row?.contact_designation}</p>
         ) : (
           "-"
         ),
@@ -155,47 +152,9 @@ const Column = (): GridColDef[] => {
       renderCell: (data: any) =>
         data?.row?.status ? <Chip label={data?.row?.status} /> : "-",
     },
-    {
-      headerName: "Expected Delivery Date",
-      headerAlign: "center",
-      field: "expected_delivery_date",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.expected_delivery_date
-          ? moment(data?.row?.expected_delivery_date).format("ll")
-          : "-",
-    },
-    {
-      headerName: "Delivery Fee",
-      headerAlign: "center",
-      field: "delivery_fee",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.delivery_fee ? <p>{data?.row?.delivery_fee}</p> : "-",
-    },
 
     {
-      headerName: "Discount",
-      headerAlign: "center",
-      field: "discount",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.discount ? <p>{data?.row?.discount}</p> : "-",
-    },
-    {
-      headerName: "User Name",
+      headerName: "Username",
       headerAlign: "center",
       field: "user",
       align: "center",
@@ -228,7 +187,6 @@ const Column = (): GridColDef[] => {
           ? moment(data?.row?.created_at).format("ll")
           : "-",
     },
-
     {
       headerName: "Updated At",
       headerAlign: "center",
@@ -256,7 +214,7 @@ const Column = (): GridColDef[] => {
           disableFocusRipple
           className="hover: bg-transparent"
           icon={
-            <Link to={`/app/orders/i/${params.id}`}>
+            <Link to={`/app/quotations/i/${params.id}`}>
               <Button type="dashed">View</Button>
             </Link>
           }
@@ -264,7 +222,7 @@ const Column = (): GridColDef[] => {
         />,
         // <GridActionsCellItem
         //   icon={
-        //     <Link to={`/app/orders/i/${params.id}/edit`}>
+        //     <Link to={`/app/quotations/i/${params.id}/edit`}>
         //       <Iconify icon={"fluent:edit-12-regular"} className="text-lg" />
         //     </Link>
         //   }
