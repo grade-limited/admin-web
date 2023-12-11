@@ -110,23 +110,23 @@ const Column = (): GridColDef[] => {
 		//   renderCell: (data: any) =>
 		//     data?.row?.description ? <p>{data?.row?.description}</p> : "-",
 		// },
-		{
-			headerName: "Price",
-			headerAlign: "center",
-			field: "price",
-			align: "center",
-			flex: 1,
-			minWidth: 250,
-			filterable: false,
-			sortable: false,
-			renderCell: (data: any) =>
-				data?.row?.price ? (
-					<p>{data?.row?.price}</p>
-				) : (
-					// <Tag color="default">{data?.row?.brand?.name}</Tag>
-					"-"
-				),
-		},
+		// {
+		// 	headerName: "Price",
+		// 	headerAlign: "center",
+		// 	field: "price",
+		// 	align: "center",
+		// 	flex: 1,
+		// 	minWidth: 250,
+		// 	filterable: false,
+		// 	sortable: false,
+		// 	renderCell: (data: any) =>
+		// 		data?.row?.price ? (
+		// 			<p>{data?.row?.price}</p>
+		// 		) : (
+		// 			// <Tag color="default">{data?.row?.brand?.name}</Tag>
+		// 			"-"
+		// 		),
+		// },
 		{
 			headerName: "Brand",
 			headerAlign: "center",
