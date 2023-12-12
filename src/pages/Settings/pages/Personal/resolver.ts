@@ -28,7 +28,14 @@ export const UpdateResolver = Joi.object({
     .trim(),
   address: Joi.string().label("Addess").trim().allow("").allow(null),
   dob: Joi.any().label("Date of Birth"),
-  password: Joi.string().label("Password").min(6).required().trim(),
-  role_id: Joi.number().label("Role").allow(null),
-  max_session: Joi.number().label("Maximum Device"),
 });
+
+/*first_name: user.first_name,
+last_name: user?.last_name,
+phone: user?.phone,
+email: user?.email,
+display_picture: user?.display_picture,
+gender: user?.gender,
+dob: user?.dob,
+bank: user?.bank,
+address: user?.address,*/

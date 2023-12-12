@@ -47,7 +47,6 @@ const Personal: React.FC = () => {
       display_picture: user?.display_picture,
       gender: user?.gender,
       dob: user?.dob,
-      bank: user?.bank,
       address: user?.address,
     });
   }, [

@@ -13,6 +13,7 @@ import {
   Upload as AntUpload,
   Button as AntButton,
   Image,
+  Cascader,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -404,14 +405,15 @@ const Edit: React.FC = () => {
                       Role
                       <ErrorSuffix error={error} size="small" />
                     </Label>
-                    <Select
+                    <Cascader
                       value={value}
                       size="large"
+                      allowClear
                       showSearch
                       className="w-full"
                       placeholder={"Select a Role..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={onChange}
+                      onChange={(v) => onChange(v || null)}
                       options={role}
                       onSearch={searchRole}
                       loading={isRoleLoading}

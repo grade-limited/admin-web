@@ -28,7 +28,6 @@ export const EmployeeUpdateResolver = Joi.object({
     .trim(),
   address: Joi.string().label("Addess").trim().allow("").allow(null),
   dob: Joi.any().label("Date of Birth"),
-  password: Joi.string().label("Password").min(6).required().trim(),
   role_id: Joi.number().label("Role").allow(null),
   max_session: Joi.number().label("Maximum Device"),
 });
