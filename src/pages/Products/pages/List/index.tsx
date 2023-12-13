@@ -17,12 +17,14 @@ const List: React.FC = () => {
   const { data, isLoading } = useGetProducts({ ...getQueryParams() });
 
   return (
-    <div className="p-3 w-full h-full max-h-[500px]">
+    <div className="p-3 w-full h-full ">
       <DataGrid
         columns={Column()}
         rows={data?.data || []}
         loading={isLoading}
         rowCount={data?.total || 0}
+        autoHeight
+        density="compact"
         paginationModel={{
           page,
           pageSize: limit,

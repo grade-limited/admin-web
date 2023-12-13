@@ -28,7 +28,11 @@ import { categoryCreateResolver } from "./resolver";
 const Create: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
+  const {
+    isLoading: isCategoryLoading,
+    data: category,
+    findHierarchy,
+  } = useSearchCategory();
   const { handleSubmit, control, reset } = useForm({
     resolver: joiResolver(categoryCreateResolver),
   });
@@ -353,7 +357,9 @@ const Create: React.FC = () => {
                     <ErrorSuffix error={error} size="small" />
                   </Label>
                   <Cascader
-                    value={value}
+                    value={
+                      value ? (findHierarchy(value) as any) || value : undefined
+                    }
                     size="large"
                     showSearch
                     className="w-full"

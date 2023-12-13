@@ -23,6 +23,8 @@ const List: React.FC = () => {
         rows={data?.data || []}
         loading={isLoading}
         rowCount={data?.total || 0}
+        autoHeight
+        density="compact"
         paginationModel={{
           page,
           pageSize: limit,

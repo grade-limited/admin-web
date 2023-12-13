@@ -88,7 +88,7 @@ const Column = (): GridColDef[] => {
       headerAlign: "center",
       field: "name",
       align: "center",
-      minWidth: 200,
+      minWidth: 350,
       flex: 1,
       filterable: false,
       sortable: false,
@@ -133,7 +133,7 @@ const Column = (): GridColDef[] => {
       field: "brand",
       align: "center",
       flex: 1,
-      minWidth: 250,
+      minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>
@@ -152,7 +152,7 @@ const Column = (): GridColDef[] => {
       field: "category",
       align: "center",
       flex: 1,
-      minWidth: 250,
+      minWidth: 200,
       filterable: false,
       sortable: false,
       renderCell: (data: any) =>

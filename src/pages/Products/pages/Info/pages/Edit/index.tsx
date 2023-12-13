@@ -10,7 +10,6 @@ import {
   Button as AntButton,
   Image,
   Select,
-  TreeSelect,
 } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -34,7 +33,11 @@ const Edit: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const { data, isLoading } = useGetProductsById(id);
-  const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
+  const {
+    isLoading: isCategoryLoading,
+    data: category,
+    findHierarchy,
+  } = useSearchCategory();
 
   const { brand, isBrandLoading, searchBrand, setDefaultBrand } = useBrand();
   const {
@@ -410,24 +413,26 @@ const Edit: React.FC = () => {
                       Category
                       <ErrorSuffix error={error} size="small" />
                     </Label>
-                    <TreeSelect
-                      value={value}
+                    <Cascader
+                      value={
+                        value
+                          ? (findHierarchy(value) as any) || value
+                          : undefined
+                      }
                       size="large"
-                      allowClear
-                      onClear={() => onChange(null)}
-                      onDeselect={() => onChange(null)}
                       showSearch
                       className="w-full"
                       placeholder={"Select a Parent Category..."}
                       suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={(v) => onChange(v || null)}
+                      onChange={onChange}
+                      options={category}
                       fieldNames={{ label: "name", value: "id" }}
-                      treeData={category}
+                      onBlur={onBlur}
+                      changeOnSelect
+                      // onSearch={searchCategory}
                       loading={isCategoryLoading}
                       status={error ? "error" : ""}
-                      // changeOnSelect
-                      onBlur={onBlur}
-                      // expandTrigger="hover"
+                      expandTrigger="hover"
                     />
                   </>
                 )}

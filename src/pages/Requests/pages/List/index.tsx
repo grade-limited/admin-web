@@ -17,7 +17,7 @@ const List: React.FC = () => {
   const { data, isLoading } = useGetRequests({ ...getQueryParams() });
 
   return (
-    <div className="p-3 w-full h-full max-h-[500px]">
+    <div className="p-3 w-full h-full">
       <DataGrid
         columns={Column()}
         rows={data?.data || []}
@@ -27,6 +27,8 @@ const List: React.FC = () => {
           page,
           pageSize: limit,
         }}
+        autoHeight
+        density="compact"
         onPaginationModelChange={(params) => {
           if (params.page !== page) setPage(params.page);
           if (params.pageSize !== limit) setLimit(params.pageSize);

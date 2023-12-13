@@ -21,7 +21,7 @@ const List: React.FC = () => {
   });
 
   return (
-    <div className="p-3 w-full h-full max-h-[500px]">
+    <div className="p-3 w-full h-full">
       <DataGrid
         columns={Column()}
         rows={data?.data || []}

@@ -10,7 +10,7 @@ import {
   Upload as AntUpload,
   Button as AntButton,
   Select,
-  TreeSelect,
+  // TreeSelect,
 } from "antd";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -28,7 +28,11 @@ import useSearchCategory from "@/hooks/useSearchCategory";
 
 const Create: React.FC = () => {
   const { brand, isBrandLoading, searchBrand } = useBrand();
-  const { isLoading: isCategoryLoading, data: category } = useSearchCategory();
+  const {
+    isLoading: isCategoryLoading,
+    data: category,
+    findHierarchy,
+  } = useSearchCategory();
   const { handleSubmit, control, reset } = useForm({
     resolver: joiResolver(productCreateResolver),
   });
@@ -350,24 +354,24 @@ const Create: React.FC = () => {
                     Category
                     <ErrorSuffix error={error} size="small" />
                   </Label>
-                  <TreeSelect
-                    value={value}
+                  <Cascader
+                    value={
+                      value ? (findHierarchy(value) as any) || value : undefined
+                    }
                     size="large"
-                    allowClear
-                    onClear={() => onChange(null)}
-                    onDeselect={() => onChange(null)}
                     showSearch
                     className="w-full"
                     placeholder={"Select a Parent Category..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                    onChange={(v) => onChange(v || null)}
+                    onChange={onChange}
+                    options={category}
                     fieldNames={{ label: "name", value: "id" }}
-                    treeData={category}
+                    onBlur={onBlur}
+                    changeOnSelect
+                    // onSearch={searchCategory}
                     loading={isCategoryLoading}
                     status={error ? "error" : ""}
-                    // changeOnSelect
-                    onBlur={onBlur}
-                    // expandTrigger="hover"
+                    expandTrigger="hover"
                   />
                 </>
               )}

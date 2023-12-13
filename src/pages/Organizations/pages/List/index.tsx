@@ -17,7 +17,7 @@ const List: React.FC = () => {
   const { data, isLoading } = useGetOrganizations({ ...getQueryParams() });
 
   return (
-    <div className="p-3 w-full h-full max-h-[500px]">
+    <div className="p-3 w-full h-full ">
       <DataGrid
         columns={Column()}
         rows={data?.data || []}
@@ -31,6 +31,8 @@ const List: React.FC = () => {
           if (params.page !== page) setPage(params.page);
           if (params.pageSize !== limit) setLimit(params.pageSize);
         }}
+        autoHeight
+        density="compact"
         pageSizeOptions={[10, 25, 50, 100, 200]}
         paginationMode={"server"}
         onRowDoubleClick={(row) => navigate(`/app/organizations/i/${row.id}`)}
