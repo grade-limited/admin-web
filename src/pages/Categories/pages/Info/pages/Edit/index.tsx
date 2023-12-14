@@ -76,7 +76,6 @@ const Edit: React.FC = () => {
   // 	}
   // 	return hierarchy;
   //   };
-  console.log(findHierarchy(parseInt(id || "0")));
 
   React.useEffect(() => {
     if (!categoryInfo || isDirty) return;
@@ -382,6 +381,8 @@ const Edit: React.FC = () => {
                       value={value}
                       defaultFormat="hex"
                       format="hex"
+                      allowClear
+                      onClear={() => onChange(null)}
                       //   suffix={<ErrorSuffix error={error} />}
                     />
                   </>

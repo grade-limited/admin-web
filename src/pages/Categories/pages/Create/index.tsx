@@ -313,6 +313,8 @@ const Create: React.FC = () => {
                     value={value}
                     defaultFormat="hex"
                     format="hex"
+                    allowClear
+                    onClear={() => onChange(null)}
                     //   suffix={<ErrorSuffix error={error} />}
                   />
                 </>
