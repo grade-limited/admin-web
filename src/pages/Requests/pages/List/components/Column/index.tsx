@@ -7,6 +7,7 @@ import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { Button } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import StatusDropdown from "../StatusDropdown";
 
 const Column = (): GridColDef[] => {
   const { mutateAsync: Delete, isLoading: isDeleteLoading } =
@@ -83,19 +84,6 @@ const Column = (): GridColDef[] => {
       filterable: false,
       sortable: false,
     },
-    {
-      headerName: "Business Type",
-      headerAlign: "center",
-      field: "request_status",
-      align: "center",
-      flex: 1,
-      minWidth: 250,
-      filterable: false,
-      sortable: false,
-      renderCell: (data: any) =>
-        data?.row?.request_status ? <p>{data?.row?.request_status}</p> : "-",
-    },
-
     {
       headerName: "Org Name",
       headerAlign: "center",
@@ -288,7 +276,33 @@ const Column = (): GridColDef[] => {
           "-"
         ),
     },
-
+    {
+      headerName: "Status",
+      headerAlign: "center",
+      field: "request_status",
+      align: "center",
+      flex: 1,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      renderCell: (params: any) => [
+        <StatusDropdown key={params?.id} {...params} />,
+      ],
+      // <>
+      //   <Select
+      //     size={"large"}
+      //     placeholder={"Select Status"}
+      //     className="w-full"
+      //     defaultValue={data?.row?.request_status}
+      //     value={status}
+      //     options={statusData}
+      //     onChange={(v) => {
+      //       onSubmit({ id: data?.row?.id, request_status: v });
+      //       setStatus(v);
+      //     }}
+      //   />
+      // </>,
+    },
     {
       headerName: "Created At",
       headerAlign: "center",
