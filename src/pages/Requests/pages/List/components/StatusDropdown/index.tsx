@@ -2,10 +2,17 @@ import { IOption } from "@/hooks/useRole/types";
 import { useUpdateRequestsById } from "@/queries/requests";
 import handleResponse from "@/utilities/handleResponse";
 import Iconify from "@components/iconify";
-import { Dialog } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import { useToggle } from "@tam11a/react-use-hooks";
-import { Select, message } from "antd";
+import { Select, Steps, message } from "antd";
 import React from "react";
+import OrgCreate from "../OrgCreate";
 
 const StatusDropdown: React.FC<any> = (params) => {
   const { mutateAsync: update } = useUpdateRequestsById();
@@ -46,11 +53,24 @@ const StatusDropdown: React.FC<any> = (params) => {
       label: "Declined",
     },
   ];
+
+  const [type, setType] = React.useState<"employee" | "organization">(
+    "organization"
+  );
+  const [current, setCurrent] = React.useState(0);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
   const steps = [
     {
       title: "Details",
       description: "Information",
-      content: <></>,
+      content: <OrgCreate onClose={onClose} params={params} />,
       icon: <Iconify icon="gg:organisation" />,
     },
     {
@@ -60,6 +80,13 @@ const StatusDropdown: React.FC<any> = (params) => {
       icon: <Iconify icon="fluent-mdl2:org" />,
     },
   ];
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+    subTitle: item.description,
+    icon: item.icon,
+  }));
+
   return (
     <div>
       <Dialog
@@ -68,7 +95,65 @@ const StatusDropdown: React.FC<any> = (params) => {
         PaperProps={{
           className: "w-full max-w-3xl rounded-lg",
         }}
-      ></Dialog>
+      >
+        <DialogTitle className="flex flex-row items-center justify-between">
+          <p className="font-bold text-base">
+            Register <br />{" "}
+            <span className="text-sm font-semibold text-slate-500">
+              New <span className="capitalize">{type} Account</span>
+            </span>
+          </p>
+          <IconButton onClick={onClose}>
+            <Iconify icon="mdi:close" />
+          </IconButton>
+        </DialogTitle>
+        <Steps
+          current={current}
+          items={items}
+          // percent={60}
+          labelPlacement="vertical"
+          size="small"
+          className="px-6"
+        />
+        <div className="px-4 my-5">{steps[current].content}</div>
+
+        <DialogActions className="px-3 pb-3">
+          {current > 0 && (
+            <Button
+              variant="outlined"
+              size="small"
+              //   disabled={isSignupLoading}
+              onClick={() => prev()}
+            >
+              Previous
+            </Button>
+          )}
+          {current < steps.length - 1 && (
+            <Button
+              color="primary"
+              size="small"
+              variant="contained"
+              className="bg-primary hover:bg-primary-600"
+              onClick={() => next()}
+              //   disabled={isSignupLoading}
+            >
+              Next
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              className="bg-primary hover:bg-primary-600"
+              variant="contained"
+              size="small"
+              color="primary"
+              //   type="submit"
+              //   disabled={isSignupLoading}
+            >
+              Done
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
       <Select
         size={"large"}
         placeholder={"Select Status"}

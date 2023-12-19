@@ -13,6 +13,79 @@ import { organizationCreateResolver } from "./resolver";
 import { joiResolver } from "@hookform/resolvers/joi";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
 
+export const typeData: IOption[] = [
+  {
+    value: "Retail Shop",
+    label: "Retail Shop",
+    children: [
+      {
+        value: "Grocery",
+        label: "Grocery",
+      },
+      {
+        value: "Stationary",
+        label: "Stationary",
+      },
+      {
+        value: "Mobile ACC",
+        label: "Mobile ACC",
+      },
+      {
+        value: "Others",
+        label: "Others",
+      },
+    ],
+  },
+  {
+    value: "Hotel/Restaurant",
+    label: "Hotel & Restaurants",
+    children: [
+      {
+        value: "Hotel",
+        label: "Hotel",
+      },
+      {
+        value: "Restaurant",
+        label: "Restaurant",
+      },
+      {
+        value: "Cafe",
+        label: "Cafe",
+      },
+    ],
+  },
+  {
+    value: "Corporate Company",
+    label: "Corporate Company",
+    children: [
+      {
+        value: "Pharmacy & Hospitals",
+        label: "Pharmacy & Hospitals",
+      },
+      {
+        value: "Finance Institution",
+        label: "Finance Institution",
+      },
+      {
+        value: "Manufacturing Industry",
+        label: "Manufacturing Industry",
+      },
+      {
+        value: "NGO",
+        label: "NGO",
+      },
+      {
+        value: "Educational",
+        label: "Educational",
+      },
+      {
+        value: "others",
+        label: "others",
+      },
+    ],
+  },
+];
+
 const Create: React.FC = () => {
   const { handleSubmit, control, reset } = useForm({
     resolver: joiResolver(organizationCreateResolver),
@@ -45,78 +118,6 @@ const Create: React.FC = () => {
     }
   };
 
-  const typeData: IOption[] = [
-    {
-      value: "Retail Shop",
-      label: "Retail Shop",
-      children: [
-        {
-          value: "Grocery",
-          label: "Grocery",
-        },
-        {
-          value: "Stationary",
-          label: "Stationary",
-        },
-        {
-          value: "Mobile ACC",
-          label: "Mobile ACC",
-        },
-        {
-          value: "Others",
-          label: "Others",
-        },
-      ],
-    },
-    {
-      value: "Hotel/Restaurant",
-      label: "Hotel & Restaurants",
-      children: [
-        {
-          value: "Hotel",
-          label: "Hotel",
-        },
-        {
-          value: "Restaurant",
-          label: "Restaurant",
-        },
-        {
-          value: "Cafe",
-          label: "Cafe",
-        },
-      ],
-    },
-    {
-      value: "Corporate Company",
-      label: "Corporate Company",
-      children: [
-        {
-          value: "Pharmacy & Hospitals",
-          label: "Pharmacy & Hospitals",
-        },
-        {
-          value: "Finance Institution",
-          label: "Finance Institution",
-        },
-        {
-          value: "Manufacturing Industry",
-          label: "Manufacturing Industry",
-        },
-        {
-          value: "NGO",
-          label: "NGO",
-        },
-        {
-          value: "Educational",
-          label: "Educational",
-        },
-        {
-          value: "others",
-          label: "others",
-        },
-      ],
-    },
-  ];
   return (
     <div>
       <div className="max-w-md mt-6 mx-auto text-center">
