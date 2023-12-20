@@ -3,9 +3,9 @@ import { useUpdateRequestsById } from "@/queries/requests";
 import handleResponse from "@/utilities/handleResponse";
 import Iconify from "@components/iconify";
 import {
-  Button,
+  // Button,
   Dialog,
-  DialogActions,
+  // DialogActions,
   DialogTitle,
   IconButton,
 } from "@mui/material";
@@ -13,6 +13,7 @@ import { useToggle } from "@tam11a/react-use-hooks";
 import { Select, Steps, message } from "antd";
 import React from "react";
 import OrgCreate from "../OrgCreate";
+import EmployeeCreate from "../EmployeeCreate";
 
 const StatusDropdown: React.FC<any> = (params) => {
   const { mutateAsync: update } = useUpdateRequestsById();
@@ -54,30 +55,36 @@ const StatusDropdown: React.FC<any> = (params) => {
     },
   ];
 
-  const [type, setType] = React.useState<"employee" | "organization">(
-    "organization"
-  );
   const [current, setCurrent] = React.useState(0);
 
   const next = () => {
     setCurrent(current + 1);
   };
 
-  const prev = () => {
-    setCurrent(current - 1);
-  };
+  // const prev = () => {
+  //   setCurrent(current - 1);
+  // };
   const steps = [
     {
-      title: "Details",
-      description: "Information",
-      content: <OrgCreate onClose={onClose} params={params} />,
+      title: "Organization",
+      description: "Create Organization",
+      content: <OrgCreate params={params} next={next} />,
       icon: <Iconify icon="gg:organisation" />,
     },
     {
-      title: "Type",
-      description: "Type/Sub-type",
-      content: <></>,
-      icon: <Iconify icon="fluent-mdl2:org" />,
+      title: "Employee",
+      description: "Create Employee",
+      content: (
+        <EmployeeCreate
+          params={params}
+          next={() => {
+            onSubmit(params?.row?.id, { request_status: "approved" });
+            onClose();
+            setStatus("approved");
+          }}
+        />
+      ),
+      icon: <Iconify icon="clarity:employee-group-line" />,
     },
   ];
   const items = steps.map((item) => ({
@@ -100,23 +107,26 @@ const StatusDropdown: React.FC<any> = (params) => {
           <p className="font-bold text-base">
             Register <br />{" "}
             <span className="text-sm font-semibold text-slate-500">
-              New <span className="capitalize">{type} Account</span>
+              New{" "}
+              <span className="capitalize">{steps[current].title} Account</span>
             </span>
           </p>
           <IconButton onClick={onClose}>
             <Iconify icon="mdi:close" />
           </IconButton>
         </DialogTitle>
+
         <Steps
           current={current}
           items={items}
           // percent={60}
           labelPlacement="vertical"
           size="small"
-          className="px-6"
+          className="px-6 mx-auto max-w-xl"
         />
-        <div className="px-4 my-5">{steps[current].content}</div>
 
+        <div className="px-4 my-5">{steps[current].content}</div>
+        {/* 
         <DialogActions className="px-3 pb-3">
           {current > 0 && (
             <Button
@@ -152,7 +162,7 @@ const StatusDropdown: React.FC<any> = (params) => {
               Done
             </Button>
           )}
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
       <Select
         size={"large"}

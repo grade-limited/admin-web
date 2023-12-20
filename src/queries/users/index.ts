@@ -1,7 +1,7 @@
 import instance from "@/services";
 import { IUserId } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IUpdateUser } from "./types";
+import { ICreateUser, IUpdateUser } from "./types";
 
 const getUsers = (params: any) => {
   return instance.get(`/users`, {
@@ -23,6 +23,18 @@ export const useGetUsersById = (id?: IUserId) => {
     select(data) {
       return data.data.data;
     },
+  });
+};
+
+//Create User
+const createUser = (data: ICreateUser) => {
+  return instance.post("/users", data);
+};
+
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation(createUser, {
+    onSuccess: () => queryClient.invalidateQueries(["/users"]),
   });
 };
 

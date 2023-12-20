@@ -4,14 +4,17 @@ import Label from "@components/Label";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
 import { message } from "@components/antd/message";
 import Iconify from "@components/iconify";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { Button } from "@mui/material";
 import { typeData } from "@pages/Organizations/pages/Create";
 import { Cascader, Input } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { organizationCreateResolver } from "./resolver";
 
-const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
-  onClose,
+const OrgCreate: React.FC<{ params: any; next: () => void }> = ({
   params,
+  next,
 }) => {
   const {
     handleSubmit,
@@ -19,7 +22,7 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
     reset,
     formState: { isDirty },
   } = useForm({
-    // resolver: joiResolver(resolver),
+    resolver: joiResolver(organizationCreateResolver),
   });
 
   const [orgInfo, setOrgInfo] = React.useState<any>([]);
@@ -32,9 +35,10 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
   React.useEffect(() => {
     if (!orgInfo || isDirty) return;
     reset({
-      organization_name: orgInfo?.organization_name,
+      name: orgInfo?.organization_name,
       contact_email: orgInfo?.contact_email,
       contact_number: orgInfo?.contact_number,
+      businessType: [orgInfo?.business_type, orgInfo?.business_subtype],
       website_url: orgInfo?.website_url,
       linkedin_url: orgInfo?.linkedin_url,
       facebook_url: orgInfo?.facebook_url,
@@ -48,7 +52,7 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
   const onSubmit = async (data: any) => {
     message.open({
       type: "loading",
-      content: "Requesting New Organization..",
+      content: "Creating New Organization..",
       duration: 0,
     });
     const res = await handleResponse(
@@ -63,16 +67,19 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
     message.destroy();
     if (res.status) {
       reset();
+      next();
       message.success(res.message);
-      onClose();
     } else {
       message.error(res.message);
     }
   };
 
   return (
-    <div className="max-w-xl mb-4 mx-auto flex flex-col gap-2 px-3">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-lg mb-4 mx-auto flex flex-col gap-2"
+      >
         <p className="font-medium mb-2">Organization Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
           <div>
@@ -133,13 +140,13 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
             <Controller
               control={control}
               name={"contact_email"}
-              rules={{ required: true }}
+              rules={{ required: false }}
               render={({
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
                 <>
-                  <Label isRequired className="my-1">
+                  <Label className="my-1">
                     Contact Email
                     <ErrorSuffix error={error} size="small" />
                   </Label>
@@ -324,6 +331,15 @@ const OrgCreate: React.FC<{ onClose: () => void; params: any }> = ({
             />
           </div>
         </div>
+        <Button
+          variant="contained"
+          size="large"
+          type={"submit"}
+          className="w-full mt-4 bg-primary-600 hover:bg-primary-700 text-white"
+          disabled={isCreateLoading}
+        >
+          Submit
+        </Button>
       </form>
     </div>
   );
