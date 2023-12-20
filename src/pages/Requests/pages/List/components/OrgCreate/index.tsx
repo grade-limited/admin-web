@@ -1,108 +1,63 @@
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import { message } from "@components/antd/message";
+import { useCreateOrganization } from "@/queries/organizations";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
-import { Cascader, Divider, Input } from "antd";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useCreateOrganization } from "@/queries/organizations";
-import { IOption } from "@/queries/organizations/type";
-import Iconify from "@components/iconify";
-import { organizationCreateResolver } from "./resolver";
-import { joiResolver } from "@hookform/resolvers/joi";
 import ErrorSuffix from "@components/antd/ErrorSuffix";
+import { message } from "@components/antd/message";
+import Iconify from "@components/iconify";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { Button } from "@mui/material";
+import { typeData } from "@pages/Organizations/pages/Create";
+import { Cascader, Input } from "antd";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { organizationCreateResolver } from "./resolver";
 
-export const typeData: IOption[] = [
-  {
-    value: "Retail Shop",
-    label: "Retail Shop",
-    children: [
-      {
-        value: "Grocery",
-        label: "Grocery",
-      },
-      {
-        value: "Stationary",
-        label: "Stationary",
-      },
-      {
-        value: "Mobile ACC",
-        label: "Mobile ACC",
-      },
-      {
-        value: "Others",
-        label: "Others",
-      },
-    ],
-  },
-  {
-    value: "Hotel/Restaurant",
-    label: "Hotel & Restaurants",
-    children: [
-      {
-        value: "Hotel",
-        label: "Hotel",
-      },
-      {
-        value: "Restaurant",
-        label: "Restaurant",
-      },
-      {
-        value: "Cafe",
-        label: "Cafe",
-      },
-    ],
-  },
-  {
-    value: "Corporate Company",
-    label: "Corporate Company",
-    children: [
-      {
-        value: "Pharmacy & Hospitals",
-        label: "Pharmacy & Hospitals",
-      },
-      {
-        value: "Finance Institution",
-        label: "Finance Institution",
-      },
-      {
-        value: "Manufacturing Industry",
-        label: "Manufacturing Industry",
-      },
-      {
-        value: "NGO",
-        label: "NGO",
-      },
-      {
-        value: "Educational",
-        label: "Educational",
-      },
-      {
-        value: "others",
-        label: "others",
-      },
-    ],
-  },
-];
-
-const Create: React.FC = () => {
-  const { handleSubmit, control, reset } = useForm({
+const OrgCreate: React.FC<{ params: any; next: () => void }> = ({
+  params,
+  next,
+}) => {
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { isDirty },
+  } = useForm({
     resolver: joiResolver(organizationCreateResolver),
   });
-  const { mutateAsync: create, isLoading: organizationCreating } =
+
+  const [orgInfo, setOrgInfo] = React.useState<any>([]);
+
+  React.useEffect(() => {
+    if (!params) return;
+    setOrgInfo(params?.row);
+  }, [params]);
+
+  React.useEffect(() => {
+    if (!orgInfo || isDirty) return;
+    reset({
+      name: orgInfo?.organization_name,
+      contact_email: orgInfo?.contact_email,
+      contact_number: orgInfo?.contact_number,
+      businessType: [orgInfo?.business_type, orgInfo?.business_subtype],
+      website_url: orgInfo?.website_url,
+      linkedin_url: orgInfo?.linkedin_url,
+      facebook_url: orgInfo?.facebook_url,
+      instagram_url: orgInfo?.instagram_url,
+    });
+  }, [orgInfo]);
+
+  const { mutateAsync: Create, isLoading: isCreateLoading } =
     useCreateOrganization();
 
-  // On Submit Function
   const onSubmit = async (data: any) => {
     message.open({
       type: "loading",
-      content: "Creating Organizations..",
+      content: "Creating New Organization..",
       duration: 0,
     });
     const res = await handleResponse(
       () =>
-        create({
+        Create({
           ...data,
           business_type: data?.businessType?.[0],
           business_subtype: data?.businessType?.[1],
@@ -112,6 +67,7 @@ const Create: React.FC = () => {
     message.destroy();
     if (res.status) {
       reset();
+      next();
       message.success(res.message);
     } else {
       message.error(res.message);
@@ -120,20 +76,9 @@ const Create: React.FC = () => {
 
   return (
     <div>
-      <div className="max-w-md mt-6 mx-auto text-center">
-        <p className="text-lg font-medium mb-2">Create New Organization</p>
-
-        <Link
-          to={"/app/organizations/list"}
-          className="text-sm font-medium text-text underline"
-        >
-          <p className="mt-3">View All Organizations</p>
-        </Link>
-        <Divider />
-      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-xl mb-4 mx-auto flex flex-col gap-2"
+        className="max-w-lg mb-4 mx-auto flex flex-col gap-2"
       >
         <p className="font-medium mb-2">Organization Information</p>
         <div className="border p-3 rounded-md bg-slate-50">
@@ -195,13 +140,13 @@ const Create: React.FC = () => {
             <Controller
               control={control}
               name={"contact_email"}
-              rules={{ required: true }}
+              rules={{ required: false }}
               render={({
                 field: { onChange, onBlur, value },
                 fieldState: { error },
               }) => (
                 <>
-                  <Label isRequired className="my-1">
+                  <Label className="my-1">
                     Contact Email
                     <ErrorSuffix error={error} size="small" />
                   </Label>
@@ -386,13 +331,12 @@ const Create: React.FC = () => {
             />
           </div>
         </div>
-
         <Button
           variant="contained"
           size="large"
           type={"submit"}
-          className="w-full mt-4"
-          disabled={organizationCreating}
+          className="w-full mt-4 bg-primary-600 hover:bg-primary-700 text-white"
+          disabled={isCreateLoading}
         >
           Submit
         </Button>
@@ -401,4 +345,4 @@ const Create: React.FC = () => {
   );
 };
 
-export default Create;
+export default OrgCreate;
