@@ -2,7 +2,7 @@ import useRole from "@/hooks/useRole";
 import Label from "@components/Label";
 import Iconify from "@components/iconify";
 import { Divider, Drawer, IconButton, ListItemText } from "@mui/material";
-import { Select } from "antd";
+import { Cascader } from "antd";
 import React from "react";
 
 const FilterDrawer: React.FC<{
@@ -35,8 +35,8 @@ const FilterDrawer: React.FC<{
       <Divider className="my-1" />
       <div className="p-2 px-6">
         <Label className="pb-1">Role</Label>
-        <Select
-          value={watch("role")}
+        <Cascader
+          value={watch("role") as any}
           size="large"
           showSearch
           allowClear

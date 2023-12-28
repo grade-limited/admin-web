@@ -31,7 +31,7 @@ const FilterDrawer: React.FC<{
       </div>
       <Divider className="my-1" />
       <div className="p-2 px-6">
-        <Label className="pb-1">Role</Label>
+        <Label className="pb-1">Business Type</Label>
         <Select
           placeholder={"Business Type"}
           className="w-full"
