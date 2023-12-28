@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 
 import type { MenuProps } from "antd";
 import {
+  Button,
   // Button,
   // DatePicker,
   Menu,
@@ -17,6 +18,9 @@ import DatePicker from "@components/antd/DatePicker";
 import useQueryContext from "@/hooks/useQueryContext";
 import BASE_APP_ROUTES from "@/routes/base-routes";
 import moment from "moment";
+import FilterDrawer from "../FilterDrawer";
+import Iconify from "@components/iconify";
+import { useToggle } from "@tam11a/react-use-hooks";
 
 const items: MenuProps["items"] = [
   {
@@ -56,6 +60,7 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
   };
 
   const { search, setSearch, setFilterField, watch } = useQueryContext();
+  const { state: OpenFilter, toggleState: onCloseFilter } = useToggle(false);
 
   return (
     <>
@@ -159,7 +164,22 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
                 { value: "-created_at", label: "Oldest" },
               ]}
             />
+            <Button
+              type="text"
+              onClick={onCloseFilter}
+              className="font-semibold text-sm underline flex items-center"
+              icon={<Iconify className="text-lg" icon={"mi:filter"} />}
+            >
+              Filter
+            </Button>
           </div>
+
+          <FilterDrawer
+            open={OpenFilter}
+            onClose={onCloseFilter}
+            setFilterField={setFilterField}
+            watch={watch}
+          />
         </div>
       )}
     </>
