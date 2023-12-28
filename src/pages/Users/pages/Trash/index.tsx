@@ -21,7 +21,7 @@ const List: React.FC = () => {
           page,
           pageSize: limit,
         }}
-        pageSizeOptions={[10, 25, 50, 100, 200]}
+        pageSizeOptions={[10, 25, 50, 100]}
         paginationMode={"server"}
         onRowDoubleClick={(row) => navigate(`/app/users/i/${row.id}`)}
         disableRowSelectionOnClick

@@ -33,7 +33,7 @@ const List: React.FC = () => {
         }}
         autoHeight
         density="compact"
-        pageSizeOptions={[10, 25, 50, 100, 200]}
+        pageSizeOptions={[10, 25, 50, 100]}
         paginationMode={"server"}
         onRowDoubleClick={(row) => navigate(`/app/organizations/i/${row.id}`)}
         disableRowSelectionOnClick

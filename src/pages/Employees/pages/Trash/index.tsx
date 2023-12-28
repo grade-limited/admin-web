@@ -37,7 +37,7 @@ const List: React.FC = () => {
           if (params.page !== page) setPage(params.page);
           if (params.pageSize !== limit) setLimit(params.pageSize);
         }}
-        pageSizeOptions={[10, 25, 50, 100, 200]}
+        pageSizeOptions={[10, 25, 50, 100]}
         paginationMode={"server"}
         onRowDoubleClick={(row) => navigate(`/app/employees/i/${row.id}`)}
         disableRowSelectionOnClick
