@@ -3,7 +3,7 @@ import useSearchCategory from "@/hooks/useSearchCategory";
 import Label from "@components/Label";
 import Iconify from "@components/iconify";
 import { Divider, Drawer, IconButton, ListItemText } from "@mui/material";
-import { Cascader, Select } from "antd";
+import { Cascader } from "antd";
 import React from "react";
 
 const FilterDrawer: React.FC<{
@@ -41,8 +41,8 @@ const FilterDrawer: React.FC<{
       <Divider className="my-1" />
       <div className="p-2 px-6">
         <Label className="pb-1">Brand</Label>
-        <Select
-          value={watch("brand_id")}
+        <Cascader
+          value={watch("brand_id") as any}
           size="large"
           showSearch
           allowClear
