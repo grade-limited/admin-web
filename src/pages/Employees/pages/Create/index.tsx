@@ -393,6 +393,7 @@ const Create: React.FC = () => {
                     value={value}
                     size="large"
                     showSearch
+                    allowClear
                     className="w-full"
                     placeholder={"Select a Role..."}
                     suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
