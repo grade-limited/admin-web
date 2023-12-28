@@ -17,6 +17,9 @@ import useQueryContext from "@/hooks/useQueryContext";
 import BASE_APP_ROUTES from "@/routes/base-routes";
 import moment from "moment";
 import { ROUTES } from "@pages/Organizations/routes/path";
+import { useToggle } from "@tam11a/react-use-hooks";
+import FilterDrawer from "../FilterDrawer";
+import Iconify from "@components/iconify";
 
 const items: MenuProps["items"] = [
   {
@@ -56,6 +59,7 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
   };
 
   const { search, setSearch, setFilterField, watch } = useQueryContext();
+  const { state: OpenFilter, toggleState: onCloseFilter } = useToggle(false);
 
   return (
     <>
@@ -159,7 +163,22 @@ const Navigator: React.FC<{ hideSearch?: boolean }> = ({
                 { value: "-created_at", label: "Oldest" },
               ]}
             />
+            <Button
+              type="text"
+              onClick={onCloseFilter}
+              className="font-semibold text-sm underline flex items-center"
+              icon={<Iconify className="text-lg" icon={"mi:filter"} />}
+            >
+              Filter
+            </Button>
           </div>
+
+          <FilterDrawer
+            open={OpenFilter}
+            onClose={onCloseFilter}
+            setFilterField={setFilterField}
+            watch={watch}
+          />
         </div>
       )}
     </>

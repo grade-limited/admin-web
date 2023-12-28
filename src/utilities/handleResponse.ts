@@ -35,7 +35,8 @@ const handleResponse = async (
         return {
           status: false,
           message:
-            err?.response?.data?.message || "Unverified to complete the task",
+            err.response.data?.message || "Unverified to complete the task",
+          data: err.response.data,
         };
       else {
         return {
