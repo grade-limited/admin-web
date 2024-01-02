@@ -7,6 +7,7 @@ import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { Button } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import StatusDropdown from "../StatusDropdown";
 
 const Column = (): GridColDef[] => {
   const { mutateAsync: Delete, isLoading: isDeleteLoading } =
@@ -160,6 +161,33 @@ const Column = (): GridColDef[] => {
         data?.row?.desk_info ? <p>{data?.row?.desk_info}</p> : "-",
     },
     {
+      headerName: "Permission",
+      headerAlign: "center",
+      field: "is_kam",
+      align: "center",
+      flex: 1,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      renderCell: (params: any) => [
+        <StatusDropdown key={params?.id} params={params} is_kam={true} />,
+      ],
+      //
+    },
+    {
+      headerName: "Status",
+      headerAlign: "center",
+      field: "employeeship_status",
+      align: "center",
+      flex: 1,
+      minWidth: 250,
+      filterable: false,
+      sortable: false,
+      renderCell: (params: any) => [
+        <StatusDropdown key={params?.id} params={params} />,
+      ],
+    },
+    {
       headerName: "Created At",
       headerAlign: "center",
       field: "created_at",
@@ -228,15 +256,15 @@ const Column = (): GridColDef[] => {
         //   }
         //   onClick={() => onSuspend(params.id)}
         // />,
-        <GridActionsCellItem
-          icon={
-            <Iconify icon={"icon-park-twotone:delete"} className="text-lg" />
-          }
-          disabled={isDeleteLoading}
-          showInMenu
-          label="Delete"
-          onClick={() => onDelete(params.id)}
-        />,
+        // <GridActionsCellItem
+        //   icon={
+        //     <Iconify icon={"icon-park-twotone:delete"} className="text-lg" />
+        //   }
+        //   disabled={isDeleteLoading}
+        //   showInMenu
+        //   label="Delete"
+        //   onClick={() => onDelete(params.id)}
+        // />,
         <GridActionsCellItem
           icon={
             <Iconify

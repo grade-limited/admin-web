@@ -4,7 +4,7 @@ import {
 } from "@/queries/employeeship";
 import handleResponse from "@/utilities/handleResponse";
 import Label from "@components/Label";
-import { Input, Spin, message, Cascader } from "antd";
+import { Input, Spin, message, Select } from "antd";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -48,6 +48,7 @@ const Edit: React.FC = () => {
       // organization_id: employeeshipInfo?.organization_id,
       // user_id: employeeshipInfo?.user_id,
       employee_id: employeeshipInfo?.employee_id,
+      is_kam: employeeshipInfo?.is_kam,
       depertment: employeeshipInfo?.depertment,
       designation: employeeshipInfo?.designation,
       branch: employeeshipInfo?.branch,
@@ -102,66 +103,69 @@ const Edit: React.FC = () => {
           <p className="font-medium mb-2">Information</p>
           <div className="border p-3 rounded-md bg-slate-50">
             {/* <div className="flex flex-row items-center gap-10"> */}
-            <div className="mt-2">
-              <Controller
-                control={control}
-                name={"employeeship_status"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <Label className="my-1">
-                      Employeeship Status
-                      <ErrorSuffix error={error} size="small" />
-                    </Label>
-                    <Cascader
-                      size={"large"}
-                      placeholder={"Select Status"}
-                      className="relative w-full"
-                      allowClear={true}
-                      value={value}
-                      showSearch
-                      options={statusData}
-                      onChange={(v) => onChange(v?.[0])}
-                      onBlur={onBlur}
-                      status={error ? "error" : ""}
-                    />
-                  </>
-                )}
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="mt-2">
+                <Controller
+                  control={control}
+                  name={"employeeship_status"}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState: { error },
+                  }) => (
+                    <>
+                      <Label className="my-1">
+                        Employeeship Status
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <Select
+                        size={"large"}
+                        placeholder={"Select Status"}
+                        className="relative w-full"
+                        allowClear={true}
+                        value={value}
+                        showSearch
+                        options={statusData}
+                        onChange={(v) => onChange(v?.[0])}
+                        onBlur={onBlur}
+                        status={error ? "error" : ""}
+                      />
+                    </>
+                  )}
+                />
+              </div>
+              <div className="mt-2">
+                <Controller
+                  control={control}
+                  name={"is_kam"}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState: { error },
+                  }) => (
+                    <>
+                      <Label className="my-1">
+                        Permission
+                        <ErrorSuffix error={error} size="small" />
+                      </Label>
+                      <Select
+                        size={"large"}
+                        placeholder={"Select Status"}
+                        className="relative w-full"
+                        allowClear={true}
+                        value={value}
+                        showSearch
+                        options={[
+                          { value: true, label: "Admin" },
+                          { value: false, label: "Employee" },
+                        ]}
+                        onChange={(v) => onChange(v?.[0])}
+                        onBlur={onBlur}
+                        status={error ? "error" : ""}
+                      />
+                    </>
+                  )}
+                />
+              </div>
             </div>
-            {/* <div className="mt-2">
-              <Controller
-                control={control}
-                name={"user_id"}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <Label className="my-1">
-                      User
-                      <ErrorSuffix error={error} size="small" />
-                    </Label>
-                    <Cascader
-                    
-                      value={value}
-                      size="large"
-                      showSearch
-                      className="w-full"
-                      placeholder={"Select an User..."}
-                      suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                      onChange={(v) => onChange(v?.[0])}
-                      options={user}
-                      onSearch={searchUser}
-                      loading={isUserLoading}
-                      status={error ? "error" : ""}
-                    />
-                  </>
-                )}
-              />
-            </div> */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="mt-2">
@@ -190,36 +194,7 @@ const Edit: React.FC = () => {
                   )}
                 />
               </div>
-              {/* <div className="mt-2">
-                <Controller
-                  control={control}
-                  name={"organization_id"}
-                  render={({
-                    field: { onChange, onBlur, value },
-                    fieldState: { error },
-                  }) => (
-                    <>
-                      <Label className="my-2">
-                        Organization
-                        <ErrorSuffix error={error} size="small" />
-                      </Label>
-                      <Cascader
-                        value={value}
-                        size="large"
-                        showSearch
-                        className="w-full"
-                        placeholder={"Select an Organization..."}
-                        suffixIcon={<Iconify icon={"mingcute:search-3-line"} />}
-                        onChange={(v) => onChange(v?.[0])}
-                        options={organization}
-                        onSearch={searchOrganization}
-                        loading={isOrganizationLoading}
-                        status={error ? "error" : ""}
-                      />
-                    </>
-                  )}
-                />
-              </div> */}
+
               <div className="mt-2">
                 <Controller
                   control={control}

@@ -60,10 +60,21 @@ const Edit: React.FC = () => {
       content: "Updating Organization..",
       duration: 0,
     });
+    console.log({
+      id,
+      ...data,
+      business_type: data?.businessType?.[0],
+      business_subtype: data?.businessType?.[1],
+    });
+
     const res = await handleResponse(() =>
       update({
         id,
-        data,
+        data: {
+          ...data,
+          business_type: data?.businessType?.[0],
+          business_subtype: data?.businessType?.[1],
+        },
       })
     );
     message.destroy();
@@ -92,7 +103,7 @@ const Edit: React.FC = () => {
           label: "Mobile ACC",
         },
         {
-          value: "Others",
+          value: "others",
           label: "Others",
         },
       ],
@@ -141,7 +152,7 @@ const Edit: React.FC = () => {
         },
         {
           value: "others",
-          label: "others",
+          label: "Others",
         },
       ],
     },

@@ -71,7 +71,6 @@ const Security: React.FC = () => {
       message.error(res.message);
     }
   };
-  console.log(data);
 
   return (
     <Spin spinning={isLoading}>

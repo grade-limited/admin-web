@@ -8,7 +8,7 @@ import { useGetEmployeeship } from "@/queries/employeeship";
 import useQueryContext from "@/hooks/useQueryContext";
 import { DataGrid } from "@mui/x-data-grid";
 import Column from "./components/Column";
-
+import Label from "@components/Label";
 const Details: React.FC = () => {
   const { watch } = useQueryContext();
   const { id } = useParams<{ id: string }>();
@@ -116,7 +116,11 @@ const Details: React.FC = () => {
           </Card>
         </div>
       </Spin>
+
       <div className="p-3 w-full h-full max-h-[550px]">
+        <Label className="pb-2 text-lg font-semibold">
+          Organization Employees
+        </Label>
         <DataGrid
           columns={Column()}
           rows={data?.data || []}
