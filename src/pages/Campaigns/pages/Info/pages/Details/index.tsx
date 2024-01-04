@@ -113,6 +113,8 @@ const Details: React.FC = () => {
           <p className="col-span-2">: {data?.name}</p>
           <p>Campaign Type</p>
           <p className="col-span-2">: {data?.campaign_type}</p>
+          <p>Campaign Link</p>
+          <p className="col-span-2">: {data?.campaign_url}</p>
           <p>Amount</p>
           <p className="col-span-2">
             : {data?.amount}{" "}

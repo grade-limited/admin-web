@@ -6,6 +6,13 @@ export const campaignCreateResolver = Joi.object({
     .trim()
     .allow("")
     .allow(null),
+  campaign_url: Joi.string()
+    .label("Campaign Link")
+    .pattern(
+      /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+    )
+    .allow("")
+    .allow(null),
   cover_url: Joi.string().label("Cover Image").trim().allow("").allow(null),
   name: Joi.string().required().label("Campaign Name").trim(),
   description: Joi.string().label("Description").trim().allow("").allow(null),

@@ -102,9 +102,9 @@ const Details: React.FC = () => {
             <p>Expected Delivery</p>
             <p className="col-span-2">
               {" "}
-              {data?.updated_at
+              {data?.expected_delivery_date
                 ? `: ${moment(data?.expected_delivery_date).format("ll")}`
-                : ":"}
+                : ": -"}
             </p>
           </div>
         </div>

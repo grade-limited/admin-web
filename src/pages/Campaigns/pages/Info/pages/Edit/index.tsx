@@ -62,6 +62,7 @@ const Edit: React.FC = () => {
       description: campaignInfo?.description,
       start_date: campaignInfo?.start_date,
       end_date: campaignInfo?.end_date,
+      campaign_url: campaignInfo?.campaign_url,
       range:
         campaignInfo?.start_date && campaignInfo?.end_date
           ? [moment(campaignInfo?.start_date), moment(campaignInfo?.end_date)]
@@ -353,7 +354,7 @@ const Edit: React.FC = () => {
 
           <p className="font-medium my-2">Campaign Information</p>
 
-          <div className="border p-3 rounded-md bg-slate-50">
+          <div className="border px-3 pb-3 pt-1 rounded-md bg-slate-50">
             <div className="flex flex-col mt-2">
               <Controller
                 control={control}
@@ -377,6 +378,35 @@ const Edit: React.FC = () => {
                       options={campaignTypeData}
                       onChange={(v) => onChange(v?.[0])}
                       onBlur={onBlur}
+                      status={error ? "error" : ""}
+                    />
+                  </>
+                )}
+              />
+            </div>
+            <div className="mt-2">
+              <Controller
+                control={control}
+                name={"campaign_url"}
+                rules={{ required: false }}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <>
+                    <Label className="my-1">
+                      Campaign Link
+                      <ErrorSuffix error={error} size="small" />
+                    </Label>
+                    <Input
+                      placeholder={
+                        "eg: https://www.shop.gradebd.com/brand/brand_id"
+                      }
+                      size={"large"}
+                      className="relative w-full"
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
                       status={error ? "error" : ""}
                     />
                   </>
