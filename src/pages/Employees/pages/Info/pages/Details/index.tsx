@@ -16,14 +16,12 @@ const Details: React.FC = () => {
       <div className="mx-auto max-w-2xl ">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-slate-200 p-3 rounded-3xl">
           {data?.display_picture ? (
-            <div className="h-32 w-32 aspect-square overflow-hidden rounded-2xl">
-              <Image
-                className="w-fit max-h-fit"
-                src={previewAttachment(data?.display_picture)}
-                alt={[data?.first_name, data?.last_name].join(" ")}
-                {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
-              />
-            </div>
+            <Image
+              className="h-32 w-32 object-contain rounded-2xl border border-slate-200"
+              src={previewAttachment(data?.display_picture)}
+              alt={[data?.first_name, data?.last_name].join(" ")}
+              {...stringAvatar([data?.first_name, data?.last_name].join(" "))}
+            />
           ) : (
             ""
           )}
