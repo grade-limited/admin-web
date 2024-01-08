@@ -99,7 +99,7 @@ const Details: React.FC = () => {
             <p className="col-span-2">: {data?.delivery_fee}</p>
             <p>Discount</p>
             <p className="col-span-2">: {data?.discount}</p>
-            <p>Expected Delivery</p>
+            <p>Delivery Date</p>
             <p className="col-span-2">
               {" "}
               {data?.expected_delivery_date
@@ -108,37 +108,37 @@ const Details: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-          <p className=" col-span-3 font-semibold text-base pb-3">
-            Product Information
-          </p>
-          {data?.products?.map?.((product: any, index: number) => (
-            <div className="flex flex-row gap-3" key={index}>
-              <div>
-                <Avatar
-                  variant="rounded"
-                  className="mt-1"
-                  alt={product?.name}
-                  src={previewAttachment(product?.thumbnail_url)}
-                />
+        <div className="border gap-1 border-slate-200 p-5 break-all rounded-3xl">
+          <p className=" font-semibold text-base pb-3">Product Information</p>
+          <div className="flex flex-col gap-4">
+            {data?.products?.map?.((product: any, index: number) => (
+              <div className="flex flex-row gap-3" key={index}>
+                <div>
+                  <Avatar
+                    variant="rounded"
+                    className="mt-1"
+                    alt={product?.name}
+                    src={previewAttachment(product?.thumbnail_url)}
+                  />
+                </div>
+                <div>
+                  <p className="font-bold">
+                    {product?.name}
+                    <Link to={`/app/products/i/${product?.id}`}>
+                      <IconButton size="small">
+                        <Iconify icon="ph:arrow-square-out-bold" />
+                      </IconButton>
+                    </Link>
+                  </p>
+                  <p className="text-sm text-slate-600">
+                    ${product?.ProductOrderJunction?.unit_price} x{" "}
+                    <b>{product?.ProductOrderJunction?.quantity} items</b> ={" "}
+                    <b>${product?.ProductOrderJunction?.total_price}</b>
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold">
-                  {product?.name}
-                  <Link to={`/app/products/i/${product?.id}`}>
-                    <IconButton size="small">
-                      <Iconify icon="ph:arrow-square-out-bold" />
-                    </IconButton>
-                  </Link>
-                </p>
-                <p className="text-sm text-slate-600">
-                  ${product?.ProductOrderJunction?.unit_price} x{" "}
-                  <b>{product?.ProductOrderJunction?.quantity} items</b> ={" "}
-                  <b>${product?.ProductOrderJunction?.total_price}</b>
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </Spin>
