@@ -37,6 +37,7 @@ const Edit: React.FC = () => {
     formState: { isDirty },
   } = useForm({
     resolver: joiResolver(userUpdateResolver),
+    // defaultValues: { gender: "Male" },
   });
   const [userInfo, setUserInfo] = React.useState<any>([]);
   const { mutateAsync: update, isLoading: isUserUpdating } =
@@ -205,7 +206,9 @@ const Edit: React.FC = () => {
                       onBlur={onBlur}
                       value={value}
                       status={error ? "error" : ""}
-                      suffix={<ErrorSuffix error={error} />}
+                      suffix={
+                        <ErrorSuffix error={error} placement="top-start" />
+                      }
                     />
                   )}
                 />
@@ -225,7 +228,9 @@ const Edit: React.FC = () => {
                       onBlur={onBlur}
                       value={value}
                       status={error ? "error" : ""}
-                      suffix={<ErrorSuffix error={error} />}
+                      suffix={
+                        <ErrorSuffix error={error} placement="bottom-start" />
+                      }
                     />
                   )}
                 />
@@ -236,7 +241,6 @@ const Edit: React.FC = () => {
                 control={control}
                 name={"gender"}
                 rules={{ required: false }}
-                defaultValue={"Male"}
                 render={({
                   field: { onChange, onBlur, value },
                   fieldState: { error },
