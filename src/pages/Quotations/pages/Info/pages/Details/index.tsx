@@ -103,8 +103,8 @@ const Details: React.FC = () => {
       label: "Processing",
     },
     {
-      value: "Delivered",
-      label: "Delivered",
+      value: "Completed",
+      label: "Completed",
     },
     {
       value: "Declined",

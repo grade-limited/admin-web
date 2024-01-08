@@ -219,7 +219,7 @@ const Security: React.FC = () => {
                     <p className=" text-md font-semibold">Suspend Employee</p>
                     <p className="text-xs text-text-light">
                       Suspending a employee involves temporarily restricting
-                      their access to an online platform.
+                      their access their account and associated data.
                     </p>
                   </div>
                   <div>
