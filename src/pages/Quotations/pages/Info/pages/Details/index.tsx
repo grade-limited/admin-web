@@ -17,11 +17,45 @@ import { Link, useParams } from "react-router-dom";
 // import { useGetProducts } from "@/queries/products";
 // import Column from "./components/Column";
 
+export function findUnitPrice(
+  accountType: string,
+  quantity: number,
+  pricingChart: any = []
+): number {
+  const priceInfo = pricingChart
+    ?.filter?.(
+      (item: any) =>
+        item.account_type === accountType && item.min_quantity <= quantity
+    )
+    ?.sort?.((a: any, b: any) => {
+      const minQuantityA = parseInt(a.min_quantity, 10);
+      const minQuantityB = parseInt(b.min_quantity, 10);
+      return minQuantityA - minQuantityB;
+    });
+
+  if (!priceInfo?.length) {
+    // console.error(
+    // 	`No pricing information found for account type: ${accountType}`
+    // );
+    return parseInt(
+      pricingChart
+        .filter((item: any) => item.account_type === accountType)
+        .sort((a: any, b: any) => {
+          const minQuantityA = parseInt(a.min_quantity, 10);
+          const minQuantityB = parseInt(b.min_quantity, 10);
+          return minQuantityA - minQuantityB;
+        })?.[0]?.per_unit || "0",
+      10
+    );
+  }
+
+  return parseInt(priceInfo?.[priceInfo?.length - 1]?.per_unit || "0", 10);
+}
+
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   // const navigate = useNavigate();
   const { data, isLoading } = useGetQuotationsById(id);
-
   const { mutateAsync: update } = useUpdateQuotationsById();
 
   const [status, setStatus] = React.useState<any>(null);
@@ -158,30 +192,43 @@ const Details: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-3 col-span-2 border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
-          <p className=" col-span-3 font-semibold text-base pb-3">
-            Product Information
-          </p>
-          {data?.products?.map?.((product: any, index: number) => (
-            <div className="flex flex-row gap-3" key={index}>
-              <div>
-                <Avatar
-                  variant="rounded"
-                  className="mt-1"
-                  alt={product?.name}
-                  src={previewAttachment(product?.thumbnail_url)}
-                />
+        <div className="border justify-items-start gap-1 border-slate-200 p-5 break-all rounded-3xl">
+          <p className="font-semibold text-base pb-3">Product Information</p>
+          <div className="flex flex-col gap-4">
+            {data?.products?.map?.((product: any, index: number) => (
+              <div className="flex flex-row gap-3" key={index}>
+                <div>
+                  <Avatar
+                    variant="rounded"
+                    className="mt-1"
+                    alt={product?.name}
+                    src={previewAttachment(product?.thumbnail_url)}
+                  />
+                </div>
+                <div>
+                  <p className="font-bold">{product?.name}</p>
+                  <p className="text-sm text-slate-600">
+                    ৳{" "}
+                    {findUnitPrice(
+                      "bb2e",
+                      product?.ProductQuotationJunction?.quantity,
+                      product?.price
+                    )}{" "}
+                    x <b>{product?.ProductQuotationJunction?.id} items</b> ={" "}
+                    <b>
+                      {" "}
+                      ৳{" "}
+                      {findUnitPrice(
+                        "bb2e",
+                        product?.ProductQuotationJunction?.quantity,
+                        product?.price
+                      ) * product?.ProductQuotationJunction?.id}
+                    </b>
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold">{product?.name}</p>
-                <p className="text-sm text-slate-600">
-                  ${product?.ProductOrderJunction?.unit_price} x{" "}
-                  <b>{product?.ProductOrderJunction?.quantity} items</b> ={" "}
-                  <b>${product?.ProductOrderJunction?.total_price}</b>
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </Spin>
