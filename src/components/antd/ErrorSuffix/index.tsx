@@ -7,7 +7,20 @@ const ErrorSuffix: React.FC<{
   error?: FieldError;
   size?: "small" | "medium" | "large";
   manual?: boolean;
-}> = ({ error, size = "small", manual }) => {
+  placement?:
+    | "bottom-end"
+    | "bottom-start"
+    | "bottom"
+    | "left-end"
+    | "left-start"
+    | "left"
+    | "right-end"
+    | "right-start"
+    | "right"
+    | "top-end"
+    | "top-start"
+    | "top";
+}> = ({ error, size = "small", manual, placement = "right" }) => {
   return (
     <>
       {error && (
@@ -15,7 +28,7 @@ const ErrorSuffix: React.FC<{
           title={error.message}
           open={manual === false ? !error : true}
           arrow
-          placement={"right"}
+          placement={placement}
         >
           <IconButton
             color={"error"}
